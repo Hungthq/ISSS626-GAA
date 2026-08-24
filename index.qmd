@@ -17,7 +17,7 @@ Venue: SOE/SCIS2 Seminar Room 3-5
 
 ------------------------------------------------------------------------
 
-![](_site/img/image4.png)
+![](img/image4.png)
 
 ### **Important Information**
 
