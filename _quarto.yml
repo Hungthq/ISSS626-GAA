@@ -34,6 +34,8 @@ website:
     right:
       - href: index.qmd
         text: Home
+      - href: https://quarto.org/docs/websites
+        text: Quarto
       - href: about.qmd
         text: About
 

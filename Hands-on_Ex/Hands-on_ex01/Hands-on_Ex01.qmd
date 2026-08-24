@@ -1,6 +1,149 @@
 ---
 title: "Hands-on Exercise 01"
-author: "Hung Thai"
+#author: "Hung Thai"
 ---
 
-# Hands-on Exercise 01
+# **1  Geospatial Data Science with R**
+
+## **1.1 Learning Outcome**
+
+------------------------------------------------------------------------
+
+competent check boxes:
+
+- [x] installing and loading [sf](https://r-spatial.github.io/sf/) and [tidyverse](https://www.tidyverse.org/) packages into R environment,
+
+- [ ] importing geospatial data by using appropriate functions of **sf** package,
+
+- [ ] importing aspatial data by using appropriate function of **readr** package,
+
+- [ ] exploring the content of simple feature data frame by using appropriate **Base R** and **sf** functions,
+
+- [ ] assigning or transforming coordinate systems by using using appropriate *sf* functions,
+
+- [ ] converting an aspatial data into a sf data frame by using appropriate function of **sf** package,
+
+- [ ] performing geoprocessing tasks by using appropriate functions of **sf** package,
+
+- [ ] performing data wrangling tasks by using appropriate functions of **dplyr** package and
+
+- [ ] performing Exploratory Data Analysis (EDA) by using appropriate functions from **ggplot2** package.
+
+## **1.2 Data Acquisition**
+
+------------------------------------------------------------------------
+
+1.2 Data Acquisition Data are key to data analytics including geospatial analytics. Hence, before analysing, we need to assemble the necessary data. In this hands-on exercise, you are required to extract the necessary data sets from the following sources:
+
+- Master Plan 2014 Subzone Boundary (Web) from [data.gov.sg](https://data.gov.sg/)
+
+- Pre-Schools Location from [data.gov.sg](https://data.gov.sg/)
+
+- Cycling Path from [LTADataMall](https://www.mytransport.sg/content/mytransport/home/dataMall.html)
+
+- Latest version of Singapore Airbnb listing data from [Inside Airbnb](http://insideairbnb.com/get-the-data.html)
+
+### **1.2.1 Extracting the geospatial data sets**
+
+To get started, create a new folder called *Hands-on_Ex* in a working directory.
+
+Next, create a new sub-folder called *Hands-on_ex01* in the newly created *Hands-on_Ex* folder.
+
+In the `Hands-on_Ex01` folder, create a sub-folder called `data`. Then, inside the `data` sub-folder, create two sub-folders and name them `geospatial` and `aspatial` respectively.
+
+Place `Master Plan 2014 Subzone Boundary (Web)`, `Pre-Schools Location` and `Cycling Path` zipped files into `geospatial` sub-folder and unzipped them. Copy the unzipped files from their respective sub-folders and place them inside `geospatial` sub-folder.
+
+\*\*1.2.2 Extracting the aspatial data set\
+\*\* Now, you will extract the downloaded `listing` data file. At `Downloads` folder, cut and paste `listing.csv` into `aspatial` sub-folder.
+
+## **1.3 Getting Started**
+
+In this hands-on exercise, two R packages will be used. They are:
+
+- **sf** for importing, managing, and processing geospatial data, and
+
+- **tidyverse** for performing data science tasks such as importing, wrangling and visualising data.
+
+Tidyverse consists of a family of R packages. In this hands-on exercise, the following packages will be used:
+
+- **readr** for importing csv data,\
+- **tidyr** for manipulating data,\
+- **dplyr** for transforming data, and\
+- **ggplot2** for visualising data
+
+::: callout-note
+Tidyverse consists of a family of R packages. In this hands-on exercise, the following packages will be used:
+
+- **readr** for importing csv data,
+- **tidyr** for manipulating data,
+- **dplyr** for transforming data, and
+- **ggplot2** for visualising data
+:::
+
+::: callout-warning
+You must have **pacman** R package installed. If you have yet to do so, you should install **pacman** before moving to the next step.
+:::
+
+Use the code chunk below to load the necessary R packages into R.
+
+```{r}
+pacman::p_load(sf, tidyverse)
+```
+
+## **1.4 Importing Geospatial Data**
+
+### **1.4.1 Importing polygon feature data in shapefile format**
+
+The code chunk below uses *st_read()* function of **sf** package to import `MP14_SUBZONE_WEB_PL` shapefile into R as a polygon feature data frame. Note that when the input geospatial data is in shapefile format, two arguments will be used, namely: `dsn` to define the data path and `layer` to provide the shapefile name. Also note that no extension such as .shp, .dbf, .prj and .shx are needed.
+
+```{r}
+library(sf)
+mpsz = st_read("data/geospatial/MasterPlan2014SubzoneBoundaryNoSea.geojson")
+```
+
+### **1.4.2 Importing polyline feature data in shapefile form**
+
+The code chunk below uses *st_read()* function of **sf** package to import `CyclingPath` shapefile into R as line feature data frame.
+
+```{r}
+cyclingpath = st_read("data/geospatial/CyclingPathNetworkGEOJSON.geojson")
+```
+
+### **1.4.3 Importing GIS data in kml format**
+
+The `PreSchoolsLocation` is in [**kml**](https://en.wikipedia.org/wiki/Keyhole_Markup_Language) format. The code chunk below will be used to import the kml into R.
+
+```{r}
+  preschool = st_read("data/geospatial/PreSchoolsLocation.geojson")
+
+```
+
+::: callout-tip
+this is the example of a Tip
+:::
+
+## **1.5 Checking the Content** 
+
+```{r}
+  st_geometry(mpsz)
+```
+
+```{r}
+glimpse(mpsz)
+```
+
+```{r}
+head(mpsz, n=5)
+```
+
+## **1.6 Plotting the Geospatial Data**
+
+In geospatial data science, by looking at the feature information is not enough. We are also interested to visualise the geospatial features. This is the time you will find *plot()* of R Graphic comes in very handy as shown in the code chunk below.
+
+```{r}
+plot(mpsz)
+```
+
+```{r}
+plot(st_geometry(mpsz))
+```
