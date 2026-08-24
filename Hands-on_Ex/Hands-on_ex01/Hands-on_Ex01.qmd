@@ -7,8 +7,6 @@ title: "Hands-on Exercise 01"
 
 ## **1.1 Learning Outcome**
 
-------------------------------------------------------------------------
-
 competent check boxes:
 
 - [x] installing and loading [sf](https://r-spatial.github.io/sf/) and [tidyverse](https://www.tidyverse.org/) packages into R environment,
@@ -30,8 +28,6 @@ competent check boxes:
 - [ ] performing Exploratory Data Analysis (EDA) by using appropriate functions from **ggplot2** package.
 
 ## **1.2 Data Acquisition**
-
-------------------------------------------------------------------------
 
 1.2 Data Acquisition Data are key to data analytics including geospatial analytics. Hence, before analysing, we need to assemble the necessary data. In this hands-on exercise, you are required to extract the necessary data sets from the following sources:
 
@@ -146,4 +142,14 @@ plot(mpsz)
 
 ```{r}
 plot(st_geometry(mpsz))
+```
+
+```{r}
+plot(mpsz["PLN_AREA_N"])
+```
+
+```{r}
+plot(st_geometry(mpsz))
+plot(st_geometry(preschool),
+     add = TRUE)
 ```
