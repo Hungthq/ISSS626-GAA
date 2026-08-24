@@ -10,7 +10,7 @@ website:
         href: https://isss626-ay2026-27aug.netlify.app/
       - text: "Hands-on Exercises"
         menu:
-          - href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html
+          - href: Hands-on_Ex/Hands-on_ex01/Hands-on_Ex01.html
             text: Hands-on Exercise 01
           - href: Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex02.html
             text: Hands-on Exercise 02
