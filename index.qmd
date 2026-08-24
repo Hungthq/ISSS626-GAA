@@ -2,7 +2,10 @@
 title: "ISSS626-GAA"
 ---
 
-This is a Quarto website.
+Welcome to ISSS626 Geospatial Analytics and Applications. In this website, you will find my coursework prepared for this course.
+
+Student: Thai Hoang Quang Hung\
+Prof: Dr. Kam Tin Seong
 
 To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
