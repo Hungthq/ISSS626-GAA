@@ -1,13 +1,18 @@
 ---
 title: "Hands-on Exercise 01"
-#author: "Hung Thai"
+subtitle: "In this exercise, we will load the data and do data wrangling and choropleth mapping with R"
+author: "Hung Thai"
+date: "Aug 24, 2026"
+format: 
+  html:
+    toc: true
 ---
 
-# **1  Geospatial Data Science with R**
+## Geospatial Data Science with R
 
-## **1.1 Learning Outcome**
+[R for Geospatial Data Science and Analytics - 1  Geospatial Data Science with R](https://r4gdsa.netlify.app/chap01)
 
-competent check boxes:
+### Learning Outcome
 
 - [x] installing and loading [sf](https://r-spatial.github.io/sf/) and [tidyverse](https://www.tidyverse.org/) packages into R environment,
 
@@ -27,19 +32,16 @@ competent check boxes:
 
 - [ ] performing Exploratory Data Analysis (EDA) by using appropriate functions from **ggplot2** package.
 
-## **1.2 Data Acquisition**
+## The Data
 
-1.2 Data Acquisition Data are key to data analytics including geospatial analytics. Hence, before analysing, we need to assemble the necessary data. In this hands-on exercise, you are required to extract the necessary data sets from the following sources:
+| Dataset | Source | Description |
+|------------------------|------------------------|------------------------|
+| **Master Plan 2014 Subzone Boundary (Web)** | [data.gov.sg](https://data.gov.sg/) | Geospatial boundaries for Singapore's planning subzones. |
+| **Pre-Schools Location** | [data.gov.sg](https://data.gov.sg/) | Location data for pre-schools in Singapore. |
+| **Cycling Path** | [LTA DataMall](https://www.mytransport.sg/content/mytransport/home/dataMall.html) | Geospatial data for cycling paths in Singapore. |
+| **Singapore Airbnb Listings** | [Inside Airbnb](http://insideairbnb.com/get-the-data.html) | Latest listing data for Airbnb properties in Singapore. |
 
-- Master Plan 2014 Subzone Boundary (Web) from [data.gov.sg](https://data.gov.sg/)
-
-- Pre-Schools Location from [data.gov.sg](https://data.gov.sg/)
-
-- Cycling Path from [LTADataMall](https://www.mytransport.sg/content/mytransport/home/dataMall.html)
-
-- Latest version of Singapore Airbnb listing data from [Inside Airbnb](http://insideairbnb.com/get-the-data.html)
-
-### **1.2.1 Extracting the geospatial data sets**
+### 2 Extracting the geospatial data sets
 
 To get started, create a new folder called *Hands-on_Ex* in a working directory.
 
@@ -52,7 +54,7 @@ Place `Master Plan 2014 Subzone Boundary (Web)`, `Pre-Schools Location` and `Cyc
 \*\*1.2.2 Extracting the aspatial data set\
 \*\* Now, you will extract the downloaded `listing` data file. At `Downloads` folder, cut and paste `listing.csv` into `aspatial` sub-folder.
 
-## **1.3 Getting Started**
+## 3 Getting Started
 
 In this hands-on exercise, two R packages will be used. They are:
 
@@ -86,9 +88,9 @@ Use the code chunk below to load the necessary R packages into R.
 pacman::p_load(sf, tidyverse)
 ```
 
-## **1.4 Importing Geospatial Data**
+## 4 Importing Geospatial Data
 
-### **1.4.1 Importing polygon feature data in shapefile format**
+### 4.1 Importing polygon feature data in shapefile format
 
 The code chunk below uses *st_read()* function of **sf** package to import `MP14_SUBZONE_WEB_PL` shapefile into R as a polygon feature data frame. Note that when the input geospatial data is in shapefile format, two arguments will be used, namely: `dsn` to define the data path and `layer` to provide the shapefile name. Also note that no extension such as .shp, .dbf, .prj and .shx are needed.
 
@@ -97,7 +99,7 @@ library(sf)
 mpsz = st_read("data/geospatial/MasterPlan2014SubzoneBoundaryNoSea.geojson")
 ```
 
-### **1.4.2 Importing polyline feature data in shapefile form**
+### 4.2 Importing polyline feature data in shapefile form
 
 The code chunk below uses *st_read()* function of **sf** package to import `CyclingPath` shapefile into R as line feature data frame.
 
@@ -105,7 +107,7 @@ The code chunk below uses *st_read()* function of **sf** package to import `Cycl
 cyclingpath = st_read("data/geospatial/CyclingPathNetworkGEOJSON.geojson")
 ```
 
-### **1.4.3 Importing GIS data in kml format**
+### 4.3 Importing GIS data in kml format
 
 The `PreSchoolsLocation` is in [**kml**](https://en.wikipedia.org/wiki/Keyhole_Markup_Language) format. The code chunk below will be used to import the kml into R.
 
@@ -118,7 +120,7 @@ The `PreSchoolsLocation` is in [**kml**](https://en.wikipedia.org/wiki/Keyhole_M
 this is the example of a Tip
 :::
 
-## **1.5 Checking the Content**
+## 5 Checking the Content
 
 ```{r}
   st_geometry(mpsz)
@@ -132,7 +134,7 @@ glimpse(mpsz)
 head(mpsz, n=5)
 ```
 
-## **1.6 Plotting the Geospatial Data**
+## 6 Plotting the Geospatial Data
 
 In geospatial data science, by looking at the feature information is not enough. We are also interested to visualise the geospatial features. This is the time you will find *plot()* of R Graphic comes in very handy as shown in the code chunk below.
 
@@ -154,4 +156,133 @@ plot(st_geometry(preschool),
      add = TRUE)
 
 
+```
+
+## 7 Working with Projection
+
+Map projection is an important property of a geospatial data. In order to perform geoprocessing using two geospatial data, we need to ensure that both geospatial data are projected using similar coordinate system.
+
+In this section, you will learn how to project a simple feature data frame from one coordinate system to another coordinate system. The technical term of this process is called **projection transformation**.
+
+### 7.1 Assigning EPSG code to a simple feature data frame
+
+This is an example the coordinate system of `mpsz` simple feature data frame by using *st_crs()* of *sf* package as shown in the code chunk below.
+
+```{r}
+st_crs(mpsz)
+
+```
+
+Although `mpsz` data frame is projected in svy21 but when we read until the end of the print, it indicates that the EPSG is 9001. This is a wrong EPSG code because the correct EPSG code for svy21 should be [3414](https://epsg.io/3414).
+
+In order to assign the correct EPSG code to `mpsz` data frame, *st_set_crs()* of **sf** package is used as shown in the code chunk below.
+
+```{r}
+mpsz <- st_set_crs(mpsz, 3414)
+```
+
+Now, let us check the CSR again by using the code chunk below.
+
+```{r}
+st_crs(mpsz)
+```
+
+### 7.2 Transforming the projection of preschool from wgs84 to svy21.
+
+Let us perform the projection transformation preschool data by using the code chunk below.
+
+```{r}
+preschool <- st_transform(preschool, 
+                          crs = 3414)
+```
+
+Now, let us try to plot the preschool layer ontop of mpsz layer again by using the similar code chunk you used earlier.
+
+```{r}
+plot(st_geometry(mpsz))
+plot(st_geometry(preschool), add = TRUE)
+```
+
+## 8. Importing and Converting An Aspatial Data
+
+### 8.1 Importing the aspatial data
+
+Since `listings` data set is in csv file format, we will use [*read_csv()*](https://readr.tidyverse.org/reference/read_delim.html) of **readr** package to import `listing.csv` as shown the code chunk below. The output R object is called `listings` and it is a [tibble data frame](https://r4ds.had.co.nz/tibbles.html).
+
+```{r}
+listings <- read_csv("data/aspatial/listings.csv")
+```
+
+After importing the data file into R, it is important for us to examine if the data file has been imported correctly.
+
+The code chunk below shows *list()* of Base R instead of *glimpse()* is used to do the job.
+
+```{r}
+list(listings) 
+```
+
+### 8.2 Creating a simple feature data frame from an aspatial data frame
+
+The code chunk below converts `listing` data frame into a simple feature data frame by using [*st_as_sf()*](https://r-spatial.github.io/sf/reference/st_as_sf.html) of **sf** packages
+
+```{r}
+library(dplyr)
+listings_sf <- st_as_sf(listings, 
+                        coords = c("longitude", "latitude"),
+                        crs=4326) %>%
+  st_transform(crs = 3414)
+```
+
+Examine the content of this newly created simple feature data frame.
+
+```{r}
+glimpse(listings_sf)
+```
+
+## 9 Geoprocessing with sf package
+
+### 9.1 Use case 1: Land acquisition analysis
+
+#### The scenario
+
+The authority is planning to upgrade the exiting cycling path. To do so, they need to acquire 5 metres of reserved land on the both sides of the existing cycling path. You are tasked to determine the extend of the land need to be acquired and their total area.
+
+#### The solution
+
+Firstly, [`st_buffer()`](https://r-spatial.github.io/sf/reference/geos_unary.html) of **sf** package is used to compute the 5-meter buffers around cycling paths.
+
+```{r}
+library(sf)
+buffer_cycling <- st_buffer(   cyclingpath, dist=5, nQuadSegs = 30)
+```
+
+This is followed by calculating the area of the buffers as shown in the code chunk below.
+
+```{r}
+buffer_cycling$AREA <- st_area(buffer_cycling)
+```
+
+If you are tidyverse person like me, code chunk below should be used.
+
+```{r}
+buffer_cycling <- buffer_cycling %>%   mutate(AREA = st_area(geometry))
+```
+
+3561648 \[m\^2\]
+
+We can also create a plot showing the buffer by a selected planning subzone.
+
+Assuming that we are interested on the land acquisition in Tampines West planning subzone.
+
+Firstly, `filter()` of dplyr package will be used to extract polygon feature of Tampines West by using the code chunk below.
+
+```{r}
+mpsz_selected <- mpsz %>%   filter(SUBZONE_N == "TAMPINES WEST") 
+```
+
+Next, `st_intersection()` of **sf** package will be used to clip cycling buffers within Tampines West planning subzone.
+
+```{r}
+buffer_cycling_selected <- st_intersection(
+  buffer_cycling, mpsz_selected)
 ```
