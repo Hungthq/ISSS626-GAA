@@ -118,7 +118,7 @@ The `PreSchoolsLocation` is in [**kml**](https://en.wikipedia.org/wiki/Keyhole_M
 this is the example of a Tip
 :::
 
-## **1.5 Checking the Content** 
+## **1.5 Checking the Content**
 
 ```{r}
   st_geometry(mpsz)
@@ -152,4 +152,6 @@ plot(mpsz["PLN_AREA_N"])
 plot(st_geometry(mpsz))
 plot(st_geometry(preschool),
      add = TRUE)
+
+
 ```
