@@ -1,0 +1,269 @@
+---
+title: "Hands-on Exercise 01B"
+subtitle: "This exercise is a hands-on guide for using the tmap package in R to create both static and interactive choropleth maps."
+author: "Hung Thai"
+date: "Aug 28, 2026"
+format: 
+  html:
+    toc: true
+---
+
+# Geospatial Data Science with R
+
+[R for Geospatial Data Science and Analytics - 2  Thematic Mapping and GeoVisualisation with R](https://r4gdsa.netlify.app/chap02.html)
+
+## 1 Overview
+
+In general, thematic mapping involves the use of map symbols to visualize selected properties of geographic features that are not naturally visible, such as population, temperature, crime rate, and property prices, just to mention a few of them.
+
+Geovisualisation, on the other hand, is the process of using visual representations and cartographic techniques to explore, analyze, and communicate geospatial data. It combines elements of cartography, computer science, and information visualization to enhance spatial understanding and knowledge discovery.
+
+In this chapter, you will learn how to plot functional and truthful choropleth maps by using an R package called **tmap** package.
+
+## 2 Getting Started - Loading packages to RStudio
+
+load these packages in RStudio.
+
+```{r}
+library(sf)
+library(tmap)
+library(tidyverse)
+library(rvest)
+
+```
+
+## 3 Importing Data into R
+
+### Import Master Plan 2024 data 
+
+```{r}
+mpsz = st_read("data/geospatial/MasterPlan2014SubzoneBoundaryNoSea.geojson") |> st_transform(crs = 3414)
+```
+
+```{r}
+mpsz
+```
+
+::: callout-note
+No need to tidy up data as the input file is .geojson instead of . kml
+:::
+
+::: callout-tip
+tidy up data:
+
+Function to extract values from the HTML description:
+
+```{}
+extract_kml_field <- function(html_text, field_name) {
+  if (is.na(html_text) || html_text == "") return(NA_character_)
+  
+  page <- read_html(html_text)
+  rows <- page %>% html_elements("tr")
+  
+  value <- rows %>%
+    keep(~ html_text2(html_element(.x, "th")) == field_name) %>%
+    html_element("td") %>%
+    html_text2()
+  
+  if (length(value) == 0) NA_character_ else value
+}
+```
+
+extract values:
+
+```{}
+mpsz <- mpsz %>%
+  mutate(
+    REGION_N = map_chr(Description, extract_kml_field, "REGION_N"),
+    PLN_AREA_N = map_chr(Description, extract_kml_field, "PLN_AREA_N"),
+    SUBZONE_N = map_chr(Description, extract_kml_field, "SUBZONE_N"),
+    SUBZONE_C = map_chr(Description, extract_kml_field, "SUBZONE_C")
+  ) %>%
+  select(-Name, -Description) %>%
+  relocate(geometry, .after = last_col())
+```
+:::
+
+### Import AirBnb data 
+
+```{r}
+popdata <- read_csv("data/aspatial/respopagesexfa2020to2024.csv")
+```
+
+### Data preparation
+
+Data wrangling
+
+```{r}
+popdata2024 <- popdata %>%
+  group_by(PA, SZ, AG) %>%
+  summarise(`POP` = sum(`Pop`)) %>%
+  ungroup()%>%
+  pivot_wider(names_from=AG, 
+              values_from=POP) %>%
+  mutate(YOUNG = rowSums(.[3:6])
+         +rowSums(.[12])) %>%
+  mutate(`ECONOMY ACTIVE` = rowSums(.[7:11])+
+           rowSums(.[13:15]))%>%
+  mutate(`AGED`=rowSums(.[16:21])) %>%
+  mutate(`TOTAL`=rowSums(.[3:21])) %>%  
+  mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)
+         /`ECONOMY ACTIVE`) %>%
+  select(`PA`, `SZ`, `YOUNG`, 
+         `ECONOMY ACTIVE`, `AGED`, 
+         `TOTAL`, `DEPENDENCY`)
+```
+
+```{r}
+popdata2024
+```
+
+Joining the attribute data and geospatial data
+
+```{r}
+#Convert the values in PA and SZ fields to uppercase:
+
+popdata2024 <- popdata2024 %>%
+  mutate_at(.vars = vars(PA, SZ), 
+            .funs = list(toupper)) %>%
+  filter(`ECONOMY ACTIVE` > 0)
+
+#popdata2024
+```
+
+Next, *left_join()* of **dplyr** is used to join the geographical data and attribute table using planning subzone name e.g. *SUBZONE_N* and *SZ* as the common identifier.
+
+```{r}
+mpsz_pop2024 <- left_join(mpsz, popdata2024,
+                          by = c("SUBZONE_N" = "SZ"))
+```
+
+```{r}
+#write data
+
+write_rds(mpsz_pop2024, "data/rds/mpsz_pop2024.rds")
+```
+
+## 4 Choropleth Mapping Geospatial Data Using *tmap*
+
+### 4.1 Plotting a choropleth map quickly by using *qtm()*
+
+Draw a cartographic standard choropleth map
+
+```{r}
+tmap_mode("plot")
+qtm(shp = mpsz_pop2024, 
+    fill = "DEPENDENCY")
+```
+
+### 4.2 Creating a choropleth map by using *tmap*’s elements
+
+Despite its usefulness of drawing a choropleth map quickly and easily, the disadvantge of *qtm()* is that it makes aesthetics of individual layers harder to control. To draw a high quality cartographic choropleth map as shown in the figure below, **tmap**’s drawing elements should be used.
+
+```{r}
+tm_shape(mpsz_pop2024) +
+  tm_polygons(fill = "DEPENDENCY",
+              fill.scale = tm_scale_intervals(
+                style = "quantile", 
+                n = 5,
+                values = "brewer.blues"),
+              fill.legend = tm_legend(
+                title = "Dependency ratio")) +
+  tm_title("Distribution of Dependency Ratio by planning subzone") +
+  tm_layout(frame = TRUE) +
+  tm_borders(fill_alpha = 0.5) +
+  tm_compass(type="8star", size = 2) +
+  tm_scalebar() +
+  tm_grid(alpha =0.2) +
+  tm_credits("Source: Planning Sub-zone boundary from Urban Redevelopment Authorithy (URA)\n and Population data from Department of Statistics DOS", 
+             position = c("left", "bottom"))
+```
+
+#### **4.2.1 Drawing a base map**
+
+`tm_shape()` is used to define the input data (i.e *mpsz_pop2024*) and `tm_polygons()` is used to draw the planning subzone polygons
+
+```{r}
+tm_shape(mpsz_pop2024) +
+  tm_polygons()
+```
+
+::: callout-note
+By default, it plots areas of polygons in light gray (gray85) and polygons borders in slightly dark gray (gray25).
+:::
+
+#### **4.2.2 Drawing a choropleth map using `tm_polygons()`**
+
+To draw a choropleth map showing the geographical distribution of a selected variable by planning subzone, we just need to assign the target variable such as *Dependency* to *tm_polygons()*.
+
+```{r}
+tm_shape(mpsz_pop2024)+
+  tm_polygons(fill = "DEPENDENCY")
+```
+
+#### 4.2.3 Drawing a choropleth map using *tm_fill()* and \*tm_border()\*\*
+
+Draws a choropleth map by using `tm_fill()` alone.
+
+```{r}
+tm_shape(mpsz_pop2024)+
+  tm_fill("DEPENDENCY")
+```
+
+Add the boundary of the planning subzones using `tm_borders()`
+
+```{r}
+tm_shape(mpsz_pop2024)+
+  tm_fill("DEPENDENCY") +
+  tm_borders()
+```
+
+Notice that light-gray border lines have been added on the choropleth map.
+
+The `fill_alpha` argument is used to define transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the col is used (normally 1).
+
+Beside `fill_alpha` argument, there are three other arguments for `tm_borders()`, they are:
+
+- `col` = border colour,
+
+- `lwd` = border line width. The default is 1, and
+
+- `lty` = border line type. The default is “solid”.
+
+```{r}
+tm_shape(mpsz_pop2024)+
+  tm_fill("DEPENDENCY") +
+  tm_borders(col = "grey60",
+             lwd = 0.1,
+             lty = "dashed")
+```
+
+### 4.3 Data classification methods of tmap
+
+#### **4.3.1 Plotting choropleth maps with built-in classification methods**
+
+Quantile data classification that used 5 classes.
+
+```{r}
+tm_shape(mpsz_pop2024) +
+  tm_polygons(fill = "DEPENDENCY",
+              fill.scale = tm_scale_intervals(
+                style = "quantile",
+                n = 5)) +
+  tm_borders(fill_alpha = 0.5)
+```
+
+Using *equal* data classification method:
+
+```{r}
+tm_shape(mpsz_pop2024) +
+  tm_polygons(fill = "DEPENDENCY",
+              fill.scale = tm_scale_intervals(
+                style = "equal",
+                n = 5)) +
+  tm_borders(fill_alpha = 0.5)
+```
+
+```{r}
+summary(mpsz_pop2024$DEPENDENCY)
+```

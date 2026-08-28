@@ -1,5 +1,5 @@
 ---
-title: "Hands-on Exercise 01"
+title: "Hands-on Exercise 01A"
 subtitle: "In this exercise, we will load the data and do data wrangling."
 author: "Hung Thai"
 date: "Aug 24, 2026"
