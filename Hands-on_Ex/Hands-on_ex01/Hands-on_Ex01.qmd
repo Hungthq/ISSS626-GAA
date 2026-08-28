@@ -1,6 +1,6 @@
 ---
 title: "Hands-on Exercise 01"
-subtitle: "In this exercise, we will load the data and do data wrangling and choropleth mapping with R"
+subtitle: "In this exercise, we will load the data and do data wrangling."
 author: "Hung Thai"
 date: "Aug 24, 2026"
 format: 
@@ -8,7 +8,7 @@ format:
     toc: true
 ---
 
-## Geospatial Data Science with R
+# Geospatial Data Science with R
 
 [R for Geospatial Data Science and Analytics - 1  Geospatial Data Science with R](https://r4gdsa.netlify.app/chap01)
 
@@ -32,7 +32,7 @@ format:
 
 - [ ] performing Exploratory Data Analysis (EDA) by using appropriate functions from **ggplot2** package.
 
-## The Data
+### 1 The Data
 
 | Dataset | Source | Description |
 |------------------------|------------------------|------------------------|
@@ -199,8 +199,14 @@ preschool <- st_transform(preschool,
 Now, let us try to plot the preschool layer ontop of mpsz layer again by using the similar code chunk you used earlier.
 
 ```{r}
+preschool_svy21 <- st_transform(preschool, 3414)
+mpsz <- st_set_crs(mpsz, 4326) %>% st_transform(3414)
+#mpsz <- st_transform(mpsz, 3414)
+```
+
+```{r}
 plot(st_geometry(mpsz))
-plot(st_geometry(preschool), add = TRUE)
+plot(st_geometry(preschool_svy21), add = TRUE, col= "red", )
 ```
 
 ## 8. Importing and Converting An Aspatial Data
@@ -253,6 +259,7 @@ Firstly, [`st_buffer()`](https://r-spatial.github.io/sf/reference/geos_unary.htm
 
 ```{r}
 library(sf)
+library(dplyr)
 buffer_cycling <- st_buffer(   cyclingpath, dist=5, nQuadSegs = 30)
 ```
 
@@ -268,7 +275,11 @@ If you are tidyverse person like me, code chunk below should be used.
 buffer_cycling <- buffer_cycling %>%   mutate(AREA = st_area(geometry))
 ```
 
-3561648 \[m\^2\]
+```{r}
+sum(buffer_cycling$AREA)
+```
+
+5317952 \[m\^2\]
 
 We can also create a plot showing the buffer by a selected planning subzone.
 
@@ -280,9 +291,31 @@ Firstly, `filter()` of dplyr package will be used to extract polygon feature of 
 mpsz_selected <- mpsz %>%   filter(SUBZONE_N == "TAMPINES WEST") 
 ```
 
-Next, `st_intersection()` of **sf** package will be used to clip cycling buffers within Tampines West planning subzone.
+::: callout-note
+You need to override the incorrect coordinate definition on `mpsz_selected` by explicitly setting it to WGS84 (EPSG 4326), and then transform it to the proper SVY21 metric system (EPSG 3414) to match your cycling data.
+:::
+
+Run this block of code to fix the projection:
 
 ```{r}
-buffer_cycling_selected <- st_intersection(
-  buffer_cycling, mpsz_selected)
+# 1. Force the correct WGS84 CRS definition onto the mislabeled subzone layer
+mpsz_selected <- st_set_crs(mpsz_selected, 4326)
+
+# 2. Transform the subzone layer coordinates to true SVY21 metres
+mpsz_selected_svy21 <- st_transform(mpsz_selected, 3414)
+
+# 3. Ensure your cycling layer is explicitly set to SVY21 as well
+buffer_cycling <- st_transform(buffer_cycling, 3414)
+
+# 4. Perform the intersection again
+buffer_cycling_selected <- st_intersection(buffer_cycling, mpsz_selected_svy21)
+
+# 5. Check the results
+print(buffer_cycling_selected)
+```
+
+Plot the selected area
+
+```{r}
+#plot(st_geometry(buffer_cycling_selected))
 ```
