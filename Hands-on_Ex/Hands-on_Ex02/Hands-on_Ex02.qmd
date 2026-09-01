@@ -961,7 +961,9 @@ In R, the test is performed using `clarkevans.test()` from the [spatstat.explore
   R
 
   ```         
-  clarkevans.test(childcareSG_ppp,                  correction = "none",                  clipregion = "sg_owin",                  alternative = "clustered") 
+  clarkevans.test(childcareSG_ppp,                  correction = "none",                  
+  clipregion = "sg_owin",                  
+  alternative = "clustered") 
   ```
 
 - **Monte Carlo Simulation Test:**
@@ -971,7 +973,11 @@ In R, the test is performed using `clarkevans.test()` from the [spatstat.explore
   R
 
   ```         
-  clarkevans.test(childcareSG_ppp,                  correction = "none",                  clipregion = "sg_owin",                  alternative = "clustered",                  method = "MonteCarlo",                  nsim = 999) 
+  clarkevans.test(childcareSG_ppp,                     correction = "none",                  
+  clipregion = "sg_owin",                  
+  alternative = "clustered",                  
+  method = "MonteCarlo",                  
+  nsim = 999) 
   ```
 
 ### Kernel Density Estimation (KDE) method
@@ -1059,7 +1065,11 @@ Using the [`Kest()`](https://rdrr.io/cran/spatstat/man/Kest.html) and [`envelope
   R
 
   ```         
-  # Estimate K with edge correction (e.g., Ripley/isotropic) K_est <- Kest(childcare_ck_ppp, correction = "Ripley")  # Plot K(r) centered against r (K(r) - r vs r) plot(K_est, . - r ~ r, ylab = "K(d)-r", xlab = "d(m)") 
+  # Estimate K with edge correction (e.g., Ripley/isotropic)
+  K_est <- Kest(childcare_ck_ppp, correction = "Ripley")  
+
+  # Plot K(r) centered against r (K(r) - r vs r) 
+  plot(K_est, . - r ~ r, ylab = "K(d)-r", xlab = "d(m)") 
   ```
 
 - **Testing Complete Spatial Randomness (Monte Carlo Simulation):**
@@ -1069,7 +1079,11 @@ Using the [`Kest()`](https://rdrr.io/cran/spatstat/man/Kest.html) and [`envelope
   R
 
   ```         
-  # Generate Monte Carlo simulation envelopes K_csr <- envelope(childcare_ck_ppp, Kest, nsim = 99, rank = 1, glocal = TRUE)  # Plot observed K against simulation envelopes plot(K_csr, . - r ~ r, xlab = "d", ylab = "K(d)-r") 
+  # Generate Monte Carlo simulation envelopes 
+  K_csr <- envelope(childcare_ck_ppp, Kest, nsim = 99, rank = 1, glocal = TRUE)  
+
+  # Plot observed K against simulation envelopes 
+  plot(K_csr, . - r ~ r, xlab = "d", ylab = "K(d)-r") 
   ```
 
   - If the observed curve lies **above the upper envelope**, clustering is statistically significant ($p < \alpha$).
@@ -1109,7 +1123,11 @@ Under the null hypothesis of Complete Spatial Randomness (CSR), the theoretical 
   R
 
   ```         
-  # Compute G-function estimation G_est <- Gest(childcare_ck_ppp, correction = "border")  # Plot empirical vs theoretical G(r) plot(G_est, xlim = c(0, 500)) 
+  # Compute G-function estimation 
+  G_est <- Gest(childcare_ck_ppp, correction = "border")  
+
+  # Plot empirical vs theoretical G(r) 
+  plot(G_est, xlim = c(0, 500)) 
   ```
 
 - **Complete Spatial Randomness (CSR) Hypothesis Testing:**
@@ -1121,7 +1139,11 @@ Under the null hypothesis of Complete Spatial Randomness (CSR), the theoretical 
   R
 
   ```         
-  # Monte Carlo simulation test under CSR (e.g., 999 simulations) G_csr <- envelope(childcare_ck_ppp, Gest, correction = "all", nsim = 999)  # Plot observed G(r) against simulation envelope plot(G_csr) 
+  # Monte Carlo simulation test under CSR (e.g., 999 simulations) 
+  G_csr <- envelope(childcare_ck_ppp, Gest, correction = "all", nsim = 999)  
+
+  # Plot observed G(r) against simulation envelope 
+  plot(G_csr) 
   ```
 
   - **Above Upper Envelope:** Statistically significant clustering at scale $r$ ($p < \alpha$).
@@ -1167,7 +1189,11 @@ Using the [`Fest()`](https://rdrr.io/cran/spatstat/man/Fest.html) and [`envelope
   R
 
   ```         
-  # Estimate F with edge correction (e.g., "best" or "raw") F_ck <- Fest(childcare_ck_ppp, correction = "best")  # Plot empirical vs theoretical F(r) plot(F_ck) 
+  # Estimate F with edge correction (e.g., "best" or "raw") 
+  F_ck <- Fest(childcare_ck_ppp, correction = "best")  
+
+  # Plot empirical vs theoretical F(r) 
+  plot(F_ck) 
   ```
 
 - **Complete Spatial Randomness (CSR) Hypothesis Testing:**
@@ -1177,7 +1203,11 @@ Using the [`Fest()`](https://rdrr.io/cran/spatstat/man/Fest.html) and [`envelope
   R
 
   ```         
-  # Monte Carlo simulation test under CSR (e.g., 999 simulations) F_ck_csr <- envelope(childcare_ck_ppp, Fest, nsim = 999)  # Plot observed F(r) against simulation envelopes plot(F_ck_csr) 
+  # Monte Carlo simulation test under CSR (e.g., 999 simulations) 
+  F_ck_csr <- envelope(childcare_ck_ppp, Fest, nsim = 999)  
+
+  # Plot observed F(r) against simulation envelopes 
+  plot(F_ck_csr) 
   ```
 
   - **Below Lower Envelope:** Statistically significant clustering ($p < \alpha$).
@@ -1223,7 +1253,11 @@ The theoretical K-function is defined as:
   R
 
   ```         
-  # Estimate K-function K_ck <- Kest(childcare_ck_ppp, correction = "Ripley")  # Plot empirical vs theoretical K(r) centered against r (K(r) - r vs r) plot(K_ck, . - r ~ r, ylab = "K(d)-r", xlab = "d(m)") 
+  # Estimate K-function 
+  K_ck <- Kest(childcare_ck_ppp, correction = "Ripley")  
+
+  # Plot empirical vs theoretical K(r) centered against r (K(r) - r vs r) 
+  plot(K_ck, . - r ~ r, ylab = "K(d)-r", xlab = "d(m)") 
   ```
 
 - **Complete Spatial Randomness (CSR) Hypothesis Testing:**
@@ -1235,7 +1269,11 @@ The theoretical K-function is defined as:
   R
 
   ```         
-  # Run Monte Carlo simulation envelopes under CSR K_ck.csr <- envelope(childcare_ck_ppp, Kest, nsim = 99, rank = 1, glocal = TRUE)  # Plot observed K against simulation envelopes plot(K_ck.csr, . - r ~ r, xlab = "d", ylab = "K(d)-r") 
+  # Run Monte Carlo simulation envelopes under CSR 
+  K_ck.csr <- envelope(childcare_ck_ppp, Kest, nsim = 99, rank = 1, glocal = TRUE)  
+
+  # Plot observed K against simulation envelopes 
+  plot(K_ck.csr, . - r ~ r, xlab = "d", ylab = "K(d)-r") 
   ```
 
   - **Above Upper Envelope:** Statistically significant clustering at scale $r$ ($p < \alpha$).
@@ -1279,7 +1317,11 @@ Using [`Lest()`](https://rdrr.io/cran/spatstat/man/Lest.html) and [`envelope()`]
   R
 
   ```         
-  # Estimate L-function with edge correction (e.g., Ripley/isotropic) L_ck <- Lest(childcare_ck_ppp, correction = "Ripley")  # Plot centered L(r) - r against distance r plot(L_ck, . - r ~ r, ylab = "L(d)-r", xlab = "d(m)") 
+  # Estimate L-function with edge correction (e.g., Ripley/isotropic) 
+  L_ck <- Lest(childcare_ck_ppp, correction = "Ripley")  
+
+  # Plot centered L(r) - r against distance r 
+  plot(L_ck, . - r ~ r, ylab = "L(d)-r", xlab = "d(m)") 
   ```
 
 - **Complete Spatial Randomness (CSR) Hypothesis Testing:**
@@ -1289,7 +1331,11 @@ Using [`Lest()`](https://rdrr.io/cran/spatstat/man/Lest.html) and [`envelope()`]
   R
 
   ```         
-  # Generate Monte Carlo simulation envelopes under CSR L_ck_csr <- envelope(childcare_ck_ppp, Lest, nsim = 99, rank = 1, glocal = TRUE)  # Plot observed L(r) - r against the simulation envelope plot(L_ck_csr, . - r ~ r, xlab = "d", ylab = "L(d)-r") 
+  # Generate Monte Carlo simulation envelopes under CSR 
+  L_ck_csr <- envelope(childcare_ck_ppp, Lest, nsim = 99, rank = 1, glocal = TRUE)  
+
+  # Plot observed L(r) - r against the simulation envelope 
+  plot(L_ck_csr, . - r ~ r, xlab = "d", ylab = "L(d)-r") 
   ```
 
   - **Above Upper Envelope:** Statistically significant clustering at distance $r$ ($p < \alpha$).
