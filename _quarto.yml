@@ -9,8 +9,6 @@ website:
   navbar:
     #logo-href: 
     left:
-      - text: Course website
-        href: https://isss626-ay2026-27aug.netlify.app/
       - text: "Hands-on Exercises"
         menu:
           - href: Hands-on_Ex/Hands-on_ex01/Hands-on_Ex01.html
@@ -41,8 +39,8 @@ website:
         text: Home
       - href: https://quarto.org/docs/websites
         text: Quarto
-      - href: about.qmd
-        text: About
+      - href: https://github.com/Hungthq/ISSS626-GAA
+        icon: github
 
 format:
   html:
@@ -50,7 +48,7 @@ format:
     theme:
       - cosmo
       - brand
-    css: styles.css
+    #css: styles.css
     toc: true
 
 editor: visual

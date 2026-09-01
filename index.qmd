@@ -24,6 +24,7 @@ Date & Time: Saturday 12:30pm - 3:45pm
 
 Venue: SOE/SCIS2 Seminar Room 3-5
 
+Course content: [ISSS626 Geospatial Analytics and Applications](https://isss626-ay2026-27aug.netlify.app/)
 
 ::: {.animate__animated .animate__fadeIn .animate__faster}
 ## [✍️ Hands-on Exercises](/hands-on_ex/)

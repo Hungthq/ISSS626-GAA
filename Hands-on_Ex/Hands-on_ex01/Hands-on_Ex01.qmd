@@ -6,6 +6,7 @@ date: "Aug 24, 2026"
 format: 
   html:
     toc: true
+    toc-depth: 4
 ---
 
 # Geospatial Data Science with R
