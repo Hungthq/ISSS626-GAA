@@ -3,6 +3,7 @@ project:
 
 website:
   title: "ISSS626-GAA"
+  favicon: "data/favicon_io/favicon.ico"
   description: "A collection of projects, assignments and notes for the SMU ISSS626 Geospatial Analytics and Applications course"
   site-url: "https://hungthai-isss-626-gaa.vercel.app/"
   repo-url: "https://github.com/Hungthq/ISSS626-GAA"
