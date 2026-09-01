@@ -331,13 +331,19 @@ Now we can see the data values changed.
 ::: callout-tip
 ## automatic bandwidth methods in spatstat
 
-|  |  |  |
-|------------------------|------------------------|------------------------|
-| **Function** | **Method / Description** | **Best Used For** |
-| `bw.diggle()` | **Cross-validation (Diggle's method):** Minimizes the mean squared error (MSE) between the estimated and true intensity. | Detecting a single tight cluster amidst random noise. |
-| `bw.ppl()` | **Likelihood Cross-Validation:** Selects bandwidth by maximizing the leave-one-out cross-validated log-likelihood. | Patterns predominantly composed of tight clusters. |
-| `bw.CvL()` | **Cronie and van Lieshout’s method:** Based on the Campbell formula to select bandwidth. | Point patterns where points are closely packed or general spatial trends. |
-| `bw.scott()` | **Scott's Rule of Thumb:** Computes separate bandwidths for the x and y dimensions based on standard deviations and sample size. | Fast parametric approximation across anisotropic (directional) spatial patterns. |
++-----------------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
+|                       |                                                                                                                                  |                                                                                  |
++=======================+==================================================================================================================================+==================================================================================+
+| **Function**          | **Method / Description**                                                                                                         | **Best Used For**                                                                |
++-----------------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
+| `bw.diggle()`         | **Cross-validation (Diggle's method):** Minimizes the mean squared error (MSE) between the estimated and true intensity.         | Detecting a single tight cluster amidst random noise.                            |
++-----------------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
+| `bw.ppl()`            | **Likelihood Cross-Validation:** Selects bandwidth by maximizing the leave-one-out cross-validated log-likelihood.               | Patterns predominantly composed of tight clusters.                               |
++-----------------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
+| `bw.CvL()`            | **Cronie and van Lieshout’s method:** Based on the Campbell formula to select bandwidth.                                         | Point patterns where points are closely packed or general spatial trends.        |
++-----------------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
+| `bw.scott()`          | **Scott's Rule of Thumb:** Computes separate bandwidths for the x and y dimensions based on standard deviations and sample size. | Fast parametric approximation across anisotropic (directional) spatial patterns. |
++-----------------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
 :::
 
 ```{r}
@@ -454,14 +460,21 @@ plot(kde_childcareSG_ab, main = "Adaptive bandwidth")
 ```
 
 ::: callout-note
-|  |  |  |
-|------------------------|------------------------|------------------------|
-| **Feature** | **Fixed Bandwidth KDE** | **Adaptive Bandwidth KDE** |
-| **Bandwidth Radius (**$\sigma$) | **Constant** across the entire study region. Every point uses the exact same search radius (e.g., 600 m). | **Variable** across space. The radius adjusts dynamically based on local point density. |
-| **High-Density Areas (e.g., Urban hubs)** | May oversmooth distinct local clusters and merge separate peaks together. | Narrows the bandwidth (smaller $\sigma$) to capture sharper, local hotspot peaks. |
-| **Low-Density Areas (e.g., Rural / Periphery)** | Leaves excessive empty space or creates artificial, isolated noise spikes around solitary points. | Widens the bandwidth (larger $\sigma$) to smooth out noise and provide meaningful generalized trends. |
-| **Best Used For** | Homogeneous point distributions or when comparing absolute density across regions with standard units. | Highly skewed distributions where point densities vary drastically across urban and rural/peripheral landscapes. |
-| **Implementation in `spatstat`** | `density(childcare_ppp, sigma = 0.6)` | `adaptive.density(childcare_ppp, method = "kernel")` |
++-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
+|                                                 |                                                                                                           |                                                                                                                  |
++=================================================+===========================================================================================================+==================================================================================================================+
+| **Feature**                                     | **Fixed Bandwidth KDE**                                                                                   | **Adaptive Bandwidth KDE**                                                                                       |
++-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
+| **Bandwidth Radius (**$\sigma$)                 | **Constant** across the entire study region. Every point uses the exact same search radius (e.g., 600 m). | **Variable** across space. The radius adjusts dynamically based on local point density.                          |
++-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
+| **High-Density Areas (e.g., Urban hubs)**       | May oversmooth distinct local clusters and merge separate peaks together.                                 | Narrows the bandwidth (smaller $\sigma$) to capture sharper, local hotspot peaks.                                |
++-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
+| **Low-Density Areas (e.g., Rural / Periphery)** | Leaves excessive empty space or creates artificial, isolated noise spikes around solitary points.         | Widens the bandwidth (larger $\sigma$) to smooth out noise and provide meaningful generalized trends.            |
++-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
+| **Best Used For**                               | Homogeneous point distributions or when comparing absolute density across regions with standard units.    | Highly skewed distributions where point densities vary drastically across urban and rural/peripheral landscapes. |
++-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
+| **Implementation in `spatstat`**                | `density(childcare_ppp, sigma = 0.6)`                                                                     | `adaptive.density(childcare_ppp, method = "kernel")`                                                             |
++-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
 :::
 
 ### Plotting cartographic quality KDE map
@@ -672,3 +685,615 @@ plot(density(childcare_jw_ppp.km,
 ```
 
 ## Part 2 Second-order Spatial Point pattern Analysis methods
+
+Second-order spatial point pattern analysis examines the spatial relationships between points in a pattern, specifically focusing on how the presence of one point influences the location of others. It goes beyond simply describing the overall density of points (first-order effects) by investigating clustering, dispersion, or randomness at various spatial scales.
+
+In this part, appropriate functions of spatstat are used to discover the spatial point processes of childcare centres in Singapore to answer the specific questions:
+
+- are the children centres in Singapore randomly distributed throughout the country?
+- if the answer is not, then the next logical question is where are the locations with higher concentration of childcare centres?
+
+::: callout-note
+## refereces
+
+Methods used for second-order spatial point pattern analysis
+
++---------------------------+-------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
+|                           |                                                                                                                               |                                                                       |
++===========================+===============================================================================================================================+=======================================================================+
+| **Method / Function**     | **Purpose**                                                                                                                   | **Interpretation relative to CSR**                                    |
++---------------------------+-------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
+| **G-Function**            | Measures the cumulative distribution of distances from an arbitrary event to its nearest event.                               | • **Above CSR:** Clustering                                           |
+|                           |                                                                                                                               |                                                                       |
+| \                         |                                                                                                                               | \                                                                     |
+|                           |                                                                                                                               |                                                                       |
+| `Gest()`                  |                                                                                                                               | • **Below CSR:** Regularity / Dispersion                              |
++---------------------------+-------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
+| **F-Function**            | Measures the distribution of distances from an arbitrary point in space to the nearest observed event (empty space function). | • **Below CSR:** Clustering (larger empty spaces)                     |
+|                           |                                                                                                                               |                                                                       |
+| \                         |                                                                                                                               | \                                                                     |
+|                           |                                                                                                                               |                                                                       |
+| `Fest()`                  |                                                                                                                               | • **Above CSR:** Regularity / Dispersion                              |
++---------------------------+-------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
+| **K-Function**            | Evaluates the expected number of events within distance $r$ of a typical event, normalized by intensity.                      | • **Above CSR:** Clustering at scale $r$                              |
+|                           |                                                                                                                               |                                                                       |
+| \                         |                                                                                                                               | \                                                                     |
+|                           |                                                                                                                               |                                                                       |
+| `Kest()`                  |                                                                                                                               | • **Below CSR:** Regularity / Dispersion                              |
++---------------------------+-------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
+| **L-Function**            | Linearized, variance-stabilized transformation of Ripley's K-function, typically plotted as $L(r) - r$.                       | • $L(r) - r > 0$: Clustering                                          |
+|                           |                                                                                                                               |                                                                       |
+| \                         |                                                                                                                               | \                                                                     |
+|                           |                                                                                                                               |                                                                       |
+| `Lest()`                  |                                                                                                                               | • $L(r) - r < 0$: Regularity / Dispersion                             |
+|                           |                                                                                                                               |                                                                       |
+|                           |                                                                                                                               | \                                                                     |
+|                           |                                                                                                                               |                                                                       |
+|                           |                                                                                                                               | • $L(r) - r = 0$: Complete Spatial Randomness                         |
++---------------------------+-------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
+| **Monte Carlo Envelopes** | Generates simulation envelopes (critical bands) under CSR to statistically test null hypotheses ($H_0$).                      | • **Outside Envelope:** Significant departure from CSR ($p < \alpha$) |
+|                           |                                                                                                                               |                                                                       |
+| \                         |                                                                                                                               | \                                                                     |
+|                           |                                                                                                                               |                                                                       |
+| `envelope()`              |                                                                                                                               | • **Inside Envelope:** Cannot reject CSR                              |
++---------------------------+-------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------+
+:::
+
+### Analysing Spatial Point Process Using G-Function
+
+#### Choa Chu Kang planning area
+
+Computing G-function estimation
+
+```{r}
+set.seed(1234)
+```
+
+Use *gest()* of **spatstat** package to compute G-function
+
+```{r}
+G_CK = Gest(childcare_ck_ppp, correction = "border")
+plot(G_CK, xlim=c(0,500))
+```
+
+**Performing complete spatial randomness test**
+
+To confirm the observed spatial patterns above, a hypothesis test will be conducted. The hypothesis and test are as follows:
+
+Ho = The distribution of childcare services at Choa Chu Kang are randomly distributed.
+
+H1= The distribution of childcare services at Choa Chu Kang are not randomly distributed.
+
+The null hypothesis will be rejected if p-value is smaller than alpha value of 0.001.
+
+Monte Carlo test with G-fucntion
+
+```{r}
+G_CK.csr <- envelope(childcare_ck_ppp, Gest, nsim = 999)
+```
+
+```{r}
+plot(G_CK.csr)
+```
+
+#### Tampines planning area
+
+Computing G-function estimation
+
+```{r}
+G_tm = Gest(childcare_tm_ppp, correction = "best")
+plot(G_tm)
+```
+
+Performing complete spatial randomness test
+
+```{r}
+G_tm.csr <- envelope(childcare_tm_ppp, Gest, correction = "all", nsim = 999)
+```
+
+```{r}
+plot(G_tm.csr)
+```
+
+### Analysing spatial point process using F-Function
+
+#### Choa Chu Kang planning area
+
+Using *fest()* of **spatstat** package to compute F-function estimation
+
+```{r}
+F_CK = Fest(childcare_ck_ppp)
+plot(F_CK)
+```
+
+**Performing Complete spatial randomness test**
+
+To confirm the observed spatial patterns above, a hypothesis test will be conducted. The hypothesis and test are as follows:
+
+Ho = The distribution of childcare services at Choa Chu Kang are randomly distributed.
+
+H1= The distribution of childcare services at Choa Chu Kang are not randomly distributed.
+
+The null hypothesis will be rejected if p-value is smaller than alpha value of 0.001.
+
+Monte Carlo test with F-fucntion
+
+```{r}
+F_CK.csr <- envelope(childcare_ck_ppp, Fest, nsim = 999)
+```
+
+```{r}
+plot(F_CK.csr)
+```
+
+#### Tampines planning area
+
+```{r}
+F_tm = Fest(childcare_tm_ppp, correction = "best")
+plot(F_tm)
+```
+
+```{r}
+F_tm.csr <- envelope(childcare_tm_ppp, Fest, correction = "all", nsim = 999)
+```
+
+```{r}
+plot(F_tm.csr)
+```
+
+### Analysing spatial point process using K-Function
+
+#### Choa Chu Kang planning area
+
+**Computing K-function estimate**
+
+```{r}
+K_ck = Kest(childcare_ck_ppp, correction = "Ripley")
+plot(K_ck, . -r ~ r, ylab= "K(d)-r", xlab = "d(m)")
+```
+
+**Performing complete spatial randomness test**
+
+To confirm the observed spatial patterns above, a hypothesis test will be conducted. The hypothesis and test are as follows:
+
+Ho = The distribution of childcare services at Choa Chu Kang are randomly distributed.
+
+H1= The distribution of childcare services at Choa Chu Kang are not randomly distributed.
+
+The null hypothesis will be rejected if p-value is smaller than alpha value of 0.001.
+
+```{r}
+K_ck.csr <- envelope(childcare_ck_ppp, Kest, nsim = 99, rank = 1, glocal=TRUE)
+```
+
+```{r}
+plot(K_ck.csr, . - r ~ r, xlab="d", ylab="K(d)-r")
+```
+
+#### Tampines planning area
+
+```{r}
+K_tm = Kest(childcare_tm_ppp, correction = "Ripley")
+plot(K_tm, . -r ~ r, 
+     ylab= "K(d)-r", xlab = "d(m)", 
+     xlim=c(0,1000))
+```
+
+```{r}
+K_tm.csr <- envelope(childcare_tm_ppp, Kest, nsim = 99, rank = 1, glocal=TRUE)
+```
+
+```{r}
+plot(K_tm.csr, . - r ~ r, 
+     xlab="d", ylab="K(d)-r", xlim=c(0,500))
+```
+
+### Analysing spatial point process using L-Function
+
+#### Choa Chu Kang planning area
+
+Computing L-Function estimation
+
+```{r}
+L_ck = Lest(childcare_ck_ppp, correction = "Ripley")
+plot(L_ck, . -r ~ r, 
+     ylab= "L(d)-r", xlab = "d(m)")
+```
+
+Performing complete spatial randomness test
+
+```{r}
+L_ck.csr <- envelope(childcare_ck_ppp, Lest, nsim = 99, rank = 1, glocal=TRUE)
+```
+
+```{r}
+plot(L_ck.csr, . - r ~ r, xlab="d", ylab="L(d)-r")
+```
+
+#### Tampines planning area
+
+```{r}
+L_tm = Lest(childcare_tm_ppp, correction = "Ripley")
+plot(L_tm, . -r ~ r, 
+     ylab= "L(d)-r", xlab = "d(m)", 
+     xlim=c(0,1000))
+```
+
+```{r}
+L_tm.csr <- envelope(childcare_tm_ppp, Lest, nsim = 99, rank = 1, glocal=TRUE)
+```
+
+```{r}
+plot(L_tm.csr, . - r ~ r, 
+     xlab="d", ylab="L(d)-r", xlim=c(0,500))
+```
+
+## Part 3 Learning more about test methods
+
+### Clark-Evan test for Nearest Neighbour Analysis
+
+The **Clark-Evans test** is a distance-based statistical method used in Nearest Neighbor Analysis (NNA) to determine whether a spatial point pattern exhibits **clustering**, **regularity (dispersion)**, or **Complete Spatial Randomness (CSR)**.
+
+**Key Concept & Aggregation Index (**$R$)
+
+The test compares the mean observed nearest neighbor distance ($\bar{r}_O$) to the expected mean distance under CSR ($\bar{r}_E$):
+
+\$\$R = \\frac{\\bar{r}\_O}{\\bar{r}\_E}\$\$
+
+- $R = 1$: The pattern is **randomly distributed** (consistent with CSR).
+
+- $R < 1$: Observed points are closer together than expected $\rightarrow$ **Clustered pattern**.
+
+- $R > 1$: Observed points are farther apart than expected $\rightarrow$ **Regular / Dispersed pattern** ($R \approx 2.15$ indicates a perfectly hexagonal lattice).
+
+**Hypothesis Testing**
+
+- **Null Hypothesis (**$H_0$): The point events are randomly distributed across the study region.
+
+- **Alternative Hypothesis (**$H_1$): The point events are not randomly distributed (or specifically clustered: $R < 1$, or regular: $R > 1$).
+
+**Implementation in R (`spatstat`)**
+
+In R, the test is performed using `clarkevans.test()` from the [spatstat.explore](https://r4gdsa.netlify.app/chap04) package.
+
+- **Standard Z-Test:**
+
+  R
+
+  ```         
+  clarkevans.test(childcareSG_ppp,                  correction = "none",                  clipregion = "sg_owin",                  alternative = "clustered") 
+  ```
+
+- **Monte Carlo Simulation Test:**
+
+  Compares the observed $R$ value against simulated realizations of CSR to derive an exact empirical $p$-value:
+
+  R
+
+  ```         
+  clarkevans.test(childcareSG_ppp,                  correction = "none",                  clipregion = "sg_owin",                  alternative = "clustered",                  method = "MonteCarlo",                  nsim = 999) 
+  ```
+
+### Kernel Density Estimation (KDE) method
+
+**Kernel Density Estimation (KDE)** is a fundamental first-order [Spatial Point Patterns Analysis](https://r4gdsa.netlify.app/chap04) (1st-SPPA) technique used within Exploratory Spatial Data Analysis (ESDA). It transforms discrete, observed point events into a continuous density surface, revealing spatial hotspots and variations in event intensity without imposing strict parametric assumptions.
+
+**Core Mechanics in `spatstat`**
+
+- **Basic Function:** Computed using `density()` on a planar point pattern (`ppp`) object.
+
+- **Pixel Image Output:** The resulting object belongs to class `im`, representing a 2D regular pixel array where each cell contains the estimated point density.
+
+- **Unit Rescaling:** Because default projected coordinates (such as SVY21 in meters) produce very small numbers (points per $\text{m}^2$), [`rescale.ppp()`](https://r4gdsa.netlify.app/chap04#cb33-1) is commonly applied to convert units to kilometers (points per $\text{km}^2$) for clearer interpretation.
+
+**Key Tuning Parameters & Methods**
+
+- **Bandwidth (**$\sigma$) Selection: Controls the degree of smoothing.
+
+  \
+
+  - `bw.diggle()`: Optimal for detecting isolated, tight clusters amidst random noise.
+
+  - `bw.ppl()`: Recommended when the point pattern predominantly consists of tight clusters.
+
+  - `bw.CvL()` & `bw.scott()`: Alternative cross-validation and rule-of-thumb bandwidth estimators.
+
+- **Kernel Smoothing Types:** Defines the weighting function around each point (`gaussian` by default, `epanechnikov`, `quartic`, or `disc`).
+
+- **Edge Correction:** Setting `edge = TRUE` adjusts for intensity underestimation near the study boundary (window border).
+
+- **Fixed vs. Adaptive Bandwidth:**
+
+  \
+
+  - **Fixed (`density()`):** Uses a uniform bandwidth $\sigma$ across the entire region; sensitive to areas with extreme density variations (e.g., dense urban centers vs. sparse rural areas).
+
+  - **Adaptive (`adaptive.density()`):** Dynamically adjusts the bandwidth based on local point concentration, applying smaller kernels in dense areas and wider kernels in sparse zones.
+
+**Cartographic Visualization Pipeline**
+
+To generate presentation-ready maps using packages like `tmap`:
+
+1.  Convert the `spatstat` `im` object to a raster using `rast()` from the `terra` package.
+
+2.  Assign the coordinate reference system (e.g., `crs(kde_raster) <- "EPSG:3414"`).
+
+3.  Render continuous choropleth surfaces using `tm_shape()` + `tm_raster()`.
+
+### Second-order: K-Function
+
+**K-Function** is a multi-scale second-order [Spatial Point Patterns Analysis](https://r4gdsa.netlify.app/chap04) method that evaluates the spatial dependence (clustering, dispersion, or randomness) between point events across varying distance scales ($r$).
+
+Unlike nearest-neighbor statistics (e.g., Clark-Evans or the G-function) which focus solely on the single closest point, the K-function evaluates the total number of points within a radius $r$ around every typical point.
+
+**Mathematical Concept**
+
+The theoretical K-function is defined as:
+
+\$\$K(r) = \\frac{1}{\\lambda} E\[\\text{number of extra points within distance } r \\text{ of an arbitrary point}\]\$\$
+
+- $\lambda$ represents the mean point intensity across the study region.
+
+- Under Complete Spatial Randomness (CSR), the expected number of points within radius $r$ is $\lambda \pi r^2$, giving the theoretical baseline:
+
+  \
+
+  \$\$K\_{theo}(r) = \\pi r\^2\$\$
+
+**Interpretation of Results**
+
+- $K(r) > \pi r^2$: More points are observed within radius $r$ than expected by chance $\rightarrow$ **Clustering** at scale $r$.
+
+- $K(r) < \pi r^2$: Fewer points are observed within radius $r$ than expected by chance $\rightarrow$ **Regularity / Dispersion** at scale $r$.
+
+- $K(r) = \pi r^2$: Pattern aligns with Complete Spatial Randomness (CSR).
+
+**Implementation in R (`spatstat`)**
+
+Using the [`Kest()`](https://rdrr.io/cran/spatstat/man/Kest.html) and [`envelope()`](https://rdrr.io/cran/spatstat/man/envelope.html) functions from `spatstat`:
+
+- **Computing the Empirical K-Function:**
+
+  \
+
+  R
+
+  ```         
+  # Estimate K with edge correction (e.g., Ripley/isotropic) K_est <- Kest(childcare_ck_ppp, correction = "Ripley")  # Plot K(r) centered against r (K(r) - r vs r) plot(K_est, . - r ~ r, ylab = "K(d)-r", xlab = "d(m)") 
+  ```
+
+- **Testing Complete Spatial Randomness (Monte Carlo Simulation):**
+
+  \
+
+  R
+
+  ```         
+  # Generate Monte Carlo simulation envelopes K_csr <- envelope(childcare_ck_ppp, Kest, nsim = 99, rank = 1, glocal = TRUE)  # Plot observed K against simulation envelopes plot(K_csr, . - r ~ r, xlab = "d", ylab = "K(d)-r") 
+  ```
+
+  - If the observed curve lies **above the upper envelope**, clustering is statistically significant ($p < \alpha$).
+
+  - If the curve lies **below the lower envelope**, dispersion/regularity is statistically significant.
+
+### Second-order: G-Function
+
+The **G-Function** (Nearest Neighbor Distance Distribution Function) is a second-order [Spatial Point Patterns Analysis](https://r4gdsa.netlify.app/chap04) method that measures the cumulative distribution of distances from an arbitrary event to its nearest neighboring event.
+
+**Key Mathematical Concept**
+
+The function estimates the probability $G(r)$ that an event's nearest neighbor is located within a radial distance $r$:
+
+\$\$G(r) = P(d_i \\le r)\$\$
+
+Under the null hypothesis of Complete Spatial Randomness (CSR), the theoretical distribution $G_{theo}(r)$ for a homogeneous Poisson process with intensity $\lambda$ is:
+
+\$\$G\_{theo}(r) = 1 - \\exp(-\\lambda \\pi r\^2)\$\$
+
+**Interpretation Relative to CSR**
+
+- $G(r) > G_{theo}(r)$: The curve rises faster than expected at short distances, indicating that events are located closer to one another $\rightarrow$ **Clustering**.
+
+- $G(r) < G_{theo}(r)$: The curve rises slower than expected, indicating events maintain distance from one another $\rightarrow$ **Regularity / Dispersion**.
+
+- $G(r) \approx G_{theo}(r)$: The point pattern conforms to **Complete Spatial Randomness (CSR)**.
+
+**Implementation in R (`spatstat`)**
+
+- **Estimation with Edge Correction:**
+
+  Edge corrections (such as `"border"`, `"hanisch"`, or `"best"`) adjust for unobserved points beyond the study boundary:
+
+  \
+
+  R
+
+  ```         
+  # Compute G-function estimation G_est <- Gest(childcare_ck_ppp, correction = "border")  # Plot empirical vs theoretical G(r) plot(G_est, xlim = c(0, 500)) 
+  ```
+
+- **Complete Spatial Randomness (CSR) Hypothesis Testing:**
+
+  Uses [envelope()](https://rdrr.io/cran/spatstat/man/envelope.html) to generate Monte Carlo simulation critical bands:
+
+  \
+
+  R
+
+  ```         
+  # Monte Carlo simulation test under CSR (e.g., 999 simulations) G_csr <- envelope(childcare_ck_ppp, Gest, correction = "all", nsim = 999)  # Plot observed G(r) against simulation envelope plot(G_csr) 
+  ```
+
+  - **Above Upper Envelope:** Statistically significant clustering at scale $r$ ($p < \alpha$).
+
+  - **Below Lower Envelope:** Statistically significant regularity/dispersion at scale $r$ ($p < \alpha$).
+
+### Second-order: F-Function
+
+The **F-Function** (also known as the **Empty Space Function** or point-to-event distance distribution) is a second-order [Spatial Point Patterns Analysis](https://r4gdsa.netlify.app/chap05) method that measures the distribution of distances from an arbitrary location in the study area to the nearest observed event.
+
+Unlike the G-function (which measures distances between event pairs), the F-function samples the empty space across the entire study window.
+
+**Mathematical Concept**
+
+The function estimates the cumulative probability $F(r)$ that an arbitrary point chosen at random within the observation window has at least one event within radial distance $r$:
+
+\$\$F(r) = P(d(x, Y) \\le r)\$\$
+
+where $d(x, Y)$ is the shortest distance from an arbitrary point $x$ to the nearest event in point pattern $Y$.
+
+Under Complete Spatial Randomness (CSR) for a homogeneous Poisson process with intensity $\lambda$, the theoretical baseline is:
+
+\$\$F\_{theo}(r) = 1 - \\exp(-\\lambda \\pi r\^2)\$\$
+
+**Interpretation Relative to CSR**
+
+Because the F-function measures empty spaces:
+
+- $F(r) < F_{theo}(r)$: The curve rises slower than CSR, meaning empty spaces are larger than expected by chance $\rightarrow$ **Clustering** (events group together, leaving wide gaps).
+
+- $F(r) > F_{theo}(r)$: The curve rises faster than CSR, meaning points are evenly spread throughout the space $\rightarrow$ **Regularity / Dispersion**.
+
+- $F(r) \approx F_{theo}(r)$: The pattern conforms to **Complete Spatial Randomness (CSR)**.
+
+**Implementation in R (`spatstat`)**
+
+Using the [`Fest()`](https://rdrr.io/cran/spatstat/man/Fest.html) and [`envelope()`](https://rdrr.io/cran/spatstat/man/envelope.html) functions from `spatstat`:
+
+- **Computing the Empirical F-Function:**
+
+  \
+
+  R
+
+  ```         
+  # Estimate F with edge correction (e.g., "best" or "raw") F_ck <- Fest(childcare_ck_ppp, correction = "best")  # Plot empirical vs theoretical F(r) plot(F_ck) 
+  ```
+
+- **Complete Spatial Randomness (CSR) Hypothesis Testing:**
+
+  \
+
+  R
+
+  ```         
+  # Monte Carlo simulation test under CSR (e.g., 999 simulations) F_ck_csr <- envelope(childcare_ck_ppp, Fest, nsim = 999)  # Plot observed F(r) against simulation envelopes plot(F_ck_csr) 
+  ```
+
+  - **Below Lower Envelope:** Statistically significant clustering ($p < \alpha$).
+
+  - **Above Upper Envelope:** Statistically significant regularity/dispersion ($p < \alpha$).
+
+### Second-order: K-Function
+
+The **K-Function** (Ripley's K-Function) is a multi-scale second-order [Spatial Point Patterns Analysis](https://r4gdsa.netlify.app/chap05) method used to evaluate whether point events exhibit clustering, dispersion, or randomness across multiple distance scales ($r$).
+
+Unlike nearest-neighbor statistics, which only consider the distance to the single closest point, the K-function evaluates the total number of points found within a given radius $r$ of any arbitrary point.
+
+**Mathematical Concept**
+
+The theoretical K-function is defined as:
+
+\$\$K(r) = \\frac{1}{\\lambda} \\mathbb{E}\[\\text{number of additional events within distance } r \\text{ of a typical event}\]\$\$
+
+- $\lambda$ is the overall intensity of the point pattern.
+
+- Under Complete Spatial Randomness (CSR) for a homogeneous Poisson process, the expected number of events within radius $r$ is $\lambda \pi r^2$, yielding the theoretical baseline:
+
+  \
+
+  \$\$K\_{theo}(r) = \\pi r\^2\$\$
+
+**Interpretation Relative to CSR**
+
+- $K(r) > \pi r^2$: More events are observed within distance $r$ than expected under randomness $\rightarrow$ **Clustering** at scale $r$.
+
+- $K(r) < \pi r^2$: Fewer events are observed within distance $r$ than expected $\rightarrow$ **Regularity / Dispersion** at scale $r$.
+
+- $K(r) = \pi r^2$: Follows Complete Spatial Randomness (CSR).
+
+**Implementation in R (`spatstat`)**
+
+- **Computing Empirical K-Function:**
+
+  Estimated using [`Kest()`](https://rdrr.io/cran/spatstat/man/Kest.html) with an edge-correction method (such as Ripley's isotropic correction):
+
+  \
+
+  R
+
+  ```         
+  # Estimate K-function K_ck <- Kest(childcare_ck_ppp, correction = "Ripley")  # Plot empirical vs theoretical K(r) centered against r (K(r) - r vs r) plot(K_ck, . - r ~ r, ylab = "K(d)-r", xlab = "d(m)") 
+  ```
+
+- **Complete Spatial Randomness (CSR) Hypothesis Testing:**
+
+  Evaluated using [`envelope()`](https://rdrr.io/cran/spatstat/man/envelope.html) to run Monte Carlo simulations and establish critical confidence bands:
+
+  \
+
+  R
+
+  ```         
+  # Run Monte Carlo simulation envelopes under CSR K_ck.csr <- envelope(childcare_ck_ppp, Kest, nsim = 99, rank = 1, glocal = TRUE)  # Plot observed K against simulation envelopes plot(K_ck.csr, . - r ~ r, xlab = "d", ylab = "K(d)-r") 
+  ```
+
+  - **Above Upper Envelope:** Statistically significant clustering at scale $r$ ($p < \alpha$).
+
+  - **Below Lower Envelope:** Statistically significant regularity/dispersion at scale $r$ ($p < \alpha$).
+
+### Second-order: L-Function
+
+The **L-Function** (Besag’s L-Function) is a variance-stabilized, linearized transformation of [Ripley’s K-Function](https://r4gdsa.netlify.app/chap05#analysing-spatial-point-process-using-k-function) used in second-order [Spatial Point Patterns Analysis](https://r4gdsa.netlify.app/chap05).
+
+While the K-function grows quadratically with distance ($K(r) \approx \pi r^2$ under Complete Spatial Randomness), the L-function transforms this into a linear relationship, making departures from randomness easier to visually inspect and interpret across distance scales ($r$).
+
+**Mathematical Concept**
+
+Besag’s transformation scales the K-function as:
+
+\$\$L(r) = \\sqrt{\\frac{K(r)}{\\pi}}\$\$
+
+Under Complete Spatial Randomness (CSR), $K_{theo}(r) = \pi r^2$, which simplifies to:
+
+\$\$L\_{theo}(r) = r \\quad \\iff \\quad L(r) - r = 0\$\$
+
+In practice, the L-function is almost always analyzed and plotted as the centered function $L(r) - r$ (or $L(d) - d$) against distance $r$.
+
+**Interpretation Relative to CSR**
+
+- $L(r) - r > 0$: Observed spatial density within radius $r$ exceeds CSR expectation $\rightarrow$ **Clustering** at scale $r$.
+
+- $L(r) - r < 0$: Observed spatial density within radius $r$ is less than CSR expectation $\rightarrow$ **Regularity / Dispersion** at scale $r$.
+
+- $L(r) - r = 0$: Conforms to Complete Spatial Randomness (CSR).
+
+**Implementation in R (`spatstat`)**
+
+Using [`Lest()`](https://rdrr.io/cran/spatstat/man/Lest.html) and [`envelope()`](https://rdrr.io/cran/spatstat/man/envelope.html) from `spatstat`:
+
+- **Computing Empirical L-Function:**
+
+  \
+
+  R
+
+  ```         
+  # Estimate L-function with edge correction (e.g., Ripley/isotropic) L_ck <- Lest(childcare_ck_ppp, correction = "Ripley")  # Plot centered L(r) - r against distance r plot(L_ck, . - r ~ r, ylab = "L(d)-r", xlab = "d(m)") 
+  ```
+
+- **Complete Spatial Randomness (CSR) Hypothesis Testing:**
+
+  \
+
+  R
+
+  ```         
+  # Generate Monte Carlo simulation envelopes under CSR L_ck_csr <- envelope(childcare_ck_ppp, Lest, nsim = 99, rank = 1, glocal = TRUE)  # Plot observed L(r) - r against the simulation envelope plot(L_ck_csr, . - r ~ r, xlab = "d", ylab = "L(d)-r") 
+  ```
+
+  - **Above Upper Envelope:** Statistically significant clustering at distance $r$ ($p < \alpha$).
+
+  - **Below Lower Envelope:** Statistically significant regularity/dispersion at distance $r$ ($p < \alpha$).
+
+  - **Inside Envelopes:** No statistically significant departure from CSR.
