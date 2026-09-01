@@ -1,0 +1,18 @@
+!SESSION 2026-08-29 12:41:24.777 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=21.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_SG
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data file:/C:/hungthq/ISSS626-GAA/
+
+!ENTRY org.knime.conda.envinstall 1 0 2026-08-29 12:41:38.913
+!MESSAGE Checking pixi cache directory for knime-python-versions (knime-python-versions-5.12.0-py313_202606041333) package: C:\Users\Hungthq\AppData\Local\Programs\KNIME\bundling\.pixi-cache
+
+!ENTRY org.knime.conda.envinstall 1 0 2026-08-29 12:41:38.923
+!MESSAGE Could not determine version for knime-python-versions - cleaning cache to be safe.
+
+!ENTRY org.knime.conda.envinstall 1 0 2026-08-29 12:42:58.984
+!MESSAGE Warming up Python environment at: C:\Users\Hungthq\AppData\Local\Programs\KNIME\bundling\sdl_harvard_geospatial
+
+!ENTRY org.knime.conda.envinstall 1 0 2026-08-29 12:43:33.862
+!MESSAGE Environment warmup successful.

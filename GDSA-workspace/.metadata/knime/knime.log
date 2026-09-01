@@ -1,0 +1,336 @@
+2026-08-29 14:50:43,769 : INFO  : main :  : NodeLogger :  :  : #########################################################################################
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : #                                                                                       #
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : # Welcome to KNIME Analytics Platform v5.12.0.v202606180846 (Build June 15, 2026)       #
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : # Based on Eclipse, http://www.eclipse.org                                              #
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : #                                                                                       #
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : #########################################################################################
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : #                                                                                       #
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : # Copyright by KNIME AG, Zurich, Switzerland and others.                                #
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : # Website: http://www.knime.com                                                         #
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : # E-mail: contact@knime.com                                                             #
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : #                                                                                       #
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : #########################################################################################
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : # For more details see the KNIME log file:                                              #
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : # C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\knime.log
+2026-08-29 14:50:43,770 : INFO  : main :  : NodeLogger :  :  : #---------------------------------------------------------------------------------------#
+2026-08-29 14:50:43,781 : INFO  : main :  : NodeLogger :  :  : # logging date=Sat Aug 29 14:50:43 SGT 2026
+2026-08-29 14:50:43,781 : INFO  : main :  : NodeLogger :  :  : # java.version=21.0.9
+2026-08-29 14:50:43,781 : INFO  : main :  : NodeLogger :  :  : # java.vm.version=21.0.9+10-LTS
+2026-08-29 14:50:43,781 : INFO  : main :  : NodeLogger :  :  : # java.vendor=Eclipse Adoptium
+2026-08-29 14:50:43,781 : INFO  : main :  : NodeLogger :  :  : # os.name=Windows 11
+2026-08-29 14:50:43,781 : INFO  : main :  : NodeLogger :  :  : # os.arch=amd64
+2026-08-29 14:50:43,781 : INFO  : main :  : NodeLogger :  :  : # number of CPUs=24
+2026-08-29 14:50:43,781 : INFO  : main :  : NodeLogger :  :  : # assertions=off
+2026-08-29 14:50:43,842 : INFO  : main :  : NodeLogger :  :  : # host=HUNGTHAI
+2026-08-29 14:50:43,859 : INFO  : main :  : NodeLogger :  :  : # username=Hungthq
+2026-08-29 14:50:43,859 : INFO  : main :  : NodeLogger :  :  : # max mem=15936MB
+2026-08-29 14:50:43,859 : INFO  : main :  : NodeLogger :  :  : # application=org.knime.product.KNIME_APPLICATION
+2026-08-29 14:50:43,867 : INFO  : main :  : NodeLogger :  :  : # KNID=11-8b65208bcd736c5d-01-95349d65cd61211e
+2026-08-29 14:50:43,867 : INFO  : main :  : NodeLogger :  :  : #########################################################################################
+2026-08-29 14:50:42,770 : INFO  : main :  : RegisterBouncyCastleProvider :  :  : Added BouncyCastleProvider to Java Security providers
+2026-08-29 14:50:43,639 : INFO  : main :  : EarlyStartupCondaEnvironmentInstallation :  :  : Starting conda environment initialization during early startup
+2026-08-29 14:50:43,704 : INFO  : main :  : EarlyStartupCondaEnvironmentInstallation :  :  : Conda environment initialization completed successfully
+2026-08-29 14:50:45,365 : INFO  : ForkJoinPool.commonPool-worker-3 :  : PythonExtensionParser :  :  : Trying to load cached extension 'sdl.harvard.geospatial_2.1.0.202606301049' from C:\Users\Hungthq\AppData\Local\Programs\KNIME\configuration\sdl.harvard.geospatial
+2026-08-29 14:50:45,697 : INFO  : KNIME-Worker-0 :  : PythonExtensionParser :  :  : Trying to load cached extension 'sdl.harvard.geospatial_2.1.0.202606301049' from C:\Users\Hungthq\AppData\Local\Programs\KNIME\configuration\sdl.harvard.geospatial
+2026-08-29 14:50:49,579 : INFO  : main :  : StringHistory :  :  : History file 'C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\history_database_drivers.txt' does not exist.
+2026-08-29 14:50:49,579 : INFO  : main :  : StringHistory :  :  : History file 'C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\history_database_urls.txt' does not exist.
+2026-08-29 14:50:50,345 : INFO  : Node Repository Initializer :  : StringHistory :  :  : History file 'C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\history_string2date-formats.txt' does not exist.
+2026-08-29 14:50:50,397 : INFO  : Node Repository Initializer :  : MovingAggregationNodeFactory :  :  : Modern dialog for Moving Aggregator node can be enabled via system property "org.knime.base.node.preproc.groupby.dialog". Note: This property will be removed in a future version.
+
+2026-08-29 14:50:55,010 : INFO  : main :  : ProcessWatchdog :  :  : KNIME Process Watchdog memory limit not configured
+2026-08-29 14:50:55,011 : INFO  : main :  : ProcessWatchdog :  :  : External process memory watchdog is disabled, because the memory limit is set to -1
+2026-08-29 14:50:56,093 : INFO  : Node Repository Initializer :  : Pivot2NodeFactory :  :  : Modern dialog for Pivot node can be enabled via system property "org.knime.base.node.preproc.groupby.dialog". Note: This property will be removed in a future version.
+
+2026-08-29 14:50:56,220 : INFO  : Node Repository Initializer :  : GroupByNodeFactory :  :  : Modern dialog for GroupBy node can be enabled via system property "org.knime.base.node.preproc.groupby.dialog". Note: This property will be removed in a future version.
+
+2026-08-29 14:50:56,337 : INFO  : Node Repository Initializer :  : StringHistory :  :  : History file 'C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\history_createFileNameHistoryKey.txt' does not exist.
+2026-08-29 14:50:56,927 : INFO  : Node Repository Initializer :  : ColumnAggregatorNodeFactory :  :  : Modern dialog for Column Aggregator node can be enabled via system property "org.knime.base.node.preproc.groupby.dialog". Note: This property will be removed in a future version.
+
+2026-08-29 14:50:57,166 : INFO  : main :  : StringHistory :  :  : History file 'C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\history_org.knime.kerberos.name.txt' does not exist.
+2026-08-29 14:50:58,039 : INFO  : Thread-164 :  : KnimeBrowserView :  :  : %cinfo%c Injecting global logger 
+      background: #00BCD4;
+      border-radius: 0.5em;
+      color: white;
+      font-weight: bold;
+      padding: 2px 0.5em;
+      (source: https://org.knime.ui.java/editor/assets/editor-CIijjzSo.js; line: 55)
+2026-08-29 14:50:58,750 : ERROR : Thread-782 :  : KnimeBrowserView :  :  : Problem loading UI resources at 'https://org.knime.ui.java/videos/5-4-Explain-Workflow.webm'. See log for details.
+java.lang.NullPointerException: Cannot invoke "java.net.URL.openStream()" because the return value of "org.eclipse.core.runtime.FileLocator.toFileURL(java.net.URL)" is null
+	at org.knime.ui.java.browser.lifecycle.Create.lambda$4(Create.java:187)
+	at org.knime.js.cef.middleware.CEFMiddlewareService.lambda$1(CEFMiddlewareService.java:180)
+	at com.equo.middleware.ee.provider.handler.DelegatingSchemeHandler.getResponseData(DelegatingSchemeHandler.java:61)
+	at com.equo.chromium.swt.internal.spi.DelegatingCefResourceHandler.getResponseHeaders(DelegatingCefResourceHandler.java:57)
+2026-08-29 14:51:00,763 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=mssqlserver, name=Microsoft SQL Server, description=null)
+2026-08-29 14:51:00,818 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=mssqlserver, name=Microsoft SQL Server, description=null)
+2026-08-29 14:51:00,854 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=mssqlserver, name=Microsoft SQL Server, description=null)
+2026-08-29 14:51:01,118 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=vertica, name=Vertica, description=Vertica Analytics Platform)
+2026-08-29 14:51:01,123 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=vertica, name=Vertica, description=Vertica Analytics Platform)
+2026-08-29 14:51:01,123 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=vertica, name=Vertica, description=Vertica Analytics Platform)
+2026-08-29 14:51:01,126 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=oracle, name=Oracle, description=null)
+2026-08-29 14:51:01,134 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=oracle, name=Oracle, description=null)
+2026-08-29 14:51:01,134 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=oracle, name=Oracle, description=null)
+2026-08-29 14:54:54,746 : INFO  : ModalContext :  : LoadWorkflowRunnable :  :  : New workflow created.
+2026-08-29 14:54:55,351 : ERROR : Thread-2420 :  : KnimeBrowserView :  :  : %cerror%c Unhandled rejection:: 
+      background: #c0392b;
+      border-radius: 0.5em;
+      color: white;
+      font-weight: bold;
+      padding: 2px 0.5em;
+      [object PromiseRejectionEvent] (source: https://org.knime.ui.java/editor/assets/editor-CIijjzSo.js; line: 55)
+2026-08-29 14:54:55,351 : ERROR : Thread-2425 :  : KnimeBrowserView :  :  : Uncaught (in promise) AbortError: The play() request was interrupted because the media was removed from the document. https://goo.gl/LdLk22 (source: https://org.knime.ui.java/editor/index.html#/workflow/In-class%20Exercise%201_c197ff2f-8fd4-40f5-a84b-c774d4bfb843/root?version; line: 0)
+2026-08-29 14:54:55,505 : ERROR : Thread-2591 :  : KnimeBrowserView :  :  : Problem loading UI resources at 'https://org.knime.ui.java/videos/5-4-KAI-Building-Mode.webm'. See log for details.
+java.lang.NullPointerException: Cannot invoke "java.net.URL.openStream()" because the return value of "org.eclipse.core.runtime.FileLocator.toFileURL(java.net.URL)" is null
+	at org.knime.ui.java.browser.lifecycle.Create.lambda$4(Create.java:187)
+	at org.knime.js.cef.middleware.CEFMiddlewareService.lambda$1(CEFMiddlewareService.java:180)
+	at com.equo.middleware.ee.provider.handler.DelegatingSchemeHandler.getResponseData(DelegatingSchemeHandler.java:61)
+	at com.equo.chromium.swt.internal.spi.DelegatingCefResourceHandler.getResponseHeaders(DelegatingCefResourceHandler.java:57)
+2026-08-29 14:55:11,430 : ERROR : Thread-3138 :  : KnimeBrowserView :  :  : %cerror%c Unhandled rejection:: 
+      background: #c0392b;
+      border-radius: 0.5em;
+      color: white;
+      font-weight: bold;
+      padding: 2px 0.5em;
+      [object PromiseRejectionEvent] (source: https://org.knime.ui.java/editor/assets/editor-CIijjzSo.js; line: 55)
+2026-08-29 14:55:11,430 : ERROR : Thread-3140 :  : KnimeBrowserView :  :  : Uncaught (in promise) AbortError: The play() request was interrupted because the media was removed from the document. https://goo.gl/LdLk22 (source: https://org.knime.ui.java/editor/index.html#/workflow/In-class%20Exercise%201_c197ff2f-8fd4-40f5-a84b-c774d4bfb843/root?version; line: 0)
+2026-08-29 15:03:50,373 : INFO  : python-gateway-closer-0 :  : DefaultPythonGateway :  :  : Closing PythonGateway (PID=43716) from thread 'python-gateway-closer-0'
+2026-08-29 15:05:28,910 : INFO  : comm-pool-thread-3 :  : DefaultPythonGateway : GeoFile Reader : 3:1 : Closing PythonGateway (PID=101744) from thread 'comm-pool-thread-3'
+2026-08-29 15:05:39,576 : INFO  : KNIME-Worker-1-GeoFile Reader 3:1 :  : ColumnarPreferenceUtils : GeoFile Reader : 3:1 : Column Data Cache size is 6230 MB.
+2026-08-29 15:05:39,589 : INFO  : pool-44-thread-1 :  : DefaultPythonGateway : GeoFile Reader : 3:1 : Closing PythonGateway (PID=31716) from thread 'pool-44-thread-1'
+2026-08-29 15:05:39,590 : INFO  : KNIME-Worker-1-GeoFile Reader 3:1 :  : LocalNodeExecutionJob : GeoFile Reader : 3:1 : GeoFile Reader 3:1 End execute (7 secs)
+2026-08-29 15:06:04,264 : INFO  : KNIME-Worker-1-GeoFile Reader 3:1 :  : LocalNodeExecutionJob : GeoFile Reader : 3:1 : GeoFile Reader 3:1 End execute (1 sec)
+2026-08-29 15:06:04,265 : INFO  : pool-64-thread-1 :  : DefaultPythonGateway : GeoFile Reader : 3:1 : Closing PythonGateway (PID=94892) from thread 'pool-64-thread-1'
+2026-08-29 15:06:38,527 : ERROR : Thread-20201 :  : KnimeBrowserView :  :  : Problem loading UI resources at 'https://org.knime.ui.java/videos/5-4-Build-Mode-Small-Workflow.webm'. See log for details.
+java.lang.NullPointerException: Cannot invoke "java.net.URL.openStream()" because the return value of "org.eclipse.core.runtime.FileLocator.toFileURL(java.net.URL)" is null
+	at org.knime.ui.java.browser.lifecycle.Create.lambda$4(Create.java:187)
+	at org.knime.js.cef.middleware.CEFMiddlewareService.lambda$1(CEFMiddlewareService.java:180)
+	at com.equo.middleware.ee.provider.handler.DelegatingSchemeHandler.getResponseData(DelegatingSchemeHandler.java:61)
+	at com.equo.chromium.swt.internal.spi.DelegatingCefResourceHandler.getResponseHeaders(DelegatingCefResourceHandler.java:57)
+2026-08-29 15:06:47,689 : ERROR : Thread-20390 :  : KnimeBrowserView :  :  : %cerror%c Unhandled rejection:: 
+      background: #c0392b;
+      border-radius: 0.5em;
+      color: white;
+      font-weight: bold;
+      padding: 2px 0.5em;
+      [object PromiseRejectionEvent] (source: https://org.knime.ui.java/editor/assets/editor-CIijjzSo.js; line: 55)
+2026-08-29 15:06:47,690 : ERROR : Thread-20392 :  : KnimeBrowserView :  :  : Uncaught (in promise) AbortError: The play() request was interrupted because the media was removed from the document. https://goo.gl/LdLk22 (source: https://org.knime.ui.java/editor/index.html#/workflow/In-class%20Exercise%201_c197ff2f-8fd4-40f5-a84b-c774d4bfb843/root?version; line: 0)
+2026-08-29 15:11:21,142 : INFO  : KNIME-Worker-2-Spatial Heatmap 3:2 :  : LocalNodeExecutionJob : Spatial Heatmap : 3:2 : Spatial Heatmap 3:2 End execute (1 min, 3 secs)
+2026-08-29 15:11:21,142 : INFO  : pool-73-thread-1 :  : DefaultPythonGateway : Spatial Heatmap : 3:2 : Closing PythonGateway (PID=90644) from thread 'pool-73-thread-1'
+2026-08-29 15:11:21,217 : WARN  : Thread-24790 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_2/842310126/index.html; line: 0)
+2026-08-29 15:11:50,373 : INFO  : python-gateway-closer-1 :  : DefaultPythonGateway :  :  : Closing PythonGateway (PID=37052) from thread 'python-gateway-closer-1'
+2026-08-29 15:15:25,212 : INFO  : comm-pool-thread-9 :  : DefaultPythonGateway : Geospatial View : 3:3 : Closing PythonGateway (PID=88124) from thread 'comm-pool-thread-9'
+2026-08-29 15:15:35,034 : WARN  : Thread-34024 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_2/842310126/index.html; line: 0)
+2026-08-29 15:19:34,368 : INFO  : KNIME-Worker-3-Geospatial View Static 3:4 :  : DefaultPythonGateway : Geospatial View Static : 3:4 : Closing PythonGateway (PID=72964) from thread 'KNIME-Worker-3-Geospatial View Static 3:4'
+2026-08-29 15:19:36,443 : ERROR : KNIME-Worker-3-Geospatial View Static 3:4 :  : Node : Geospatial View Static : 3:4 : Execute failed: Unsupported image format detected.
+java.lang.UnsupportedOperationException: Unsupported image format detected.
+	at org.knime.python3.nodes.ports.converters.PortObjectConverters$ImagePortObjectConverter.fromPython(PortObjectConverters.java:195)
+	at org.knime.python3.nodes.ports.converters.PortObjectConverters$ImagePortObjectConverter.fromPython(PortObjectConverters.java:1)
+	at org.knime.python3.nodes.ports.PythonPortTypeRegistry.convertPortObjectFromPython(PythonPortTypeRegistry.java:374)
+	at org.knime.python3.nodes.ports.PythonPortTypeRegistry.lambda$4(PythonPortTypeRegistry.java:392)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(Unknown Source)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(Unknown Source)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(Unknown Source)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(Unknown Source)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(Unknown Source)
+	at java.base/java.util.stream.AbstractPipeline.evaluateToArrayNode(Unknown Source)
+	at java.base/java.util.stream.ReferencePipeline.toArray(Unknown Source)
+	at org.knime.python3.nodes.ports.PythonPortTypeRegistry.convertPortObjectsFromPython(PythonPortTypeRegistry.java:393)
+	at org.knime.python3.nodes.CloseablePythonNodeProxy.execute(CloseablePythonNodeProxy.java:598)
+	at org.knime.python3.nodes.DelegatingNodeModel.lambda$4(DelegatingNodeModel.java:255)
+	at org.knime.python3.nodes.DelegatingNodeModel.runWithProxy(DelegatingNodeModel.java:317)
+	at org.knime.python3.nodes.DelegatingNodeModel.execute(DelegatingNodeModel.java:253)
+	at org.knime.core.node.NodeModel.executeModel(NodeModel.java:605)
+	at org.knime.core.node.Node.invokeFullyNodeModelExecute(Node.java:1341)
+	at org.knime.core.node.Node.execute(Node.java:1039)
+	at org.knime.core.node.workflow.NativeNodeContainer.performExecuteNode(NativeNodeContainer.java:618)
+	at org.knime.core.node.exec.LocalNodeExecutionJob.mainExecute(LocalNodeExecutionJob.java:98)
+	at org.knime.core.node.workflow.NodeExecutionJob.internalRun(NodeExecutionJob.java:202)
+	at org.knime.core.node.workflow.NodeExecutionJob.run(NodeExecutionJob.java:121)
+	at org.knime.core.util.ThreadUtils$RunnableWithContextImpl.runWithContext(ThreadUtils.java:369)
+	at org.knime.core.util.ThreadUtils$RunnableWithContext.run(ThreadUtils.java:223)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.knime.core.util.ThreadPool$MyFuture.run(ThreadPool.java:143)
+	at org.knime.core.util.ThreadPool$Worker.run(ThreadPool.java:277)
+2026-08-29 15:20:51,053 : INFO  : pool-113-thread-1 :  : DefaultPythonGateway : Geospatial View Static : 3:4 : Closing PythonGateway (PID=69316) from thread 'pool-113-thread-1'
+2026-08-29 15:20:51,053 : INFO  : KNIME-Worker-3-Geospatial View Static 3:4 :  : LocalNodeExecutionJob : Geospatial View Static : 3:4 : Geospatial View Static 3:4 End execute (2 secs)
+2026-08-29 15:20:51,115 : WARN  : Thread-40334 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_4/1092144938/index.html; line: 0)
+2026-08-29 15:21:26,129 : INFO  : KNIME-Worker-3-Geospatial View Static 3:4 :  : DefaultPythonGateway : Geospatial View Static : 3:4 : Closing PythonGateway (PID=97356) from thread 'KNIME-Worker-3-Geospatial View Static 3:4'
+2026-08-29 15:21:28,063 : ERROR : KNIME-Worker-3-Geospatial View Static 3:4 :  : Node : Geospatial View Static : 3:4 : Execute failed: Unsupported image format detected.
+java.lang.UnsupportedOperationException: Unsupported image format detected.
+	at org.knime.python3.nodes.ports.converters.PortObjectConverters$ImagePortObjectConverter.fromPython(PortObjectConverters.java:195)
+	at org.knime.python3.nodes.ports.converters.PortObjectConverters$ImagePortObjectConverter.fromPython(PortObjectConverters.java:1)
+	at org.knime.python3.nodes.ports.PythonPortTypeRegistry.convertPortObjectFromPython(PythonPortTypeRegistry.java:374)
+	at org.knime.python3.nodes.ports.PythonPortTypeRegistry.lambda$4(PythonPortTypeRegistry.java:392)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(Unknown Source)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(Unknown Source)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(Unknown Source)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(Unknown Source)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(Unknown Source)
+	at java.base/java.util.stream.AbstractPipeline.evaluateToArrayNode(Unknown Source)
+	at java.base/java.util.stream.ReferencePipeline.toArray(Unknown Source)
+	at org.knime.python3.nodes.ports.PythonPortTypeRegistry.convertPortObjectsFromPython(PythonPortTypeRegistry.java:393)
+	at org.knime.python3.nodes.CloseablePythonNodeProxy.execute(CloseablePythonNodeProxy.java:598)
+	at org.knime.python3.nodes.DelegatingNodeModel.lambda$4(DelegatingNodeModel.java:255)
+	at org.knime.python3.nodes.DelegatingNodeModel.runWithProxy(DelegatingNodeModel.java:317)
+	at org.knime.python3.nodes.DelegatingNodeModel.execute(DelegatingNodeModel.java:253)
+	at org.knime.core.node.NodeModel.executeModel(NodeModel.java:605)
+	at org.knime.core.node.Node.invokeFullyNodeModelExecute(Node.java:1341)
+	at org.knime.core.node.Node.execute(Node.java:1039)
+	at org.knime.core.node.workflow.NativeNodeContainer.performExecuteNode(NativeNodeContainer.java:618)
+	at org.knime.core.node.exec.LocalNodeExecutionJob.mainExecute(LocalNodeExecutionJob.java:98)
+	at org.knime.core.node.workflow.NodeExecutionJob.internalRun(NodeExecutionJob.java:202)
+	at org.knime.core.node.workflow.NodeExecutionJob.run(NodeExecutionJob.java:121)
+	at org.knime.core.util.ThreadUtils$RunnableWithContextImpl.runWithContext(ThreadUtils.java:369)
+	at org.knime.core.util.ThreadUtils$RunnableWithContext.run(ThreadUtils.java:223)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.knime.core.util.ThreadPool$MyFuture.run(ThreadPool.java:143)
+	at org.knime.core.util.ThreadPool$Worker.run(ThreadPool.java:277)
+2026-08-29 15:21:37,856 : INFO  : KNIME-Worker-3-Geospatial View Static 3:4 :  : LocalNodeExecutionJob : Geospatial View Static : 3:4 : Geospatial View Static 3:4 End execute (2 secs)
+2026-08-29 15:21:37,856 : INFO  : pool-156-thread-1 :  : DefaultPythonGateway : Geospatial View Static : 3:4 : Closing PythonGateway (PID=66448) from thread 'pool-156-thread-1'
+2026-08-29 15:21:37,918 : WARN  : Thread-41445 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_4/590927063/index.html; line: 0)
+2026-08-29 15:24:13,493 : ERROR : Thread-45219 :  : KnimeBrowserView :  :  : %cerror%c UIExtension Lifecycle :: failed to initialize 
+      background: #c0392b;
+      border-radius: 0.5em;
+      color: white;
+      font-weight: bold;
+      padding: 2px 0.5em;
+      [object Object] (source: https://org.knime.ui.java/editor/assets/editor-CIijjzSo.js; line: 55)
+2026-08-29 15:24:14,675 : INFO  : pool-180-thread-1 :  : DefaultPythonGateway : Projection : 3:5 : Closing PythonGateway (PID=90140) from thread 'pool-180-thread-1'
+2026-08-29 15:24:14,676 : INFO  : KNIME-Worker-4-Projection 3:5 :  : LocalNodeExecutionJob : Projection : 3:5 : Projection 3:5 End execute (1 sec)
+2026-08-29 15:24:58,858 : WARN  : Thread-46919 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_4/590927063/index.html; line: 0)
+2026-08-29 15:25:17,604 : INFO  : KNIME-Worker-4-Geospatial View Static 3:4 :  : LocalNodeExecutionJob : Geospatial View Static : 3:4 : Geospatial View Static 3:4 End execute (2 secs)
+2026-08-29 15:25:17,604 : INFO  : pool-196-thread-1 :  : DefaultPythonGateway : Geospatial View Static : 3:4 : Closing PythonGateway (PID=85948) from thread 'pool-196-thread-1'
+2026-08-29 15:25:17,659 : WARN  : Thread-48057 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_4/1761379125/index.html; line: 0)
+2026-08-29 15:25:17,677 : ERROR : Thread-48068 :  : KnimeBrowserView :  :  : Uncaught (in promise) TypeError: Cannot read properties of null (reading 'querySelector') (source: https://org.knime.core.ui.view/uiext-view/3_4/1761379125/index.html; line: 9)
+2026-08-29 15:28:15,490 : ERROR : Thread-50925 :  : KnimeBrowserView :  :  : %cerror%c UIExtension Lifecycle :: failed to initialize 
+      background: #c0392b;
+      border-radius: 0.5em;
+      color: white;
+      font-weight: bold;
+      padding: 2px 0.5em;
+      [object Object] (source: https://org.knime.ui.java/editor/assets/editor-CIijjzSo.js; line: 55)
+2026-08-29 15:28:16,649 : INFO  : KNIME-Worker-5-Projection 3:5 :  : LocalNodeExecutionJob : Projection : 3:5 : Projection 3:5 End execute (1 sec)
+2026-08-29 15:28:16,649 : INFO  : pool-224-thread-1 :  : DefaultPythonGateway : Projection : 3:5 : Closing PythonGateway (PID=93172) from thread 'pool-224-thread-1'
+2026-08-29 15:29:01,401 : INFO  : KNIME-Worker-5-Geospatial View 3:3 :  : LocalNodeExecutionJob : Geospatial View : 3:3 : Geospatial View 3:3 End execute (16 secs)
+2026-08-29 15:29:01,401 : INFO  : pool-241-thread-1 :  : DefaultPythonGateway : Geospatial View : 3:3 : Closing PythonGateway (PID=101776) from thread 'pool-241-thread-1'
+2026-08-29 15:29:01,463 : WARN  : Thread-52529 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_3/1591659866/index.html; line: 0)
+2026-08-29 15:29:44,031 : WARN  : Thread-58510 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_3/1591659866/index.html; line: 0)
+2026-08-29 15:31:18,936 : ERROR : Thread-69208 :  : KnimeBrowserView :  :  : %cerror%c UIExtension Lifecycle :: failed deactivating data services during unmount 
+      background: #c0392b;
+      border-radius: 0.5em;
+      color: white;
+      font-weight: bold;
+      padding: 2px 0.5em;
+      [object Object] (source: https://org.knime.ui.java/editor/assets/editor-CIijjzSo.js; line: 55)
+2026-08-29 15:31:19,094 : ERROR : Thread-69266 :  : KnimeBrowserView :  :  : Problem loading UI resources at 'https://org.knime.ui.java/videos/5-4-Explain-Workflow.webm'. See log for details.
+java.lang.NullPointerException: Cannot invoke "java.net.URL.openStream()" because the return value of "org.eclipse.core.runtime.FileLocator.toFileURL(java.net.URL)" is null
+	at org.knime.ui.java.browser.lifecycle.Create.lambda$4(Create.java:187)
+	at org.knime.js.cef.middleware.CEFMiddlewareService.lambda$1(CEFMiddlewareService.java:180)
+	at com.equo.middleware.ee.provider.handler.DelegatingSchemeHandler.getResponseData(DelegatingSchemeHandler.java:61)
+	at com.equo.chromium.swt.internal.spi.DelegatingCefResourceHandler.getResponseHeaders(DelegatingCefResourceHandler.java:57)
+2026-08-29 15:31:28,842 : INFO  : Framework stop - Equinox Container: ec143146-710c-409b-bf7f-3be0a64a2f73 :  : DefaultPythonGateway :  :  : Closing PythonGateway (PID=48776) from thread 'Framework stop - Equinox Container: ec143146-710c-409b-bf7f-3be0a64a2f73'
+2026-08-29 15:31:29,795 : INFO  : python-gateway-closer-2 :  : DefaultPythonGateway :  :  : Closing PythonGateway (PID=84536) from thread 'python-gateway-closer-2'
+2026-08-29 15:31:30,061 : INFO  : KNIME shutdown hooks - org.knime.core.util.FileUtil$$Lambda/0x000001a154247448 :  : FileUtil :  :  : Deleting 5 temporary files.
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : #########################################################################################
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : #                                                                                       #
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : # Welcome to KNIME Analytics Platform v5.12.0.v202606180846 (Build June 15, 2026)       #
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : # Based on Eclipse, http://www.eclipse.org                                              #
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : #                                                                                       #
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : #########################################################################################
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : #                                                                                       #
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : # Copyright by KNIME AG, Zurich, Switzerland and others.                                #
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : # Website: http://www.knime.com                                                         #
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : # E-mail: contact@knime.com                                                             #
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : #                                                                                       #
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : #########################################################################################
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : # For more details see the KNIME log file:                                              #
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : # C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\knime.log
+2026-08-29 15:33:01,271 : INFO  : main :  : NodeLogger :  :  : #---------------------------------------------------------------------------------------#
+2026-08-29 15:33:01,283 : INFO  : main :  : NodeLogger :  :  : # logging date=Sat Aug 29 15:33:01 SGT 2026
+2026-08-29 15:33:01,283 : INFO  : main :  : NodeLogger :  :  : # java.version=21.0.9
+2026-08-29 15:33:01,283 : INFO  : main :  : NodeLogger :  :  : # java.vm.version=21.0.9+10-LTS
+2026-08-29 15:33:01,283 : INFO  : main :  : NodeLogger :  :  : # java.vendor=Eclipse Adoptium
+2026-08-29 15:33:01,283 : INFO  : main :  : NodeLogger :  :  : # os.name=Windows 11
+2026-08-29 15:33:01,283 : INFO  : main :  : NodeLogger :  :  : # os.arch=amd64
+2026-08-29 15:33:01,283 : INFO  : main :  : NodeLogger :  :  : # number of CPUs=24
+2026-08-29 15:33:01,283 : INFO  : main :  : NodeLogger :  :  : # assertions=off
+2026-08-29 15:33:01,398 : INFO  : main :  : NodeLogger :  :  : # host=HUNGTHAI
+2026-08-29 15:33:01,418 : INFO  : main :  : NodeLogger :  :  : # username=Hungthq
+2026-08-29 15:33:01,418 : INFO  : main :  : NodeLogger :  :  : # max mem=15936MB
+2026-08-29 15:33:01,419 : INFO  : main :  : NodeLogger :  :  : # application=org.knime.product.KNIME_APPLICATION
+2026-08-29 15:33:01,430 : INFO  : main :  : NodeLogger :  :  : # KNID=11-8b65208bcd736c5d-01-95349d65cd61211e
+2026-08-29 15:33:01,430 : INFO  : main :  : NodeLogger :  :  : #########################################################################################
+2026-08-29 15:32:46,708 : INFO  : main :  : RegisterBouncyCastleProvider :  :  : Added BouncyCastleProvider to Java Security providers
+2026-08-29 15:33:01,126 : INFO  : main :  : EarlyStartupCondaEnvironmentInstallation :  :  : Starting conda environment initialization during early startup
+2026-08-29 15:33:01,190 : INFO  : main :  : EarlyStartupCondaEnvironmentInstallation :  :  : Conda environment initialization completed successfully
+2026-08-29 15:33:02,986 : INFO  : ForkJoinPool.commonPool-worker-3 :  : PythonExtensionParser :  :  : Trying to load cached extension 'sdl.harvard.geospatial_2.1.0.202606301049' from C:\Users\Hungthq\AppData\Local\Programs\KNIME\configuration\sdl.harvard.geospatial
+2026-08-29 15:33:03,237 : INFO  : KNIME-Worker-0 :  : PythonExtensionParser :  :  : Trying to load cached extension 'sdl.harvard.geospatial_2.1.0.202606301049' from C:\Users\Hungthq\AppData\Local\Programs\KNIME\configuration\sdl.harvard.geospatial
+2026-08-29 15:33:06,563 : INFO  : main :  : StringHistory :  :  : History file 'C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\history_database_drivers.txt' does not exist.
+2026-08-29 15:33:06,563 : INFO  : main :  : StringHistory :  :  : History file 'C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\history_database_urls.txt' does not exist.
+2026-08-29 15:33:07,658 : INFO  : Node Repository Initializer :  : StringHistory :  :  : History file 'C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\history_string2date-formats.txt' does not exist.
+2026-08-29 15:33:07,728 : INFO  : Node Repository Initializer :  : MovingAggregationNodeFactory :  :  : Modern dialog for Moving Aggregator node can be enabled via system property "org.knime.base.node.preproc.groupby.dialog". Note: This property will be removed in a future version.
+
+2026-08-29 15:33:12,197 : INFO  : main :  : ProcessWatchdog :  :  : KNIME Process Watchdog memory limit not configured
+2026-08-29 15:33:12,198 : INFO  : main :  : ProcessWatchdog :  :  : External process memory watchdog is disabled, because the memory limit is set to -1
+2026-08-29 15:33:12,535 : INFO  : Node Repository Initializer :  : GroupByNodeFactory :  :  : Modern dialog for GroupBy node can be enabled via system property "org.knime.base.node.preproc.groupby.dialog". Note: This property will be removed in a future version.
+
+2026-08-29 15:33:12,879 : INFO  : Node Repository Initializer :  : Pivot2NodeFactory :  :  : Modern dialog for Pivot node can be enabled via system property "org.knime.base.node.preproc.groupby.dialog". Note: This property will be removed in a future version.
+
+2026-08-29 15:33:13,249 : INFO  : Node Repository Initializer :  : StringHistory :  :  : History file 'C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\history_createFileNameHistoryKey.txt' does not exist.
+2026-08-29 15:33:14,124 : INFO  : Node Repository Initializer :  : ColumnAggregatorNodeFactory :  :  : Modern dialog for Column Aggregator node can be enabled via system property "org.knime.base.node.preproc.groupby.dialog". Note: This property will be removed in a future version.
+
+2026-08-29 15:33:14,151 : INFO  : main :  : StringHistory :  :  : History file 'C:\hungthq\ISSS626-GAA\GDSA-workspace\.metadata\knime\history_org.knime.kerberos.name.txt' does not exist.
+2026-08-29 15:33:14,910 : INFO  : Thread-192 :  : KnimeBrowserView :  :  : %cinfo%c Injecting global logger 
+      background: #00BCD4;
+      border-radius: 0.5em;
+      color: white;
+      font-weight: bold;
+      padding: 2px 0.5em;
+      (source: https://org.knime.ui.java/editor/assets/editor-CIijjzSo.js; line: 55)
+2026-08-29 15:33:15,609 : ERROR : Thread-878 :  : KnimeBrowserView :  :  : Problem loading UI resources at 'https://org.knime.ui.java/videos/5-4-Explain-Workflow.webm'. See log for details.
+java.lang.NullPointerException: Cannot invoke "java.net.URL.openStream()" because the return value of "org.eclipse.core.runtime.FileLocator.toFileURL(java.net.URL)" is null
+	at org.knime.ui.java.browser.lifecycle.Create.lambda$4(Create.java:187)
+	at org.knime.js.cef.middleware.CEFMiddlewareService.lambda$1(CEFMiddlewareService.java:180)
+	at com.equo.middleware.ee.provider.handler.DelegatingSchemeHandler.getResponseData(DelegatingSchemeHandler.java:61)
+	at com.equo.chromium.swt.internal.spi.DelegatingCefResourceHandler.getResponseHeaders(DelegatingCefResourceHandler.java:57)
+2026-08-29 15:33:17,121 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=mssqlserver, name=Microsoft SQL Server, description=null)
+2026-08-29 15:33:17,134 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=mssqlserver, name=Microsoft SQL Server, description=null)
+2026-08-29 15:33:17,135 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=mssqlserver, name=Microsoft SQL Server, description=null)
+2026-08-29 15:33:17,571 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=vertica, name=Vertica, description=Vertica Analytics Platform)
+2026-08-29 15:33:17,577 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=vertica, name=Vertica, description=Vertica Analytics Platform)
+2026-08-29 15:33:17,577 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=vertica, name=Vertica, description=Vertica Analytics Platform)
+2026-08-29 15:33:17,582 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=oracle, name=Oracle, description=null)
+2026-08-29 15:33:17,582 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=oracle, name=Oracle, description=null)
+2026-08-29 15:33:17,585 : INFO  : Node Repository Initializer :  : DBDriverRegistry :  :  : Could not find any driver for DBType: DBType(id=oracle, name=Oracle, description=null)
+2026-08-29 15:33:24,640 : INFO  : ModalContext :  : ColumnarPreferenceUtils : GeoFile Reader : 3:1 : Column Data Cache size is 6230 MB.
+2026-08-29 15:33:25,121 : ERROR : Thread-1456 :  : KnimeBrowserView :  :  : %cerror%c Unhandled rejection:: 
+      background: #c0392b;
+      border-radius: 0.5em;
+      color: white;
+      font-weight: bold;
+      padding: 2px 0.5em;
+      [object PromiseRejectionEvent] (source: https://org.knime.ui.java/editor/assets/editor-CIijjzSo.js; line: 55)
+2026-08-29 15:33:25,121 : ERROR : Thread-1458 :  : KnimeBrowserView :  :  : Uncaught (in promise) AbortError: The play() request was interrupted because the media was removed from the document. https://goo.gl/LdLk22 (source: https://org.knime.ui.java/editor/index.html#/workflow/In-class%20Exercise%201_ce39f268-1a78-455c-8e04-2ce96baa8eee/root?version; line: 0)
+2026-08-29 15:33:28,664 : WARN  : Thread-2120 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_3/1924211938/index.html; line: 0)
+2026-08-29 15:33:46,798 : INFO  : pool-53-thread-1 :  : DefaultPythonGateway : Geospatial View Static : 3:4 : Closing PythonGateway (PID=79004) from thread 'pool-53-thread-1'
+2026-08-29 15:33:46,799 : INFO  : KNIME-Worker-0-Geospatial View Static 3:4 :  : LocalNodeExecutionJob : Geospatial View Static : 3:4 : Geospatial View Static 3:4 End execute (2 secs)
+2026-08-29 15:33:46,858 : WARN  : Thread-4584 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_4/968637708/index.html; line: 0)
+2026-08-29 15:33:52,477 : WARN  : Thread-4946 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_3/1924211938/index.html; line: 0)
+2026-08-29 15:33:57,756 : WARN  : Thread-6510 :  : KnimeBrowserView :  :  : An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. (source: https://org.knime.core.ui.view/uiext-view/3_4/968637708/index.html; line: 0)
+2026-08-29 15:34:15,025 : ERROR : Thread-7604 :  : KnimeBrowserView :  :  : %cerror%c UIExtension Lifecycle :: failed deactivating data services during unmount 
+      background: #c0392b;
+      border-radius: 0.5em;
+      color: white;
+      font-weight: bold;
+      padding: 2px 0.5em;
+      [object Object] (source: https://org.knime.ui.java/editor/assets/editor-CIijjzSo.js; line: 55)
+2026-08-29 15:34:15,180 : ERROR : Thread-7662 :  : KnimeBrowserView :  :  : Problem loading UI resources at 'https://org.knime.ui.java/videos/5-4-Explain-Workflow.webm'. See log for details.
+java.lang.NullPointerException: Cannot invoke "java.net.URL.openStream()" because the return value of "org.eclipse.core.runtime.FileLocator.toFileURL(java.net.URL)" is null
+	at org.knime.ui.java.browser.lifecycle.Create.lambda$4(Create.java:187)
+	at org.knime.js.cef.middleware.CEFMiddlewareService.lambda$1(CEFMiddlewareService.java:180)
+	at com.equo.middleware.ee.provider.handler.DelegatingSchemeHandler.getResponseData(DelegatingSchemeHandler.java:61)
+	at com.equo.chromium.swt.internal.spi.DelegatingCefResourceHandler.getResponseHeaders(DelegatingCefResourceHandler.java:57)
+2026-08-29 15:34:19,333 : INFO  : Framework stop - Equinox Container: 015442ba-aa01-492d-a240-ac2677127594 :  : DefaultPythonGateway :  :  : Closing PythonGateway (PID=96164) from thread 'Framework stop - Equinox Container: 015442ba-aa01-492d-a240-ac2677127594'
+2026-08-29 15:34:20,313 : INFO  : python-gateway-closer-0 :  : DefaultPythonGateway :  :  : Closing PythonGateway (PID=54684) from thread 'python-gateway-closer-0'
+2026-08-29 15:34:20,498 : INFO  : KNIME shutdown hooks - org.knime.core.util.FileUtil$$Lambda/0x000002802b3df5e0 :  : FileUtil :  :  : Deleting 3 temporary files.

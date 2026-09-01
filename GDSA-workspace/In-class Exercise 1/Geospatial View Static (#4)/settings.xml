@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns="http://www.knime.org/2008/09/XMLConfig" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.knime.org/2008/09/XMLConfig http://www.knime.org/XMLConfig_2008_09.xsd" key="settings.xml">
+    <entry key="node_file" type="xstring" value="settings.xml"/>
+    <config key="flow_stack"/>
+    <config key="internal_node_subsettings">
+        <entry key="memory_policy" type="xstring" value="CacheSmallInMemory"/>
+    </config>
+    <config key="model">
+        <entry key="geo_col" type="xstring" value="geometry"/>
+        <entry key="line_width_col" type="xstring" value=""/>
+        <entry key="line_width" type="xint" value="1"/>
+        <entry key="figure_title" type="xstring" value=""/>
+        <entry key="figure_title_size" type="xint" value="10"/>
+        <entry key="set_axis_off" type="xboolean" value="false"/>
+        <entry key="image_type" type="xstring" value="PNG"/>
+        <config key="size_settings">
+            <entry key="json-type_Internals" type="xstring" value="OBJECT"/>
+            <entry key="size_col" type="xstring" value=""/>
+            <entry key="size_scale" type="xdouble" value="1.0"/>
+        </config>
+        <config key="color_settings">
+            <entry key="json-type_Internals" type="xstring" value="OBJECT"/>
+            <entry key="color_col" type="xstring" value=""/>
+            <entry key="color" type="xstring" value="none"/>
+            <entry key="color_map" type="xstring" value="viridis"/>
+            <entry key="use_classify" type="xboolean" value="false"/>
+            <entry key="classification_method" type="xstring" value="EqualInterval"/>
+            <entry key="classification_bins" type="xint" value="5"/>
+            <entry key="edge_color" type="xstring" value="none"/>
+        </config>
+        <config key="legend_settings">
+            <entry key="json-type_Internals" type="xstring" value="OBJECT"/>
+            <entry key="plot" type="xboolean" value="true"/>
+            <entry key="caption" type="xstring" value=""/>
+            <entry key="caption_fontsize" type="xint" value="10"/>
+            <entry key="expand" type="xboolean" value="false"/>
+            <entry key="location" type="xstring" value="lower right"/>
+            <entry key="columns" type="xint" value="1"/>
+            <entry key="size" type="xint" value="8"/>
+            <entry key="fontsize" type="xint" value="10"/>
+            <entry key="labelcolor" type="xstring" value="black"/>
+            <entry key="frame" type="xboolean" value="true"/>
+            <entry key="framealpha" type="xdouble" value="1.0"/>
+            <entry key="borderpad" type="xdouble" value="0.5"/>
+            <entry key="labelspacing" type="xdouble" value="0.5"/>
+            <entry key="colorbar_shrink" type="xdouble" value="1.0"/>
+            <entry key="colorbar_pad" type="xdouble" value="0.1"/>
+        </config>
+        <config key="basemap_cx_settings">
+            <entry key="json-type_Internals" type="xstring" value="OBJECT"/>
+            <entry key="base_map" type="xstring" value="Don't show base map"/>
+        </config>
+        <entry key="json-type_Internals" type="xstring" value="OBJECT"/>
+        <entry key="extension_version_Internals" type="xstring" value="2.1.0"/>
+    </config>
+    <config key="variables"/>
+    <entry key="customDescription" type="xstring" isnull="true" value=""/>
+    <entry key="state" type="xstring" value="EXECUTED"/>
+    <entry key="factory" type="xstring" value="org.knime.python3.nodes.extension.ExtensionNodeSetFactory$DynamicExtensionNodeFactory"/>
+    <entry key="node-name" type="xstring" value="Geospatial View Static"/>
+    <entry key="node-bundle-name" type="xstring" value="Geospatial Analytics Extension for KNIME"/>
+    <entry key="node-bundle-symbolic-name" type="xstring" value="sdl.harvard.geospatial"/>
+    <entry key="node-bundle-vendor" type="xstring" value="SDL, Harvard, Cambridge US"/>
+    <entry key="node-bundle-version" type="xstring" value="2.1.0.202606301049"/>
+    <entry key="node-feature-name" type="xstring" value="Geospatial Analytics Extension for KNIME"/>
+    <entry key="node-feature-symbolic-name" type="xstring" value="sdl.harvard.features.geospatial.feature.group"/>
+    <entry key="node-feature-vendor" type="xstring" value="SDL, Harvard, Cambridge US"/>
+    <entry key="node-feature-version" type="xstring" value="2.1.0.202606301049"/>
+    <entry key="factory-id-uniquifier" type="xstring" value="sdl.harvard.geospatial_!_ViewNodeStatic"/>
+    <config key="factory_settings">
+        <entry key="extension_id" type="xstring" value="sdl.harvard.geospatial"/>
+        <entry key="node_id" type="xstring" value="ViewNodeStatic"/>
+    </config>
+    <config key="node_creation_config">
+        <config key="Input Geospatial Table to Visualize # 0"/>
+        <config key="Output Geospatial View Image # 0"/>
+    </config>
+    <entry key="name" type="xstring" value="Geospatial View Static"/>
+    <entry key="hasContent" type="xboolean" value="true"/>
+    <entry key="isInactive" type="xboolean" value="false"/>
+    <config key="ports">
+        <config key="port_1">
+            <entry key="index" type="xint" value="1"/>
+            <entry key="port_spec_class" type="xstring" value="org.knime.core.node.port.image.ImagePortObjectSpec"/>
+            <entry key="port_object_class" type="xstring" value="org.knime.core.node.port.image.ImagePortObject"/>
+            <entry key="port_object_summary" type="xstring" value="PNG Image 1014 x 730 with 116 KB"/>
+            <entry key="port_spec_location" type="xstring" value="spec/spec.zip"/>
+            <entry key="port_object_location" type="xstring" value="object/portobject.zip"/>
+            <entry key="port_dir_location" type="xstring" value="port_1"/>
+        </config>
+    </config>
+    <config key="filestores">
+        <entry key="file_store_location" type="xstring" isnull="true" value=""/>
+        <entry key="file_store_id" type="xstring" value="c4db7d52-382c-4116-9e7e-07cffe7cbf27"/>
+    </config>
+</config>

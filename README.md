@@ -1,8 +1,11 @@
 <h1 align="center">
+
 SMU ISSS626 Geospatial Analytics and Applications
+
 </h1>
 
 <p align="center">
+
 Welcome to my coursework repository for the SMU ISSS626 Geospatial Analytics and Applications course (AY2024-25Aug). <br>
 
 </p>
@@ -25,7 +28,7 @@ The website is built with <a href="https://quarto.org/" target="_blank">Quarto</
 
 ### Related Links
 
-- [Course Site](https://isss626-ay2024-25aug.netlify.app/): The course website with materials, schedules, and assignments.
+- [Course Site](https://isss626-ay2026-27aug.netlify.app/): The course website with materials, schedules, and assignments.
 - [R for Geospatial Data Science and Analytics](https://r4gdsa.netlify.app/): course material in a Quarto book format.
-- [tskam/ISSS626-AY2024-25Aug](https://github.com/tskam/ISSS626-AY2024-25Aug): GitHub repository for course content and code.
+- [tskam/ISSS626-AY2024-25Aug](https://github.com/tskam/ISSS626-AY2026-27Aug): GitHub repository for course content and code.
 - [tskam/r4gdsa](https://github.com/tskam/r4gdsa): GitHub repository of the course material
