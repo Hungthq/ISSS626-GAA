@@ -14,7 +14,7 @@ editor: visual
 
 ## Overview
 
-Spatial Point Pattern Analysis is the evaluation of the pattern, or distribution, of a set of points on a surface. It can refer to the actual spatial or temporal location of these points or also include data from point sources. It is one of the most fundamental concepts in geography and spatial analysis. 
+Spatial Point Pattern Analysis is the evaluation of the pattern, or distribution, of a set of points on a surface. It can refer to the actual spatial or temporal location of these points or also include data from point sources. It is one of the most fundamental concepts in geography and spatial analysis.
 
 This exercise has 2 parts:
 
@@ -27,7 +27,7 @@ This exercise has 2 parts:
 
 [r4gdsa chap 04 - First-order Spatial Point Patterns Analysis Methods](https://r4gdsa.netlify.app/chap04.html)
 
-[r4gdsa chap 05 - Second-order Spatial Point Patterns Analysis Methods](￼https://r4gdsa.netlify.app/chap05)
+[r4gdsa chap 05 - Second-order Spatial Point Patterns Analysis Methods](https://r4gdsa.netlify.app/chap05)
 :::
 
 ## Part 1 First-order Spatial Point Pattern Analysis methods
