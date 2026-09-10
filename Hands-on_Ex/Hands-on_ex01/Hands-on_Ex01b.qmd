@@ -6,6 +6,15 @@ date: "Aug 28, 2026"
 format: 
   html:
     toc: true
+    toc-depth: 4
+    code-copy: true
+date-modified: "last-modified"
+execute:
+  echo: true
+  eval: true
+  mesage: false
+  warning: false
+  freeze: true
 ---
 
 # Geospatial Data Science with R
@@ -34,7 +43,7 @@ library(rvest)
 
 ## 3 Importing Data into R
 
-### Import Master Plan 2024 data 
+### Import Master Plan 2024 data
 
 ```{r}
 mpsz = st_read("data/geospatial/MasterPlan2014SubzoneBoundaryNoSea.geojson") |> st_transform(crs = 3414)
@@ -53,7 +62,7 @@ tidy up data:
 
 Function to extract values from the HTML description:
 
-```{}
+```         
 extract_kml_field <- function(html_text, field_name) {
   if (is.na(html_text) || html_text == "") return(NA_character_)
   
@@ -71,7 +80,7 @@ extract_kml_field <- function(html_text, field_name) {
 
 extract values:
 
-```{}
+```         
 mpsz <- mpsz %>%
   mutate(
     REGION_N = map_chr(Description, extract_kml_field, "REGION_N"),
@@ -84,7 +93,7 @@ mpsz <- mpsz %>%
 ```
 :::
 
-### Import AirBnb data 
+### Import AirBnb data
 
 ```{r}
 popdata <- read_csv("data/aspatial/respopagesexfa2020to2024.csv")

@@ -14,7 +14,7 @@ format:
   html:
     toc: true
     toc-depth: 4
-  code-copy: true
+    code-copy: true
 editor: visual
 ---
 
@@ -339,19 +339,13 @@ Now we can see the data values changed.
 ::: callout-tip
 ## automatic bandwidth methods in spatstat
 
-+---------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
-|               |                                                                                                                                  |                                                                                  |
-+===============+==================================================================================================================================+==================================================================================+
-| **Function**  | **Method / Description**                                                                                                         | **Best Used For**                                                                |
-+---------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
-| `bw.diggle()` | **Cross-validation (Diggle's method):** Minimizes the mean squared error (MSE) between the estimated and true intensity.         | Detecting a single tight cluster amidst random noise.                            |
-+---------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
-| `bw.ppl()`    | **Likelihood Cross-Validation:** Selects bandwidth by maximizing the leave-one-out cross-validated log-likelihood.               | Patterns predominantly composed of tight clusters.                               |
-+---------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
-| `bw.CvL()`    | **Cronie and van Lieshout’s method:** Based on the Campbell formula to select bandwidth.                                         | Point patterns where points are closely packed or general spatial trends.        |
-+---------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
-| `bw.scott()`  | **Scott's Rule of Thumb:** Computes separate bandwidths for the x and y dimensions based on standard deviations and sample size. | Fast parametric approximation across anisotropic (directional) spatial patterns. |
-+---------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------+
+|  |  |  |
+|----|----|----|
+| **Function** | **Method / Description** | **Best Used For** |
+| `bw.diggle()` | **Cross-validation (Diggle's method):** Minimizes the mean squared error (MSE) between the estimated and true intensity. | Detecting a single tight cluster amidst random noise. |
+| `bw.ppl()` | **Likelihood Cross-Validation:** Selects bandwidth by maximizing the leave-one-out cross-validated log-likelihood. | Patterns predominantly composed of tight clusters. |
+| `bw.CvL()` | **Cronie and van Lieshout’s method:** Based on the Campbell formula to select bandwidth. | Point patterns where points are closely packed or general spatial trends. |
+| `bw.scott()` | **Scott's Rule of Thumb:** Computes separate bandwidths for the x and y dimensions based on standard deviations and sample size. | Fast parametric approximation across anisotropic (directional) spatial patterns. |
 :::
 
 ```{r}
@@ -468,21 +462,14 @@ plot(kde_childcareSG_ab, main = "Adaptive bandwidth")
 ```
 
 ::: callout-note
-+-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
-|                                                 |                                                                                                           |                                                                                                                  |
-+=================================================+===========================================================================================================+==================================================================================================================+
-| **Feature**                                     | **Fixed Bandwidth KDE**                                                                                   | **Adaptive Bandwidth KDE**                                                                                       |
-+-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| **Bandwidth Radius (**$\sigma$)                 | **Constant** across the entire study region. Every point uses the exact same search radius (e.g., 600 m). | **Variable** across space. The radius adjusts dynamically based on local point density.                          |
-+-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| **High-Density Areas (e.g., Urban hubs)**       | May oversmooth distinct local clusters and merge separate peaks together.                                 | Narrows the bandwidth (smaller $\sigma$) to capture sharper, local hotspot peaks.                                |
-+-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| **Low-Density Areas (e.g., Rural / Periphery)** | Leaves excessive empty space or creates artificial, isolated noise spikes around solitary points.         | Widens the bandwidth (larger $\sigma$) to smooth out noise and provide meaningful generalized trends.            |
-+-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| **Best Used For**                               | Homogeneous point distributions or when comparing absolute density across regions with standard units.    | Highly skewed distributions where point densities vary drastically across urban and rural/peripheral landscapes. |
-+-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
-| **Implementation in `spatstat`**                | `density(childcare_ppp, sigma = 0.6)`                                                                     | `adaptive.density(childcare_ppp, method = "kernel")`                                                             |
-+-------------------------------------------------+-----------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------+
+|  |  |  |
+|----|----|----|
+| **Feature** | **Fixed Bandwidth KDE** | **Adaptive Bandwidth KDE** |
+| **Bandwidth Radius (**$\sigma$) | **Constant** across the entire study region. Every point uses the exact same search radius (e.g., 600 m). | **Variable** across space. The radius adjusts dynamically based on local point density. |
+| **High-Density Areas (e.g., Urban hubs)** | May oversmooth distinct local clusters and merge separate peaks together. | Narrows the bandwidth (smaller $\sigma$) to capture sharper, local hotspot peaks. |
+| **Low-Density Areas (e.g., Rural / Periphery)** | Leaves excessive empty space or creates artificial, isolated noise spikes around solitary points. | Widens the bandwidth (larger $\sigma$) to smooth out noise and provide meaningful generalized trends. |
+| **Best Used For** | Homogeneous point distributions or when comparing absolute density across regions with standard units. | Highly skewed distributions where point densities vary drastically across urban and rural/peripheral landscapes. |
+| **Implementation in `spatstat`** | `density(childcare_ppp, sigma = 0.6)` | `adaptive.density(childcare_ppp, method = "kernel")` |
 :::
 
 ### Plotting cartographic quality KDE map

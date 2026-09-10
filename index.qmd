@@ -11,6 +11,15 @@ listing:
     sort-ui: false
     filter-ui: false
     page-size: 3
+author: "Hung Thai"
+date: "Aug 24th, 2026"
+date-modified: "last-modified"
+execute:
+  echo: true
+  eval: true
+  mesage: false
+  warning: false
+  freeze: true
 ---
 
 

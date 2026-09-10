@@ -14,49 +14,38 @@ format:
   html:
     toc: true
     toc-depth: 4
+    code-copy: true
 editor: visual
 ---
 
 # Spatio-Temporal Point Patterns Analysis
 
-## Overview
+## 3.1 Overview
 
 Spatio-temporal point process (space-time or spatial-temporal point process) is random collection of points, where each point represents the time and location of an event. Examples of events include incidence of disease, sightings or births of a species, or the occurrences of fires, earthquakes, lightning strikes, tsunamis, or volcanic eruptions.
 
-This hands-on exercise used forest fires data to answer to answer the below questions:
-- are the locations of forest fire in Kepulauan Bangka Belitung spatial and spatio-temporally independent?
-- if the answer is NO, where and when the observed forest fire locations tend to cluster?
-
-
+This hands-on exercise used forest fires data to answer to answer the below questions: - are the locations of forest fire in Kepulauan Bangka Belitung spatial and spatio-temporally independent? - if the answer is NO, where and when the observed forest fire locations tend to cluster?
 
 ::: callout-note
-## reference
+### reference
 
 [r4gdsa chap 06 - Spatio-Temporal Point Patterns Analysis.](https://r4gdsa.netlify.app/chap06)
 :::
 
-## The Data
+## 3.2 The Data
 
-The 2 data sets in national level downloaded from Indonesia websites:
-- *modis_2024_Indonesia.csv*, MODIS data is downloaded from [Fire Information for Resource Management System](https://firms.modaps.eosdis.nasa.gov/data/country/zips/modis_2024_all_countries.zip). 
-- The Indonesia nationwide ESRI shapefile is downloaded from [Indonesia Geospatial portal](https://www.indonesia-geospasial.com/2023/05/download-shapefile-batas-administrasi.html). *Kepulauan_Bangka_Belitung* data later will be extracted from this data.
+The 2 data sets in national level downloaded from Indonesia websites: - *modis_2024_Indonesia.csv*, MODIS data is downloaded from [Fire Information for Resource Management System](https://firms.modaps.eosdis.nasa.gov/data/country/zips/modis_2024_all_countries.zip). - The Indonesia nationwide ESRI shapefile is downloaded from [Indonesia Geospatial portal](https://www.indonesia-geospasial.com/2023/05/download-shapefile-batas-administrasi.html). *Kepulauan_Bangka_Belitung* data later will be extracted from this data.
 
-## Install and loading the R packages
-
-
+## 3.3 Install and loading the R packages
 
 ```{r}
  
 pacman::p_load(sf, spatstat, sparr, 
                tmap, stpp, tidyverse)
 
-#library(sf)
 ```
 
-
-
-
-## Importing and extracting study area
+## 3.4 Importing and extracting study area
 
 Importing the data into R environment.
 
@@ -66,12 +55,14 @@ sub_district <- st_read(dsn = "../../data/geospatial",
                 layer = "Batas_Wilayah_KelurahanDesa_10K_AR")
 
 ```
+
 The original data has 83518 polygons, each polygons has 26 fields. It's very heavy to keep reading this file so we need to extract the data for Bangka Belitung area only. After playing with the data, i found out that the province name is under WADMPR column.
 
 ```{r}
 #| eval: false
 grep("Bangka", sub_district$WADMPR, value = TRUE, ignore.case = TRUE) |> unique()
 ```
+
 Extracting Bangka Belitung area data:
 
 ```{r}
@@ -79,9 +70,10 @@ Extracting Bangka Belitung area data:
 kbb <- sub_district[sub_district$WADMPR == "Kepulauan Bangka Belitung", ]
 nrow(kbb)
 ```
+
 After extracting the sub area, there are 394 polygons in Bangka Belitung.
 
-## Dropping the Z dimension
+Dropping the Z dimension
 
 ```{r}
 #|eval: false
@@ -90,14 +82,11 @@ After extracting the sub area, there are 394 polygons in Bangka Belitung.
 #  st_transform(crs = 32748)
 ```
 
-
-
 ```{r}
 #| eval: false
 #| include: false
 #kbb_sf
 ```
-
 
 **Writing the extracted "Kepulauan Bangka Belitung" data:**
 
@@ -111,29 +100,34 @@ st_write(kbb_sf,
   driver = "ESRI Shapefile",
   delete_layer = TRUE)
 ```
+
 Read the writen data to check if the data is ok.
 
-
 ```{r}
-library(sf)
-library(tidyverse)
 kbb <- st_read(dsn = "../../data/geospatial",
                layer = "Kepulauan_Bangka_Belitung")
 ```
+
 The file has 394 features as shown in the above step but we can see that there is one feature with geometry empty, we need to clean up this data.
 
 ```{r}
 sum(st_is_empty(kbb))
 ```
 
-
 ```{r}
 kbb_cl <- kbb %>% filter(!st_is_empty(.))
 nrow(kbb_cl)
 ```
 
+Union the kbb areas:
 
-## Converting OWIN
+```{r}
+kbb_cl <- kbb_cl %>%
+  st_union()
+```
+
+**Converting OWIN**
+
 Next, *as.owin()* is used to convert kbb into an **owin** object.
 
 ```{r}
@@ -144,7 +138,8 @@ kbb_owin
 ```{r}
 plot(kbb_cl)
 ```
-**Importing and preparing Forest Fire data**
+
+## 3.5 Importing and preparing Forest Fire data
 
 Next, i need to import forest fire data set into R enviroment.
 
@@ -154,6 +149,8 @@ fire_sf <- read_csv("../../data/aspatial/modis_2024_Indonesia.csv") %>%
                        crs = 4326) %>%
   st_transform(crs = 32748)
 ```
+
+## 3.6 Visualising the fire points
 
 ```{r}
 tm_shape(kbb_cl) + 
@@ -169,15 +166,16 @@ fire_bb <- fire_sf %>%
   st_filter(kbb_cl, .predicate = st_intersects)
 nrow(fire_bb)
 ```
-ploting the map again:
+
+Ploting the map again:
 
 ```{r}
 tm_shape(kbb_cl) + 
   tm_polygons() + 
 tm_shape(fire_bb) +
   tm_dots()
-```
 
+```
 
 ```{r}
 fire_bb <- fire_bb %>% 
@@ -188,8 +186,7 @@ fire_bb <- fire_bb %>%
                            abbr = FALSE))
 ```
 
-
-## Visualising geographic distribution of forest fires by month
+## 3.6 Visualising geographic distribution of forest fires by month
 
 ```{r}
 tm_shape(kbb_cl)+
@@ -201,40 +198,42 @@ tm_facets(by="Month_fac",
             drop.units = TRUE)
 ```
 
-## Computing STKDE by Month
+### 3.7 Computing STKDE by Month
 
-### Extracting forest fires by month
+### 3.7.1 Extracting forest fires by month
 
 ```{r}
 fire_month <- fire_bb %>%
   select(Month_num)
 ```
 
-### Creating ppp
+### 3.7.2 Creating ppp
 
 ```{r}
 fire_month_ppp <- as.ppp(fire_month)
 fire_month_ppp
 ```
+
 Check the output is in the correct object class.
 
 ```{r}
 summary(fire_month_ppp)
 ```
+
 Check if thre are duplicated point events.
 
 ```{r}
 any(duplicated(fire_month_ppp))
 ```
-### Including Owin object
+
+### 3.7.3 Including Owin object
 
 combine *origin_am_ppp* and *am_owin* object into one.
 
 ```{r}
 fire_month_owin <- fire_month_ppp[kbb_owin]
-summary(fire_month_owin)
+#summary(fire_month_owin)
 ```
-
 
 Plot ff_owin to examine the correctness of the output object.
 
@@ -242,7 +241,7 @@ Plot ff_owin to examine the correctness of the output object.
 plot(fire_month_owin)
 ```
 
-### Computing Spatio-temporal KDE
+### 3.7.4 Computing Spatio-temporal KDE
 
 Use *spattemp.density()* of spat package to compute the STKDE.
 
@@ -250,7 +249,8 @@ Use *spattemp.density()* of spat package to compute the STKDE.
 st_kde <- spattemp.density(fire_month_owin)
 summary(st_kde)
 ```
-### Ploting the spatio-temporal KDE object
+
+### 3.7.5 Ploting the spatio-temporal KDE object
 
 ```{r}
 tims <- c(7,8,9,10,11,12)
@@ -263,12 +263,116 @@ for(i in tims){
 }
 ```
 
+## 3.8 Computing STKDE by Day of Year
 
+### 3.8.1 Creating ppp project
 
+Including DayofYear field in the output ppp object.
 
+```{r}
+fire_yday_ppp <- fire_bb %>% 
+  select(DayofYear) %>%
+  as.ppp()
+```
 
+### 3.8.2 Including Owin object
 
+Combine the ppp object and the owin object.
 
+```{r}
+fire_yday_owin <- fire_yday_ppp[kbb_owin]
+#summary(fire_yday_owin)
+```
 
+### 3.8.3 Estimate spatio-temporal Kernel density
 
+```{r}
+kde_yday <- spattemp.density(
+  fire_yday_owin)
+summary(kde_yday)
+```
 
+Plot kde_yday.
+
+```{r}
+plot(kde_yday)
+```
+
+## 3.9 Computing STKDE by Day of Year: Improved method
+
+*BOOT.spattemp()* function supports bandwidth selection for standalone spatiotemporal density/intensity based on bootstrap estimation of the MISE, providing an isotropic scalar spatial bandwidth and a scalar temporal bandwidth.
+
+```{r}
+set.seed(6789)
+BOOT.spattemp(fire_yday_owin) 
+```
+
+### 3.9.1 Computing spatio-temporal KDE
+
+STKDE will be derived by using h and lambda values derive in previous step.
+
+```{r}
+kde_yday <- spattemp.density(fire_yday_owin,
+                             h = 9000,
+                             lambda = 19)
+summary(kde_yday)
+```
+
+### 3.9.2 Plotting the output spatio-temporal KDE
+
+```{r}
+plot(kde_yday)
+```
+
+## 3.10 Spatio-temporal Point Patterns Analysis: stpp methods
+
+Using function of stpp package to perform spatio-temporal point patterns analysis.
+
+### 3.10.1 Preparing spatio-temporal point process object of stpp
+
+Step1: Extracting forest fire coordinates from the fire points events
+
+```{r}
+coords <- st_coordinates(fire_bb)
+```
+
+Step2: Creating data frame by combining the x- and y- coordinates and temporal event.
+
+```{r}
+fire_bb <- data.frame(
+  x = coords[, 1],  
+  y = coords[, 2],
+  t = fire_bb$`DayofYear`)
+```
+
+Step3: Creating stpp spatio-temporal object
+
+```{r}
+fire_stpp <- as.3dpoints(fire_bb)
+```
+
+Confirm that the output is in stpp spatio-temporal object class.
+
+```{r}
+class(fire_stpp)
+```
+
+Plotting fire_stpp.
+
+```{r}
+plot(fire_stpp)
+```
+
+### 3.10.2 Computing spatio-temporal k-function
+
+Compute space-time inhomogeneous K-function.
+
+```{r}
+kbb_stik <- STIKhat(fire_stpp)
+```
+
+Visualise the output space-time inhomofeneous K-function.
+
+```{r}
+plotK(kbb_stik)
+```
