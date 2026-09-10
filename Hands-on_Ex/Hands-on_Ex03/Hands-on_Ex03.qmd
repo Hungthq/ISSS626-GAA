@@ -1,0 +1,274 @@
+---
+title: "Hands-on Exercise 03"
+subtitle: "This exercise is a hands-on guide for spatio-Temporal Point Patterns Analysis."
+author: "Hung Thai"
+date: "Sep 08, 2026"
+date-modified: "last-modified"
+execute:
+  echo: true
+  eval: true
+  mesage: false
+  warning: false
+  freeze: true
+format: 
+  html:
+    toc: true
+    toc-depth: 4
+editor: visual
+---
+
+# Spatio-Temporal Point Patterns Analysis
+
+## Overview
+
+Spatio-temporal point process (space-time or spatial-temporal point process) is random collection of points, where each point represents the time and location of an event. Examples of events include incidence of disease, sightings or births of a species, or the occurrences of fires, earthquakes, lightning strikes, tsunamis, or volcanic eruptions.
+
+This hands-on exercise used forest fires data to answer to answer the below questions:
+- are the locations of forest fire in Kepulauan Bangka Belitung spatial and spatio-temporally independent?
+- if the answer is NO, where and when the observed forest fire locations tend to cluster?
+
+
+
+::: callout-note
+## reference
+
+[r4gdsa chap 06 - Spatio-Temporal Point Patterns Analysis.](https://r4gdsa.netlify.app/chap06)
+:::
+
+## The Data
+
+The 2 data sets in national level downloaded from Indonesia websites:
+- *modis_2024_Indonesia.csv*, MODIS data is downloaded from [Fire Information for Resource Management System](https://firms.modaps.eosdis.nasa.gov/data/country/zips/modis_2024_all_countries.zip). 
+- The Indonesia nationwide ESRI shapefile is downloaded from [Indonesia Geospatial portal](https://www.indonesia-geospasial.com/2023/05/download-shapefile-batas-administrasi.html). *Kepulauan_Bangka_Belitung* data later will be extracted from this data.
+
+## Install and loading the R packages
+
+
+
+```{r}
+ 
+pacman::p_load(sf, spatstat, sparr, 
+               tmap, stpp, tidyverse)
+
+#library(sf)
+```
+
+
+
+
+## Importing and extracting study area
+
+Importing the data into R environment.
+
+```{r}
+#| eval: false
+sub_district <- st_read(dsn = "../../data/geospatial", 
+                layer = "Batas_Wilayah_KelurahanDesa_10K_AR")
+
+```
+The original data has 83518 polygons, each polygons has 26 fields. It's very heavy to keep reading this file so we need to extract the data for Bangka Belitung area only. After playing with the data, i found out that the province name is under WADMPR column.
+
+```{r}
+#| eval: false
+grep("Bangka", sub_district$WADMPR, value = TRUE, ignore.case = TRUE) |> unique()
+```
+Extracting Bangka Belitung area data:
+
+```{r}
+#| eval: false
+kbb <- sub_district[sub_district$WADMPR == "Kepulauan Bangka Belitung", ]
+nrow(kbb)
+```
+After extracting the sub area, there are 394 polygons in Bangka Belitung.
+
+## Dropping the Z dimension
+
+```{r}
+#|eval: false
+#kbb_sf <- st_zm(kbb, drop = TRUE, what = "ZM") %>%
+  #st_union() %>%
+#  st_transform(crs = 32748)
+```
+
+
+
+```{r}
+#| eval: false
+#| include: false
+#kbb_sf
+```
+
+
+**Writing the extracted "Kepulauan Bangka Belitung" data:**
+
+Writing the Kepulauan Bangka Belitung shapefile data for future use.
+
+```{r}
+#| eval: false
+st_write(kbb_sf,
+  dsn = "../../data/geospatial",
+  layer = "Kepulauan_Bangka_Belitung",
+  driver = "ESRI Shapefile",
+  delete_layer = TRUE)
+```
+Read the writen data to check if the data is ok.
+
+
+```{r}
+library(sf)
+library(tidyverse)
+kbb <- st_read(dsn = "../../data/geospatial",
+               layer = "Kepulauan_Bangka_Belitung")
+```
+The file has 394 features as shown in the above step but we can see that there is one feature with geometry empty, we need to clean up this data.
+
+```{r}
+sum(st_is_empty(kbb))
+```
+
+
+```{r}
+kbb_cl <- kbb %>% filter(!st_is_empty(.))
+nrow(kbb_cl)
+```
+
+
+## Converting OWIN
+Next, *as.owin()* is used to convert kbb into an **owin** object.
+
+```{r}
+kbb_owin <- as.owin(kbb_cl)
+kbb_owin
+```
+
+```{r}
+plot(kbb_cl)
+```
+**Importing and preparing Forest Fire data**
+
+Next, i need to import forest fire data set into R enviroment.
+
+```{r}
+fire_sf <- read_csv("../../data/aspatial/modis_2024_Indonesia.csv") %>%
+  st_as_sf(coords = c("longitude", "latitude"),
+                       crs = 4326) %>%
+  st_transform(crs = 32748)
+```
+
+```{r}
+tm_shape(kbb_cl) + 
+  tm_polygons() + 
+tm_shape(fire_sf) +
+  tm_dots()
+```
+
+In this plot, we can see that there are some fire place out of Bangka Belitung area because i used the national fire place data. I need to filter the fire data for BB area only.
+
+```{r}
+fire_bb <- fire_sf %>%
+  st_filter(kbb_cl, .predicate = st_intersects)
+nrow(fire_bb)
+```
+ploting the map again:
+
+```{r}
+tm_shape(kbb_cl) + 
+  tm_polygons() + 
+tm_shape(fire_bb) +
+  tm_dots()
+```
+
+
+```{r}
+fire_bb <- fire_bb %>% 
+  mutate(DayofYear = yday(acq_date)) %>%
+  mutate(Month_num = month(acq_date)) %>%
+  mutate(Month_fac = month(acq_date, 
+                           label = TRUE, 
+                           abbr = FALSE))
+```
+
+
+## Visualising geographic distribution of forest fires by month
+
+```{r}
+tm_shape(kbb_cl)+
+  tm_polygons() +
+tm_shape(fire_bb) +
+  tm_dots(size = 0.1) +
+tm_facets(by="Month_fac", 
+            free.coords=FALSE, 
+            drop.units = TRUE)
+```
+
+## Computing STKDE by Month
+
+### Extracting forest fires by month
+
+```{r}
+fire_month <- fire_bb %>%
+  select(Month_num)
+```
+
+### Creating ppp
+
+```{r}
+fire_month_ppp <- as.ppp(fire_month)
+fire_month_ppp
+```
+Check the output is in the correct object class.
+
+```{r}
+summary(fire_month_ppp)
+```
+Check if thre are duplicated point events.
+
+```{r}
+any(duplicated(fire_month_ppp))
+```
+### Including Owin object
+
+combine *origin_am_ppp* and *am_owin* object into one.
+
+```{r}
+fire_month_owin <- fire_month_ppp[kbb_owin]
+summary(fire_month_owin)
+```
+
+
+Plot ff_owin to examine the correctness of the output object.
+
+```{r}
+plot(fire_month_owin)
+```
+
+### Computing Spatio-temporal KDE
+
+Use *spattemp.density()* of spat package to compute the STKDE.
+
+```{r}
+st_kde <- spattemp.density(fire_month_owin)
+summary(st_kde)
+```
+### Ploting the spatio-temporal KDE object
+
+```{r}
+tims <- c(7,8,9,10,11,12)
+par(mfcol=c(2,3))
+for(i in tims){ 
+  plot(st_kde, i, 
+       override.par=FALSE, 
+       fix.range=TRUE, 
+       main=paste("KDE at month",i))
+}
+```
+
+
+
+
+
+
+
+
+
+

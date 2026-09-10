@@ -3,6 +3,13 @@ title: "Hands-on Exercise 01A"
 subtitle: "In this exercise, we will load the data and do data wrangling."
 author: "Hung Thai"
 date: "Aug 24, 2026"
+date-modified: "last-modified"
+execute:
+  echo: true
+  eval: true
+  mesage: false
+  warning: false
+  freeze: true
 format: 
   html:
     toc: true
