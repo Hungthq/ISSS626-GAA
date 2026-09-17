@@ -1,0 +1,84 @@
+---
+title: "Hands-on Exercise 04"
+subtitle: "This exercise is a hands-on guide for Spatial Weights and Applications."
+author: "Hung Thai"
+date: "Sep 17, 2026"
+date-modified: "last-modified"
+execute:
+  echo: true
+  eval: true
+  mesage: false
+  warning: false
+  freeze: true
+format: 
+  html:
+    toc: true
+    toc-depth: 4
+    code-copy: true
+editor: visual
+---
+
+# Spatio Weights and Application
+
+## 1 Overview
+
+This hands-on exercise will focus on how to compute spatial weight using R.
+
+The targets of the exercise are:
+
+- import geospatial data using appropriate function(s) of **sf** package,
+
+- import csv file using appropriate function of **readr** package,
+
+- perform relational join using appropriate join function of **dplyr** package,
+
+- compute spatial weights using appropriate functions of **spdep** package, and
+
+- calculate spatially lagged variables using appropriate functions of **spdep** package.
+
+::: callout-note
+### reference
+
+[r4gdsa chap 08 - Spatial Weights and Applications](https://r4gdsa.netlify.app/chap08.html)[chap.](https://r4gdsa.netlify.app/chap06)
+:::
+
+## 2 The study area and data
+
+Two data sets will be used in this hands-on exercise, they are:
+
+- Hunan county boundary layer. This is a geospatial data set in ESRI shapefile format.
+
+- *Hunan_2012.csv*: This csv file contains selected Hunan’s local development indicators in 2012.
+
+## 3 Getting the Data and R Environment
+
+Before import shapefile data, we need to install and loading the R packages
+
+```{r}
+pacman::p_load(sf, spdep, tmap, tidyverse, knitr)
+```
+
+### Importing the data into R environment.
+
+Import Hunan shapefile in to R.
+
+```{r}
+hunan <- st_read(dsn = "data/Hands-on_Ex04/geospatial", 
+                 layer = "Hunan")
+```
+
+Reading layer `Hunan' from data source`C:\hungthq\ISSS626-GAA\data\Hands-on_Ex04\geospatial' using driver \`ESRI Shapefile' Simple feature collection with 88 features and 7 fields\
+Geometry type: POLYGON\
+Dimension: XY\
+Bounding box: xmin: 108.7831 ymin: 24.6342 xmax: 114.2544 ymax: 30.12812\
+Geodetic CRS: WGS 84
+
+### Import csv file into r environment
+
+```{r}
+hunan2012 <- read_csv("data/Hands-on_Ex04/aspatial/Hunan_2012.csv")
+```
+
+```{r}
+hunan2012 
+```
