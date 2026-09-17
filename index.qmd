@@ -11,6 +11,16 @@ listing:
     sort-ui: false
     filter-ui: false
     page-size: 3
+  - id: take-home
+    contents: "**/*/Take-home_*.qmd"
+    type: grid
+    fields: [image, date, title, reading-time]
+    sort:
+      - "date desc"
+      - "title desc"
+    sort-ui: false
+    filter-ui: false
+    page-size: 3
 author: "Hung Thai"
 date: "Aug 24th, 2026"
 date-modified: "last-modified"
@@ -20,15 +30,18 @@ execute:
   mesage: false
   warning: false
   freeze: true
+format: 
+  html:
+    toc: true
+    toc-depth: 4
+    code-copy: true
 ---
-
 
 # Welcome to ISSS626 Geospatial Analytics and Applications (AY2026-27AUG)
 
 This website contains the coursework by Hung Thai. It features a collection of projects, assignments, and notes from the class, complete with geospatial visualizations and analytical insights..
 
-Student: Thai Hoang Quang Hung 
-Instructor: [Dr. Kam Tin Seong](https://www.smu.edu.sg/faculty/profile/9618/KAM-Tin-Seong), Associate Professor of Information Systems (Practice)
+Student: Thai Hoang Quang Hung Instructor: [Dr. Kam Tin Seong](https://www.smu.edu.sg/faculty/profile/9618/KAM-Tin-Seong), Associate Professor of Information Systems (Practice)
 
 Date & Time: Saturday 12:30pm - 3:45pm
 
@@ -36,9 +49,16 @@ Venue: SOE/SCIS2 Seminar Room 3-5
 
 Course content: [ISSS626 Geospatial Analytics and Applications](https://isss626-ay2026-27aug.netlify.app/)
 
-::: {.animate__animated .animate__fadeIn .animate__faster}
-## [✍️ Hands-on Exercises](/hands-on_ex/)
+:::: {.animate__animated .animate__fadeIn .animate__faster}
+## ✍️ [Hands-on Exercises](/hands-on_ex/)
 
 ::: {#hands-on}
 :::
+::::
 
+:::: {.animate__animated .animate__fadeIn .animate__faster}
+## 🏠 [Take-home Exercises](/take-home_ex/)
+
+::: {#take-home}
+:::
+::::

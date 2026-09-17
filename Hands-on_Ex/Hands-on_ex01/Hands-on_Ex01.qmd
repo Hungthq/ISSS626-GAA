@@ -50,7 +50,7 @@ execute:
 ### 1 The Data
 
 | Dataset | Source | Description |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | **Master Plan 2014 Subzone Boundary (Web)** | [data.gov.sg](https://data.gov.sg/) | Geospatial boundaries for Singapore's planning subzones. |
 | **Pre-Schools Location** | [data.gov.sg](https://data.gov.sg/) | Location data for pre-schools in Singapore. |
 | **Cycling Path** | [LTA DataMall](https://www.mytransport.sg/content/mytransport/home/dataMall.html) | Geospatial data for cycling paths in Singapore. |

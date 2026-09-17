@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-574f58f4068bb8f43535e6e9c10c5508.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -95,6 +95,34 @@ ul.task-list li input[type="checkbox"] {
 
     window['quarto-listings'] = window['quarto-listings'] || {};
     window['quarto-listings']['listing-hands-on'] = new List('listing-hands-on', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-take-home .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-image','listing-date','listing-title','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-take-home'] = new List('listing-take-home', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -208,6 +236,17 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-take-home-exercises" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Take-home Exercises</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-take-home-exercises">    
+        <li>
+    <a class="dropdown-item" href="./Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html">
+ <span class="dropdown-text">Take-home Exercise 01</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
@@ -240,8 +279,9 @@ window.Quarto = {
    
   <ul>
   <li><a href="#welcome-to-isss626-geospatial-analytics-and-applications-ay2026-27aug" id="toc-welcome-to-isss626-geospatial-analytics-and-applications-ay2026-27aug" class="nav-link active" data-scroll-target="#welcome-to-isss626-geospatial-analytics-and-applications-ay2026-27aug">Welcome to ISSS626 Geospatial Analytics and Applications (AY2026-27AUG)</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises">✍️ Hands-on Exercises</a></li>
+  <li><a href="#take-home-exercises" id="toc-take-home-exercises" class="nav-link" data-scroll-target="#take-home-exercises">🏠 Take-home Exercises</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -275,7 +315,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 11, 2026</p>
+      <p class="date-modified">September 17, 2026</p>
     </div>
   </div>
     
@@ -294,7 +334,7 @@ window.Quarto = {
 <p>Venue: SOE/SCIS2 Seminar Room 3-5</p>
 <p>Course content: <a href="https://isss626-ay2026-27aug.netlify.app/">ISSS626 Geospatial Analytics and Applications</a></p>
 <section id="hands-on-exercises" class="level2 animate__animated animate__fadeIn animate__faster">
-<h2 class="anchored" data-anchor-id="hands-on-exercises"><a href="./hands-on_ex/">✍️ Hands-on Exercises</a></h2>
+<h2 class="anchored" data-anchor-id="hands-on-exercises">✍️ <a href="./hands-on_ex/">Hands-on Exercises</a></h2>
 <div id="listing-hands-on" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
 <div class="g-col-1" data-index="0" data-listing-date-sort="1788796800000" data-listing-file-modified-sort="1789065930518" data-listing-date-modified-sort="1789065930000" data-listing-reading-time-sort="6" data-listing-word-count-sort="1069">
@@ -348,7 +388,7 @@ Aug 28, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="3" data-listing-date-sort="1787500800000" data-listing-file-modified-sort="1789065713815" data-listing-date-modified-sort="1789065713000" data-listing-reading-time-sort="8" data-listing-word-count-sort="1416">
+<div class="g-col-1" data-index="3" data-listing-date-sort="1787500800000" data-listing-file-modified-sort="1789614219461" data-listing-date-modified-sort="1789614219000" data-listing-reading-time-sort="8" data-listing-word-count-sort="1416">
 <a href="./Hands-on_Ex/Hands-on_ex01/Hands-on_Ex01.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' data-src="Hands-on_Ex\Hands-on_ex01\Hands-on_Ex01_files\figure-html\unnamed-chunk-8-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -371,10 +411,35 @@ Aug 24, 2026
   <ul class="pagination"></ul>
 </nav>
 </div>
-
-
-
 </section>
+<section id="take-home-exercises" class="level2 animate__animated animate__fadeIn animate__faster">
+<h2 class="anchored" data-anchor-id="take-home-exercises">🏠 <a href="./take-home_ex/">Take-home Exercises</a></h2>
+<div id="listing-take-home" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-listing-date-sort="1789574400000" data-listing-file-modified-sort="1789643603268" data-listing-date-modified-sort="1789643603000" data-listing-reading-time-sort="14" data-listing-word-count-sort="2636">
+<a href="./Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img loading='lazy' src="Take-home_Ex\Take-home_Ex01\Take-home_Ex01_files\figure-html\unnamed-chunk-21-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Take-home Exercise 01
+</h5>
+<div class="listing-reading-time card-text text-muted">14 min</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Sep 17, 2026
+</div>
+</div>
+</div>
+</div></a>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+</section>
+
+
+
 </section>
 
 </main> <!-- /main -->
