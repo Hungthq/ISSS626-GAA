@@ -175,14 +175,7 @@ bmr_acc_sf <- bmr_acc_sf[!duplicated(bmr_acc_sf$acc_code), ]
 # Saving the cleaned and filtered road traffic accident data for the Bangkok Metropolitan Region in RDS format for future use.
 #| echo: false
 #| eval: false
-write_csv(bmr_acc_sf, file = "../../data/takehome01/bmr_road_traffic_accidents_2019-2022.csv")
-```
-
-```{r}
-#bmr_acc_sf <- read_csv("../../data/takehome01/bmr_road_traffic_accidents_2019-2022.csv") %>%
-#  st_set_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
-  #st_transform(crs = 32647)
-
+saveRDS(bmr_acc_sf, file = "../../data/takehome01/bmr_road_traffic_accidents_2019-2022.rds")
 ```
 
 **Import Thailand subnational administrative boundaries data**
@@ -355,7 +348,18 @@ bmr_primary_roads <- read_rds("../../data/takehome01/bmr_primary_roads.rds")
 
 In this section, we will perform exploratory data analysis (EDA) on the road traffic accident data for the Bangkok Metropolitan Region (BMR) in the year 2022. The goal of EDA is to understand the distribution and characteristics of the data, identify patterns and trends, and detect any anomalies or outliers that may affect the analysis.
 
-### Overall plot
+```{r}
+#loading data
+#bmr_adm_boundary <- read_rds("../../data/takehome01/bmr_adm_boundary.rds")
+#bmr_primary_roads <- read_rds("../../data/takehome01/bmr_primary_roads.rds")
+#bmr_acc_sf <- read_csv("../../data/takehome01/bmr_road_traffic_accidents_2019-2022.csv")
+
+bmr_adm_boundary <- read_rds("data/takehome01/bmr_adm_boundary.rds")
+bmr_primary_roads <- read_rds("data/takehome01/bmr_primary_roads.rds")
+bmr_acc_sf <- read_rds("data/takehome01/bmr_road_traffic_accidents_2019-2022.rds")
+```
+
+### 5.1 Overall plot
 
 Ploting 3 datasets onto a single choropleth map to have an general view.
 
@@ -369,7 +373,7 @@ tm_shape(bmr_adm_boundary) +
   tm_shape(bmr_acc_sf) + 
   tm_dots(col = "red", size = 0.1, alpha = 0.5) +                                                
   tm_layout(
-    main.title = "Road Traffic Accidents in Bangkok Metropolitan Region (2022)",
+    main.title = "Road Traffic Accidents in Bangkok Metropolitan Region (2019 - 2022)",
     main.title.position = c("center", "top"), 
     main.title.size = 0.9,
     frame = FALSE,
@@ -379,4 +383,297 @@ tm_shape(bmr_adm_boundary) +
     legend.text.size = 0.55, 
     legend.title.size = 0.7 
   )
+```
+
+```{r}
+# Plotting bmr_adm_boundary with enhanced visualization
+tmap_mode("plot")
+
+tm_shape(bmr_adm_boundary) +
+  tm_fill(col = "adm1_name",
+          palette = "Set3",
+          title = "Province") +
+  tm_borders(col = "black", lwd = 1) +
+  #tm_text("adm1_name", size = 0.8, just = "center") +
+  tm_layout(
+    main.title = "Bangkok Metropolitan Region - Administrative Boundaries",
+    main.title.position = "center",
+    main.title.size = 1.2,
+    legend.position = c("left", "bottom"),
+    legend.bg.color = "white",
+    legend.bg.alpha = 0.8,
+    frame = TRUE
+  )
+```
+
+### Basic statistic
+
+Total accidents in BMR: `r nrow(bmr_acc_sf)`\
+Provinces in analysis: `r unique(bmr_adm_boundary$adm1_name`\
+Study area CRS: UTM Zone 47N (EPSG:32647)
+
+ACCIDENTS BY PROVINCE
+
+```{r}
+accidents_by_province <- bmr_acc_sf %>%
+  st_join(bmr_adm_boundary[, "adm1_name"]) %>%
+  st_drop_geometry() %>%
+  group_by(adm1_name) %>%
+  summarise(
+    count = n(),
+    percentage = round(n()/nrow(bmr_acc_sf)*100, 2)
+  ) %>%
+  arrange(desc(count))
+
+print(accidents_by_province)
+```
+
+```{r}
+library(tmap)
+library(ggplot2)
+library(reshape2)
+library(kableExtra)
+library(spNetwork)
+library(RColorBrewer)
+pacman::p_load(reshape2, kableExtra)
+library(readr)
+```
+
+```{r}
+tm_shape(bmr_primary_roads) + 
+  tm_lines("black") + 
+  tm_shape(bmr_acc_sf) + 
+  tm_dots("red", size = 0.2)
+ 
+```
+
+```{r}
+
+# then calculating some lixels to use as sampling points
+lixels <- lixelize_lines(bmr_primary_roads,200,mindist = 10)
+samples <- lines_center(lixels)
+```
+
+```{r}
+# then applying the NKDE
+densities <- nkde(bmr_primary_roads, 
+                  events = bmr_acc_sf,
+                  w = rep(1,nrow(bmr_acc_sf)),
+                  samples = samples,
+                  kernel_name = "quartic",
+                  bw = 300, div= "bw", 
+                  method = "discontinuous", digits = 1, tol = 1,
+                  grid_shape = c(1,1), max_depth = 8,
+                  agg = 5, #we aggregate events within a 5m radius (faster calculation)
+                  sparse = TRUE,
+                  verbose = FALSE)
+```
+
+```{r}
+samples$density <- densities
+```
+
+### 5.2 Visualise geographic distribution of accidents by year
+
+Next we visualise geographic distribution by year
+
+Derive the year from the accident date column if it exists, otherwise use the existing year column.
+```{r}
+library(lubridate)
+
+bmr_acc_sf <- bmr_acc_sf |>
+  dplyr::mutate(
+    year = lubridate::year(incident_datetime),
+    month = lubridate::month(incident_datetime),
+    day = lubridate::day(incident_datetime)
+  )
+
+table(bmr_acc_sf$year)   # sanity check
+table(bmr_acc_sf$month)  # sanity check for month
+table(bmr_acc_sf$day)    # sanity check for day
+
+
+```
+
+```{r}
+# visualise geographic distribution of accidents by year
+tmap_mode('plot')
+
+tm_shape(bmr_adm_boundary) + 
+  tm_polygons(border.col = "darkgray", alpha = 0.5) +
+tm_shape(bmr_primary_roads) + 
+  tm_lines(col = "darkgreen", lwd = 0.7) +
+tm_shape(bmr_acc_sf) + 
+  tm_dots(size = 0.2, col = "red", alpha = 0.6) +
+tm_facets(by = "year") +
+tm_layout(
+  main.title = "Accident Trends by Year in Bangkok Metropolitan Region (2019-2022)",
+  main.title.size = 1.5, 
+  main.title.position = c("center", "top"), 
+  frame = FALSE
+)
+```
+
+```{r}
+# calculate the number of accidents by year
+accidents_by_year <- bmr_acc_sf %>%
+  st_drop_geometry() %>%
+  group_by(year) %>%
+  summarise(
+    count = n(),
+    percentage = round(n()/nrow(bmr_acc_sf)*100, 2)
+  ) %>%
+  arrange(desc(count))
+
+# calculate total accidents by province by year
+accidents_by_province_year <- bmr_acc_sf %>%
+  st_drop_geometry() %>%
+  group_by(adm1_name, year) %>%
+  summarise(
+    count = n(),
+    percentage = round(n()/nrow(bmr_acc_sf)*100, 2)
+  ) %>%
+  arrange(desc(count))
+
+# summarise total accidents for each year
+total_accidents_by_year <- bmr_acc_sf %>%
+  st_drop_geometry() %>%
+  group_by(year) %>%
+  summarise(
+    count = n(),
+    percentage = round(n()/nrow(bmr_acc_sf)*100, 2)
+  ) %>%
+  arrange(desc(count))
+
+# create stacked bar plot of accidents by province and year
+library(ggplot2)
+
+ggplot(accidents_by_province_year, aes(x = year, y = count, fill = adm1_name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Accidents by Province and Year in Bangkok Metropolitan Region (2019-2022)",
+    x = "Year",
+    y = "Number of Accidents",
+    fill = "Province"
+  ) +
+  theme_minimal()
+# create bar plot of total accidents by year
+ggplot(total_accidents_by_year, aes(x = year, y = count)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(
+    title = "Total Accidents by Year in Bangkok Metropolitan Region (2019-2022)",
+    x = "Year",
+    y = "Number of Accidents"
+  ) +
+  theme_minimal()
+# create bar plot of accidents by year  
+ggplot(accidents_by_year, aes(x = year, y = count)) +
+  geom_bar(stat = "identity", fill = "tomato") +
+  labs(
+    title = "Accidents by Year in Bangkok Metropolitan Region (2019-2022)",
+    x = "Year",
+    y = "Number of Accidents"
+  ) +
+  theme_minimal()
+```
+
+
+### 5.3 Visualisation of Accident by month
+
+Description of the distribution of accidents by month in the Bangkok Metropolitan Region.
+The bar plot below shows the number of accidents for each month, highlighting any seasonal trends or patterns in the Bangkok Metropolitan Region.
+
+```{r}
+# visualise geographic distribution of accidents by month
+tmap_mode('plot')
+
+tm_shape(bmr_adm_boundary) + 
+  tm_polygons(border.col = "darkgray", alpha = 0.5) +
+tm_shape(bmr_primary_roads) + 
+  tm_lines(col = "darkgreen", lwd = 0.7) +
+tm_shape(bmr_acc_sf) + 
+  tm_dots(size = 0.2, col = "red", alpha = 0.6) +
+tm_facets(by = "month") +
+tm_layout(
+  main.title = "Accident Trends by Month in Bangkok Metropolitan Region (2019-2022)",
+  main.title.size = 1.5, 
+  main.title.position = c("center", "top"), 
+  frame = FALSE
+)
+```
+
+Bar plot of accidents by month
+
+```{r}
+# calculate the number of accidents by month with trends line 
+accidents_by_month <- bmr_acc_sf %>%
+  st_drop_geometry() %>%
+  group_by(month) %>%
+  summarise(
+    count = n(),
+    percentage = round(n()/nrow(bmr_acc_sf)*100, 2)
+  ) %>%
+  arrange(desc(count))
+
+# create bar plot of accidents by month
+ggplot(accidents_by_month, aes(x = month, y = count)) +
+  geom_bar(stat = "identity", fill = "lightblue") +
+  geom_line(aes(x = month, y = count, group = 1), color = "red", size = 1) +
+  labs(
+    title = "Accidents by Month in Bangkok Metropolitan Region (2019-2022)",
+    x = "Month",
+    y = "Number of Accidents"
+  ) +
+  theme_minimal()
+```
+
+The newyear holiday period may influence the number of accidents, as people tend to travel more during this time. The term "seven dangerous days" (Apr 11 to Apr 17) is often used in Thailand to describe the period around the New Year when traffic accidents are more frequent. 
+Below is the plot to compare average daily accidents during the New Year holiday period with other times of the year for 4 year from 2019 to 2022 for each year.
+
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+```
+
+```{r}
+# define the New Year holiday period (7 dangerous days) apr 11 to apr 17
+
+# create a new column to indicate whether the accident occurred during the New Year holiday period
+bmr_acc_sf <- bmr_acc_sf %>%
+  mutate(
+    incident_date = as.Date(incident_datetime),
+    year = year(incident_datetime),
+    songkran_days = month(incident_date) == 4 &
+                           day(incident_date) >= 11 &
+                           day(incident_date) <= 17
+  )
+
+# number of accidents during the New Year holiday period vs other times of the year
+bmr_acc_summary <- bmr_acc_sf %>%
+  st_drop_geometry() %>%
+  group_by(year, songkran_days) %>%
+  summarise(
+    count = n()
+  )
+
+# calculate average daily accidents during the New Year holiday period vs other times of the year
+bmr_acc_daily <- bmr_acc_summary %>%
+  mutate(
+    daily_accidents = ifelse(songkran_days, count/7, count/(365-7))
+  )
+
+bmr_acc_daily
+
+#plotting average daily accidents during the New Year holiday period vs other times of the year
+ggplot(bmr_acc_daily, aes(x = factor(year), y = daily_accidents, fill = songkran_days)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(
+    title = "Average Daily Accidents During New Year Holiday Period vs Other Times of the Year",
+    x = "Year",
+    y = "Average Daily Accidents",
+    fill = "Songkran Period"
+  ) +
+  theme_minimal()
 ```
