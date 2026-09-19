@@ -45,7 +45,7 @@ The object of the exercise are:
 The following 3 datasets will be used in this exercise.
 
 | Dataset Name | Description | Format | Source |
-|------------------|------------------|------------------|-------------------|
+|----|----|----|----|
 | *Thailand Road Accident \[2019-2022\]* | Data on road accidents in Thailand, including details on location, severity, and date of incidents. | CSV | [Kaggle](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022) |
 | *Thailand Roads (OpenStreetMap Export)* | OpenStreetMap Geospatial data of Thailand. | ESRI Shapefile | [Humanitarian Data Exchange (HDX)](https://data.humdata.org/dataset/hotosm_tha_roads) |
 | *Thailand - Subnational Administrative Boundaries* | Boundaries of Thailand's Geospatial dataset. | ESRI Shapefile | [Humanitarian Data Exchange (HDX)](https://data.humdata.org/dataset/cod-ab-tha?) |
@@ -55,7 +55,7 @@ The following 3 datasets will be used in this exercise.
 This dataset provides comprehensive statistics on recorded road accidents in Thailand, spanning from approximately 2019 to 2022. The data was sourced from raw information provided by the [Office of the Permanent Secretary, Ministry of Transport](https://www.mots.go.th/news/category/411), which is also utilized in this [public dashboard](https://trams.mot.go.th/main-dashboard) for easier access and visualization. The dataset encompasses various aspects of road accidents and aims to shed light on the trends and patterns within this critical area of concern, analysis of this data could be crucial in guiding road safety policies and measures.
 
 | Column | Description |
-|:---------------------------|:-------------------------------------------|
+|:---|:---|
 | acc_code | The accident code or identifier. |
 | incident_datetime | The date and time of the accident occurrence. |
 | report_datetime | The date and time when the accident was reported. |
@@ -181,6 +181,8 @@ saveRDS(bmr_acc_sf, file = "../../data/takehome01/bmr_road_traffic_accidents_201
 **Import Thailand subnational administrative boundaries data**
 
 ```{r}
+#| echo: false
+#| eval: false
 adm_boundary <- st_read(dsn = "../../data/takehome01/tha_admin2.shp", # layer 2 for district level boundaries
                 layer = "tha_admin2") %>% 
   st_transform(crs = 32647)
@@ -189,6 +191,8 @@ adm_boundary <- st_read(dsn = "../../data/takehome01/tha_admin2.shp", # layer 2 
 Check the coordinate reference system (CRS) of the administrative boundaries
 
 ```{r}
+#| echo: false
+#| eval: false
 st_crs(adm_boundary) 
 ```
 
@@ -197,6 +201,8 @@ st_crs(adm_boundary)
 Observing the administrative boundaries data, we can see that it contains information about the districts within Thailand, including their names and geometries. This data will be useful for spatial analysis and visualization of road traffic accidents in relation to administrative boundaries.
 
 ```{r}
+#| echo: false
+#| eval: false
 glimpse(adm_boundary) # 
 ```
 
@@ -205,6 +211,9 @@ Rows: 928 Columns: 27 \$ adm2_name <chr> "Phra Nakhon", "Dusit", "Nong Chok", "B
 Filtering the administrative boundaries to include only the districts within the Bangkok Metropolitan Region (BMR) for spatial analysis.
 
 ```{r}
+#| echo: false
+#| eval: false
+
 bmr_adm_boundary <- adm_boundary %>%
   select("adm1_name") %>%
   filter(adm1_name == "Bangkok" | adm1_name == "Nonthaburi" | adm1_name == "Pathum Thani" | adm1_name == "Samut Prakan" | adm1_name == "Nakhon Pathom" | adm1_name == "Samut Sakhon")
@@ -246,6 +255,8 @@ tm_shape(bmr_adm_boundary) +
 Import road network data for Thailand from OpenStreetMap using the `sf` package.
 
 ```{r}
+#| echo: false
+#| eval: false
 thailand_roads <- st_read(dsn = "../../data/takehome01/hotosm_tha_roads_lines_shp.shp", layer = "hotosm_tha_roads_lines_shp") %>%
   st_set_crs(4326) %>% # Set the coordinate reference system to WGS 84 (EPSG:4326)
   st_transform(crs = 32647) # UTM Zone 47N (EPSG:32647) for Bangkok Metropolitan Region
@@ -254,6 +265,8 @@ thailand_roads <- st_read(dsn = "../../data/takehome01/hotosm_tha_roads_lines_sh
 The road network data contains \~2.8M road segments in Thailand. We will filter the data to include only the road segments within the Bangkok Metropolitan Region (BMR) for spatial analysis.
 
 ```{r}
+#| echo: false
+#| eval: false
 bmr_roads_orig <- thailand_roads %>%
   st_intersection(bmr_adm_boundary) # Filter road segments within the BMR
 ```
@@ -265,6 +278,8 @@ The geospatial data is in the form of MULTILINESTRING geometries, which represen
 :::
 
 ```{r}
+#| eval: false
+#| echo: false
 bmr_roads <- bmr_roads_orig %>%
   st_cast("LINESTRING") # Convert MULTILINESTRING to LINESTRING geometries
 ```
@@ -272,6 +287,7 @@ bmr_roads <- bmr_roads_orig %>%
 Check the coordinate reference system of the BMR road network data
 
 ```{r}
+#| eval: false
 st_crs(bmr_roads) 
 ```
 
@@ -337,7 +353,7 @@ By filtering the road network data to include only the primary roads, we reduce 
 
 ```{r}
 # save the filtered primary road network data for the Bangkok Metropolitan Region (BMR) in RDS format for future use.
-saveRDS(bmr_roads_filtered, file = "../../data/takehome01/bmr_primary_roads.rds")
+#saveRDS(bmr_roads_filtered, file = "../../data/takehome01/bmr_primary_roads.rds")
 ```
 
 ```{r}
@@ -350,13 +366,13 @@ In this section, we will perform exploratory data analysis (EDA) on the road tra
 
 ```{r}
 #loading data
-#bmr_adm_boundary <- read_rds("../../data/takehome01/bmr_adm_boundary.rds")
-#bmr_primary_roads <- read_rds("../../data/takehome01/bmr_primary_roads.rds")
-#bmr_acc_sf <- read_csv("../../data/takehome01/bmr_road_traffic_accidents_2019-2022.csv")
+bmr_adm_boundary <- read_rds("../../data/takehome01/bmr_adm_boundary.rds")
+bmr_primary_roads <- read_rds("../../data/takehome01/bmr_primary_roads.rds")
+bmr_acc_sf <- read_csv("../../data/takehome01/bmr_road_traffic_accidents_2019-2022.rds")
 
-bmr_adm_boundary <- read_rds("data/takehome01/bmr_adm_boundary.rds")
-bmr_primary_roads <- read_rds("data/takehome01/bmr_primary_roads.rds")
-bmr_acc_sf <- read_rds("data/takehome01/bmr_road_traffic_accidents_2019-2022.rds")
+#bmr_adm_boundary <- read_rds("data/takehome01/bmr_adm_boundary.rds")
+#bmr_primary_roads <- read_rds("data/takehome01/bmr_primary_roads.rds")
+#bmr_acc_sf <- read_rds("data/takehome01/bmr_road_traffic_accidents_2019-2022.rds")
 ```
 
 ### 5.1 Overall plot
@@ -364,6 +380,9 @@ bmr_acc_sf <- read_rds("data/takehome01/bmr_road_traffic_accidents_2019-2022.rds
 Ploting 3 datasets onto a single choropleth map to have an general view.
 
 ```{r}
+library(sf)
+library(tmap)
+
 tmap_mode('plot')
 
 tm_shape(bmr_adm_boundary) +
@@ -478,6 +497,7 @@ samples$density <- densities
 Next we visualise geographic distribution by year
 
 Derive the year from the accident date column if it exists, otherwise use the existing year column.
+
 ```{r}
 library(lubridate)
 
@@ -577,11 +597,9 @@ ggplot(accidents_by_year, aes(x = year, y = count)) +
   theme_minimal()
 ```
 
-
 ### 5.3 Visualisation of Accident by month
 
-Description of the distribution of accidents by month in the Bangkok Metropolitan Region.
-The bar plot below shows the number of accidents for each month, highlighting any seasonal trends or patterns in the Bangkok Metropolitan Region.
+Description of the distribution of accidents by month in the Bangkok Metropolitan Region. The bar plot below shows the number of accidents for each month, highlighting any seasonal trends or patterns in the Bangkok Metropolitan Region.
 
 ```{r}
 # visualise geographic distribution of accidents by month
@@ -627,9 +645,7 @@ ggplot(accidents_by_month, aes(x = month, y = count)) +
   theme_minimal()
 ```
 
-The newyear holiday period may influence the number of accidents, as people tend to travel more during this time. The term "seven dangerous days" (Apr 11 to Apr 17) is often used in Thailand to describe the period around the New Year when traffic accidents are more frequent. 
-Below is the plot to compare average daily accidents during the New Year holiday period with other times of the year for 4 year from 2019 to 2022 for each year.
-
+The newyear holiday period may influence the number of accidents, as people tend to travel more during this time. The term "seven dangerous days" (Apr 11 to Apr 17) is often used in Thailand to describe the period around the New Year when traffic accidents are more frequent. Below is the plot to compare average daily accidents during the New Year holiday period with other times of the year for 4 year from 2019 to 2022 for each year.
 
 ```{r}
 library(dplyr)
