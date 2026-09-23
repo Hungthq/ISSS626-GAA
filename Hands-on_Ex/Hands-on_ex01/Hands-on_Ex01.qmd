@@ -15,12 +15,6 @@ format:
     toc: true
     toc-depth: 4
     code-copy: true
-execute:
-  echo: true
-  eval: true
-  mesage: false
-  warning: false
-  freeze: true
 ---
 
 # Geospatial Data Science with R

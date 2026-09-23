@@ -17,13 +17,11 @@ format:
 editor: visual
 ---
 
-
 ## Loading the packages
 
 ```{r}
 pacman::p_load(sf, spdep, tmap, tidyverse, knitr, GWmodel, ggstatsplot)
 ```
-
 
 ## Importing Hunan shapefile and GDP table
 
@@ -39,15 +37,15 @@ Import Hunan GDP file:
 ```{r}
 hunan2012 <- read_csv("data/aspatial/Hunan_2012.csv")
 ```
-Join Hunan & Hunan2012 data.frames and tidy the data table by retaining NAME_2, ID_3, NAME_3, County, GDPPC, GIO, Agri and Service
 
+Join Hunan & Hunan2012 data.frames and tidy the data table by retaining NAME_2, ID_3, NAME_3, County, GDPPC, GIO, Agri and Service
 
 ```{r}
 hunan <- left_join(hunan,hunan2012) %>%
   select(1:3, 7, 15, 16, 31, 32)
 ```
 
-## Plot choropleth map 
+## Plot choropleth map
 
 ```{r}
 #| fig-width: 16
@@ -66,14 +64,12 @@ gdppc <- qtm(hunan, "GDPPC") +
 tmap_arrange(basemap, gdppc, asp=1, ncol=2)
 ```
 
-
 **Converting to SpatialPolygonDataFrame**
 
 ```{r}
 hunan_sp <- hunan %>%
   as_Spatial()
 ```
-
 
 ## Geographically weighted summary Statistics (GSWW) with adaptive bandwidth
 
@@ -87,6 +83,7 @@ bw_CV <- bw.gwr(GDPPC ~ 1,
                 kernel = "bisquare",
                 longlat = T)
 ```
+
 Cross validation with adaptive = FALSE
 
 ```{r}
@@ -109,10 +106,7 @@ bw_AIC <- bw.gwr(GDPPC ~ 1,
                 longlat = T)
 ```
 
-
-
 ## Computing geographically weighted summary statistic
-
 
 ```{r}
 gwstat <- gwss(data = hunan_sp,
@@ -125,14 +119,14 @@ gwstat <- gwss(data = hunan_sp,
 ```
 
 GWSTAT:
+
 ```{r}
 gwstat
 ```
 
-
 ## Preparing the output data
 
-Extract SDF  data table from gwss object output from gwss() for subsequent geovilisation.
+Extract SDF data table from gwss object output from gwss() for subsequent geovilisation.
 
 ```{r}
 gwstat_df <- as.data.frame(gwstat$SDF)
@@ -143,7 +137,6 @@ Next cbind() is used to append the newly derived data.frame onto hunan sf data f
 ```{r}
 hunan_gstat <- cbind(hunan, gwstat_df)
 ```
-
 
 ## Visualising geographically weighted summary statistics
 
@@ -161,9 +154,3 @@ tm_shape(hunan_gstat) +
   tm_layout(legend.position = c("left", "bottom"))
 
 ```
-
-
-
-
-
-

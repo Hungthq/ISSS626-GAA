@@ -3,12 +3,13 @@ title: "Hands-on Exercise 01B"
 subtitle: "This exercise is a hands-on guide for using the tmap package in R to create both static and interactive choropleth maps."
 author: "Hung Thai"
 date: "Aug 28, 2026"
+date-modified: "last-modified"
 format: 
   html:
     toc: true
     toc-depth: 4
     code-copy: true
-date-modified: "last-modified"
+
 execute:
   echo: true
   eval: true
