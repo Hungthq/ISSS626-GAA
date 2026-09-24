@@ -122,6 +122,7 @@ null_counts
 The dataset contains 718 missing values in total. We will check for missing values in each column to identify which columns have missing data. Listing the number of missing values for each column in the dataset
 
 ```{r}
+#| eval: false
 data.frame(
   Column = colnames(bmr_acc),
   Missing_Values = colSums(is.na(bmr_acc))
@@ -182,7 +183,7 @@ bmr_acc_sf <- bmr_acc_sf[!duplicated(bmr_acc_sf$acc_code), ]
 # Saving the cleaned and filtered road traffic accident data for the Bangkok Metropolitan Region in RDS format for future use.
 #| echo: false
 #| eval: false
-saveRDS  (bmr_acc_sf, file = "data/bmr_road_traffic_accidents_2019-2022.rds")
+#saveRDS(bmr_acc_sf, file = "data/bmr_road_traffic_accidents_2019-2022.rds")
 ```
 
 ```{r}
@@ -219,6 +220,7 @@ Rows: 928 Columns: 27 \$ adm2_name <chr> "Phra Nakhon", "Dusit", "Nong Chok", "B
 Filtering the administrative boundaries to include only the districts within the Bangkok Metropolitan Region (BMR) for spatial analysis.
 
 ```{r}
+#| eval: false
 bmr_adm_boundary <- adm_boundary %>%
   select("adm1_name") %>%
   filter(adm1_name == "Bangkok" | adm1_name == "Nonthaburi" | adm1_name == "Pathum Thani" | adm1_name == "Samut Prakan" | adm1_name == "Nakhon Pathom" | adm1_name == "Samut Sakhon")
@@ -392,7 +394,9 @@ bmr_primary_roads <- read_rds("data/bmr_primary_roads.rds")
 
 ```{r}
 #| echo: false
-bmr_acc_sf <- read_rds("data/takehome01/bmr_acc_sf.rds")
+bmr_acc_sf <- read_rds("data/bmr_road_traffic_accidents_2019-2022.rds")
+
+bmr_adm_boundary <- read_rds("data/bmr_adm_boundary.rds")
 ```
 
 ## 5 Exploratory Data Analysis (EDA)
@@ -706,43 +710,13 @@ In this section, we will perform a first-order spatial analysis to understand th
 ```{r}
 #| fig-width: 10
 #| fig-height: 8
-# 1. Filter to study year (2022, per the brief's mandatory restriction 
-#    for this dataset)
-#acc_2022 <- bmr_acc_sf |>
-#  filter(lubridate::year(incident_datetime) == 2022)
 
-#nrow(acc_2022)  # sanity check on sample size
-
-# 2. Apply jitter to break coincident points
-JITTER_RADIUS <- 50 # ~ 50 meters
-set.seed(1234)  # reproducibility - document this in your report
-acc_jittered <- st_jitter(bmr_acc_sf, amount = JITTER_RADIUS)
-
-# confirm duplicates resolved
-sum(duplicated(st_coordinates(acc_jittered)))
-
-# 3. Build owin from the BMR union, and convert to ppp
-library(spatstat)
-
+# Build owin from the BMR union, and convert to ppp
 bmr_owin <- as.owin(st_union(bmr_adm_boundary))
-acc_ppp  <- as.ppp(st_coordinates(acc_jittered), W = bmr_owin)
+acc_ppp  <- as.ppp(st_coordinates(bmr_acc_sf), W = bmr_owin)
 
 acc_ppp        # summary: check n, window area, units
 plot(acc_ppp, main = "BMR 2019 - 2022 Accidents")
-```
-
-```{r}
-#| fig-width: 10
-#| fig-height: 8
-# Re-run as.ppp with a check, and explicitly report + drop rejects
-acc_ppp <- as.ppp(st_coordinates(acc_jittered), W = bmr_owin, check = TRUE)
-n_rejected <- length(attr(acc_ppp, "rejects")$x)
-n_rejected  # confirm it's 9
-
-# The rejects are already excluded from the main point set (3589 is correct,
-# not 3593) — attr(,"rejects") is just a stored record for transparency.
-# To plot cleanly without the warning:
-plot(acc_ppp, main = "BMR 2019 - 2022 Accidents", clipwin = bmr_owin)
 ```
 
 ### Clark-Evans Test for Nearest neighbor analysis
