@@ -1,0 +1,267 @@
+---
+title: "Hands-on Exercise 05"
+subtitle: "This exercise is a hands-on guide for Global Measures and Local Measures of Spatial Autocorrelation"
+author: "Hung Thai"
+date: "Sep 23, 2026"
+date-modified: "last-modified"
+execute:
+  echo: true
+  eval: true
+  mesage: false
+  warning: false
+  freeze: true
+format: 
+  html:
+    toc: true
+    toc-depth: 4
+    code-copy: true
+editor: visual
+---
+
+# 5.1 Global Measures of Spatial Autocorrelation
+
+## 5.1.1 Overview
+
+This hands-on exercise will show how to compute Global Measures of Spatial Autocorrelation (GMSA) by using **spdep** package.
+
+::: callout-note
+reference:
+
+\[r4gdsa Chapter 09: Global Measures of Spatial Autocorrelation\](<https://r4gdsa.netlify.app/chap09.html>)
+:::
+
+A key goal of spatial policy is ensuring balanced regional development. This study utilizes spatial statistics to evaluate geographic equity by addressing three consecutive questions:
+
+1.  Is provincial development distributed evenly?
+
+2.  If not, does the uneven distribution display signs of geographic clustering?
+
+3.  If clustering exists, where exactly are these hotspots and lagging zones located?
+
+Two data sets will be used in this hands-on exercise, they are:
+
+- Hunan province administrative boundary layer at county level. This is a geospatial data set in ESRI shapefile format.
+
+- Hunan_2012.csv: This csv file contains selected Hunan’s local development indicators in 2012.
+
+This analysis relies on sf (geospatial data handling), tidyverse (attribute data wrangling), spdep (spatial weights and autocorrelation modeling), and tmap (choropleth mapping). The following initialization code handles environment deployment by auditing your local library for these packages, installing any missing components, and attaching them to the active R environment.
+
+```{r}
+# Loading the packages into R environment
+pacman::p_load(sf, spdep, tmap, tidyverse)
+```
+
+## 5.1.2 Loading data into R environment
+
+### Import shapefile into R environment
+
+```{r}
+#| eval: false
+hunan <- st_read(dsn = "data/geospatial", 
+                 layer = "Hunan")
+```
+
+```{r}
+#| include: false
+hunan <- st_read(dsn = "data/geospatial", 
+                 layer = "Hunan")
+```
+
+```{r}
+#| echo: false
+hunan
+```
+
+### Import csv file into r environment
+
+Import *Hunan_2012.csv* into R by using [`read_csv()`](https://readr.tidyverse.org/reference/read_delim.html) of **readr** package. The output is R data frame class.
+
+```{r}
+hunan2012 <- read_csv("data/aspatial/Hunan_2012.csv")
+```
+
+```{r}
+#| echo: false
+hunan2012
+```
+
+### Performing relational join the data
+
+Using [`left_join()`](https://dplyr.tidyverse.org/reference/mutate-joins.html) of **dplyr** update the attribute table of *hunan*’s SpatialPolygonsDataFrame with the attribute fields of *hunan2012* dataframe.
+
+These data fields will be selected for analysis: **NAME_2**, **ID_3**, **NAME_3**, **ENGTYPE_3**, **Country**, **GDPPC** and **geometry**.
+
+```{r}
+hunan <- left_join(hunan,hunan2012) %>%
+  select(1:4, 7, 15)
+```
+
+### Visualising Regional Development Indicator
+
+Using `qtm()` of **tmap** package to prepare a basemap and a choropleth map showing the distribution of GDPPC 2012.
+
+```{r}
+#| fig-width: 16
+#| fig-height: 8
+equal <- tm_shape(hunan) +
+  tm_polygons(fill = "GDPPC",
+              fill.scale = tm_scale_intervals(
+                style = "equal",
+                n = 5,
+                values = "brewer.blues")) +
+  tm_borders(fiil_alpha = 0.5) + 
+  tm_layout(legend.position = c("left", "bottom"), 
+            main.title = "Equal interval classification")
+
+quantile <- tm_shape(hunan) +
+  tm_polygons(fill = "GDPPC",
+              fill.scale = tm_scale_intervals(
+                style = "quantile",
+                n = 5)) +
+  tm_borders(fiil_alpha = 0.5) + 
+  tm_layout(legend.position = c("left", "bottom"), 
+            main.title = "Quantile classification")
+
+tmap_arrange(equal, 
+             quantile, 
+             asp=1, 
+             ncol=2)
+```
+
+::: callout-note
+In `tmap` (specifically within functions like `tm_polygons()` or `tm_fill()`), the `style` parameter controls the **data classification method** used to split your continuous development data into discrete color bins.
+
+The core difference between **`style = "equal"`** (Equal Interval) and **`style = "quantile"`** (Quantile) lies in how they calculate the range of each bin versus how many map features end up in each bin.
+
+Here is the direct comparison:
+
+| **Classification Style** | **How It Works** | **Map Visual Effect** | **Best Used For** |
+|----|----|----|----|
+| **`"equal"`** *(Equal Interval)* | Divides the **total data range** (Max - Min) into equal-sized value intervals. | Emphasizes absolute differences and **extremes / outliers** (e.g., one ultra-rich city might get its own color category). | Data that is already **evenly spread out** or when you want to highlight absolute thresholds. |
+| **`"quantile"`** *(Quantile)* | Distributes an **equal number of geographic features** (polygons) into each bin. | Results in a **balanced, high-contrast map** where every color is equally represented. | Data that is **highly skewed** (e.g., wealth distribution) or when you want to look at relative rankings (e.g., top 20% vs bottom 20%). |
+:::
+
+## 5.1.3 Global Measures of Spatial Autocorrelation
+
+### Computing Contiguity Spatial Weights
+
+Computing global spatial autocorrelation requires a spatial weights matrix to formalize neighborhood connections across the study area's counties. The code below uses *spdep::poly2nb()* to build a contiguity-based neighbor list from regional boundaries. By default, the queen argument is set to TRUE, meaning the function identifies first-order neighbors sharing any boundary segment or vertex. Setting *queen = FALSE* limits the definition to regions sharing a contiguous linear border (Rook contiguity).
+
+```{r}
+wm_q <- poly2nb(hunan, 
+                queen=TRUE)
+summary(wm_q)
+```
+
+The summary report above shows that there are 88 area units in Hunan. The most connected area unit has 11 neighbours. There are two area units with only one neighbours, and the most connected region (85) with 11 neighbours.
+
+```{r}
+wm_q <- poly2nb(hunan, 
+                queen=FALSE)
+summary(wm_q)
+```
+
+### Row-standardised weights matrix
+
+The next step involves assigning weights to the neighbor structures using a row-standardized approach (style = "W"). This method assigns an equal fractional weight (1/ number of neighbors) to each adjacent county, allowing the spatial lag to represent the local average. A known limitation of row-standardization is its vulnerability to edge effects; administrative units on the periphery of the study area have fewer neighboring connections, potentially skewing the calculated spatial autocorrelation. While this example implements style = "W" for baseline interpretation, more robust configurations, such as basic binary weights (style = "B"), are available to address these geographic boundary limits.
+
+```{r}
+rswm_q <- nb2listw(wm_q, 
+                   style="W", 
+                   zero.policy = TRUE)
+rswm_q
+```
+
+## 5.1.4 Global Measures of Spatial Autocorrelation: Moran’s I
+
+### Maron’s I test
+
+::: callout-note
+Global Moran’s I is the foundational and most widely used metric for quantifying global spatial autocorrelation. It measures the overall degree to which similar values of a variable cluster together, disperse, or distribute randomly across a defined geographic space.
+
+It is the spatial equivalent of Pearson's correlation coefficient, mathematically translating Tobler’s First Law of Geography: "Everything is related to everything else, but near things are more related than distant things."
+:::
+
+```{r}
+moran.test(hunan$GDPPC, 
+           listw=rswm_q, 
+           zero.policy = TRUE, 
+           na.action=na.omit)
+```
+
+The statistical conclusion is that you reject the null hypothesis of complete spatial randomness at a $>99.9\%$ confidence level ($p < 0.001$).
+
+Because the p-value ($1.095 \times 10^{-6}$) is substantially smaller than the standard alpha level of 0.05, and the Z-score (standard deviate) is 4.7351, the results are highly statistically significant. It can be concluded in favor of the alternative hypothesis: the data exhibits significant positive spatial autocorrelation.
+
+Based on this output, there is highly significant positive spatial autocorrelation in the GDP per capita (GDPPC) across the measured regions in Hunan.
+
+The data strongly rejects the null hypothesis of Complete Spatial Randomness (CSR) in favor of the alternative hypothesis that the values are spatially clustered.
+
+Statistically, this confirms that the observed clustering of similar GDPPC values (Moran's I of 0.3007) is not due to random chance.
+
+### Computing Monte Carlo Moran’s I
+
+::: callout-note
+**Monte Carlo Moran’s I** is a simulation-based (permutation) method used to determine the statistical significance of the Moran’s I statistic.
+
+Instead of relying on standard analytical formulas—which often assume your underlying data follows a normal distribution—the Monte Carlo approach uses brute-force computation to build an empirical "null distribution" specific to your exact dataset and spatial weights.
+:::
+
+```{r}
+set.seed(1234)
+bperm= moran.mc(hunan$GDPPC, 
+                listw=rswm_q, 
+                nsim=999, 
+                zero.policy = TRUE, 
+                na.action=na.omit)
+bperm
+```
+
+The statistical conclusion is that you **reject the null hypothesis of Complete Spatial Randomness** at a 99.9% confidence level ($p = 0.001$).
+
+Because the p-value (0.001) is strictly less than the standard significance levels (such as 0.05 or 0.01), the result is highly statistically significant. You conclude that the data exhibits **significant positive spatial autocorrelation**.
+
+Here is what the specific Monte Carlo metrics reveal about your data:
+
+- **Observed Rank = 1000:** The simulation shuffled your GDPPC data across the map 999 times. Your actual observed Moran's I statistic (0.30837) ranked 1000th out of the 1000 total iterations (999 random + 1 observed). This means your actual data was more spatially clustered than *every single one* of the 999 random permutations.
+
+- **P-value = 0.001:** This is the absolute minimum possible p-value when running 999 simulations. It is calculated by taking the number of instances equal to or more extreme than your observation (which is just 1—your actual observation) and dividing it by the total iterations (1000).
+
+This non-parametric test strongly confirms the findings of your previous analytical test: the geographic clustering of high-GDP and low-GDP counties in Hunan province is genuine and practically impossible to generate by random geographic chance.
+
+### Visualising Monte Carlo Moran’s I
+
+```{r}
+mean(bperm$res[1:999])
+```
+
+```{r}
+var(bperm$res[1:999])
+```
+
+```{r}
+summary(bperm$res[1:999])
+```
+
+```{r}
+hist(bperm$res, 
+     freq=TRUE, 
+     breaks=20, 
+     xlab="Simulated Moran's I")
+abline(v=0, 
+       col="red") 
+```
+
+**Plotting using ggplot2 package**
+
+```{r}
+library(ggplot2)
+
+# ggplot2 requires data to be in a data frame
+ggplot(data.frame(Simulated_I = bperm$res), aes(x = Simulated_I)) +
+  geom_histogram(bins = 20, color = "black", fill = "lightgray") +
+  geom_vline(xintercept = 0, color = "red") +
+  labs(x = "Simulated Moran's I", 
+       y = "Frequency") +
+  theme_minimal()
+```

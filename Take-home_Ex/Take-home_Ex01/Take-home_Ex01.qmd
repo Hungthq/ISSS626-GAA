@@ -45,7 +45,7 @@ The object of the exercise are:
 The following 3 datasets will be used in this exercise.
 
 | Dataset Name | Description | Format | Source |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | *Thailand Road Accident \[2019-2022\]* | Data on road accidents in Thailand, including details on location, severity, and date of incidents. | CSV | [Kaggle](https://www.kaggle.com/datasets/thaweewatboy/thailand-road-accident-2019-2022) |
 | *Thailand Roads (OpenStreetMap Export)* | OpenStreetMap Geospatial data of Thailand. | ESRI Shapefile | [Humanitarian Data Exchange (HDX)](https://data.humdata.org/dataset/hotosm_tha_roads) |
 | *Thailand - Subnational Administrative Boundaries* | Boundaries of Thailand's Geospatial dataset. | ESRI Shapefile | [Humanitarian Data Exchange (HDX)](https://data.humdata.org/dataset/cod-ab-tha?) |
@@ -55,7 +55,7 @@ The following 3 datasets will be used in this exercise.
 This dataset provides comprehensive statistics on recorded road accidents in Thailand, spanning from approximately 2019 to 2022. The data was sourced from raw information provided by the [Office of the Permanent Secretary, Ministry of Transport](https://www.mots.go.th/news/category/411), which is also utilized in this [public dashboard](https://trams.mot.go.th/main-dashboard) for easier access and visualization. The dataset encompasses various aspects of road accidents and aims to shed light on the trends and patterns within this critical area of concern, analysis of this data could be crucial in guiding road safety policies and measures.
 
 | Column | Description |
-|:---|:---|
+|:-----------------------------------|:-----------------------------------|
 | acc_code | The accident code or identifier. |
 | incident_datetime | The date and time of the accident occurrence. |
 | report_datetime | The date and time when the accident was reported. |
@@ -82,12 +82,7 @@ The original data has total 81735 accident records in all over Thailand from 201
 Install and load R packages
 
 ```{r}
-pacman::p_load(tidyverse, sf, tmap, spNetwork, spatstat, plotly, gtsummary, sparr)
-#library(tidyverse, sf, tmap, readr) #, spNetwork, spatstat, plotly, gtsummary, sparr) 
-```
-
-```{r}
-pacman::p_load(readr, dplyr, lubridate, ggplot2, tmap, sf, spNetwork, spatstat, plotly, gtsummary, sparr)
+pacman::p_load(readr, dplyr, lubridate, ggplot2, tmap, sf, spNetwork, spatstat, plotly, gtsummary, sparr, terra)
 ```
 
 ::: callout-note
@@ -105,22 +100,23 @@ set.seed(1234)
 Loading Thailand road traffic accidents 2019-2022.
 
 ```{r}
+#| eval: false
 bmr_acc <- read_csv(
-  "../../data/takehome01/thai_road_accident_2019_2022.csv",
+  "data/thai_road_accident_2019_2022.csv",
   show_col_types = FALSE
 )
-```
-
-```{r}
-bmr_acc
-
 ```
 
 Checking for missing values
 
 ```{r}
+#| eval: false
 null_counts <-   sum(is.na(bmr_acc))
 null_counts
+```
+
+```         
+[1] 718
 ```
 
 The dataset contains 718 missing values in total. We will check for missing values in each column to identify which columns have missing data. Listing the number of missing values for each column in the dataset
@@ -137,7 +133,7 @@ There are 359 missing values in the `latitude` column and 359 missing values in 
 From Wikipedia, [Bangkok Metropolitan Region (BMR)](https://en.wikipedia.org/wiki/Bangkok_Metropolitan_Region) is the capital and most populous city of Thailand. It is located in the central part of the country, on the Chao Phraya River delta. The BMR consists of Bangkok and its surrounding provinces, including Nonthaburi, Pathum Thani, Samut Prakan, Nakhon Pathom, and Samut Sakhon. We will focus on the road traffic accidents that occurred these areas in the year of 2022. The dataset contains information on the location, severity, and date of accidents, which will be used for spatial and spatio-temporal point-pattern analysis.
 
 ```{r}
-
+#| eval: false
 bmr_acc_sf <- bmr_acc %>%
   filter(province_en == "Bangkok" | province_en == "Nonthaburi" | province_en == "Pathum Thani" | province_en == "Samut Prakan" | province_en == "Nakhon Pathom" | province_en == "Samut Sakhon") %>%
   #filter(year(incident_datetime) == 2022) %>%
@@ -149,16 +145,26 @@ bmr_acc_sf <- bmr_acc %>%
 Verifying that the missing values have been removed
 
 ```{r}
+#| eval: false
 null_counts_after <- sum(is.na(bmr_acc_sf))
 null_counts_after
+```
+
+```         
+[1] 0
 ```
 
 Next we check for duplicate records in the dataset. Duplicate records can skew the analysis and lead to inaccurate results. We will identify and remove any duplicate rows based on the `acc_code` column, which serves as a unique identifier for each accident.
 
 ```{r}
+#| eval: false
 # Check for duplicate records based on the 'acc_code' column
 duplicates <- bmr_acc_sf[duplicated(bmr_acc_sf$acc_code), ]
 nrow(duplicates)
+```
+
+```         
+[1] 0
 ```
 
 There are 0 duplicate records in the dataset based on the `acc_code` column. Therefore, no further action is needed to remove duplicates. In case there were duplicates, we would remove them using the following code:
@@ -168,6 +174,7 @@ Removing duplicate records
 ```{r}
 #| echo: false
 #| eval: false
+# Removing duplicated records
 bmr_acc_sf <- bmr_acc_sf[!duplicated(bmr_acc_sf$acc_code), ]
 ```
 
@@ -175,19 +182,17 @@ bmr_acc_sf <- bmr_acc_sf[!duplicated(bmr_acc_sf$acc_code), ]
 # Saving the cleaned and filtered road traffic accident data for the Bangkok Metropolitan Region in RDS format for future use.
 #| echo: false
 #| eval: false
-write_csv(bmr_acc_sf, file = "../../data/takehome01/bmr_road_traffic_accidents_2019-2022.csv")
+saveRDS  (bmr_acc_sf, file = "data/bmr_road_traffic_accidents_2019-2022.rds")
 ```
 
 ```{r}
-#bmr_acc_sf <- read_csv("../../data/takehome01/bmr_road_traffic_accidents_2019-2022.csv") %>%
-#  st_set_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
-  #st_transform(crs = 32647)
-
+bmr_acc_sf <- readRDS("data/bmr_road_traffic_accidents_2019-2022.rds")
 ```
 
 **Import Thailand subnational administrative boundaries data**
 
 ```{r}
+#| eval: false
 adm_boundary <- st_read(dsn = "../../data/takehome01/tha_admin2.shp", # layer 2 for district level boundaries
                 layer = "tha_admin2") %>% 
   st_transform(crs = 32647)
@@ -196,6 +201,7 @@ adm_boundary <- st_read(dsn = "../../data/takehome01/tha_admin2.shp", # layer 2 
 Check the coordinate reference system (CRS) of the administrative boundaries
 
 ```{r}
+#| eval: false
 st_crs(adm_boundary) 
 ```
 
@@ -204,6 +210,7 @@ st_crs(adm_boundary)
 Observing the administrative boundaries data, we can see that it contains information about the districts within Thailand, including their names and geometries. This data will be useful for spatial analysis and visualization of road traffic accidents in relation to administrative boundaries.
 
 ```{r}
+#| eval: false
 glimpse(adm_boundary) # 
 ```
 
@@ -222,29 +229,29 @@ Filtering the administrative boundaries to include only the districts within the
 ```{r}
 #| echo: false
 #| eval: false
-saveRDS(bmr_adm_boundary, file = "../../data/takehome01/bmr_adm_boundary.rds")
+saveRDS(bmr_adm_boundary, file = "data/bmr_adm_boundary.rds")
 ```
 
 ```{r}
-bmr_adm_boundary <- read_rds("../../data/takehome01/bmr_adm_boundary.rds")
-```
-
-```{r}
-bmr_adm_boundary
+bmr_adm_boundary <- read_rds("data/bmr_adm_boundary.rds")
 ```
 
 Visualizing the administrative boundaries of the Bangkok Metropolitan Region (BMR) using the `tmap` package.
 
 ```{r}
+#| fig-width: 10
+#| fig-height: 8
 tmap_mode("plot")
 tm_shape(bmr_adm_boundary) +
   tm_fill(col = "adm1_name", title = "Region") + 
+  tm_text("adm1_name", size=0.6) +
   tm_borders() +
   tm_layout(main.title = "BMR Administrative Boundaries",
             main.title.position = "center",
             main.title.size = 3,
             #title.position = c("center", "top"),
-            legend.position = c("left", "bottom")
+            legend.position = c("left", "bottom"),
+            legend.text.size = 0.6
            )
 ```
 
@@ -253,14 +260,20 @@ tm_shape(bmr_adm_boundary) +
 Import road network data for Thailand from OpenStreetMap using the `sf` package.
 
 ```{r}
-thailand_roads <- st_read(dsn = "../../data/takehome01/hotosm_tha_roads_lines_shp.shp", layer = "hotosm_tha_roads_lines_shp") %>%
+#| eval: false
+thailand_roads <- st_read(dsn = "data/hotosm_tha_roads_lines_shp.shp", layer = "hotosm_tha_roads_lines_shp") %>%
   st_set_crs(4326) %>% # Set the coordinate reference system to WGS 84 (EPSG:4326)
   st_transform(crs = 32647) # UTM Zone 47N (EPSG:32647) for Bangkok Metropolitan Region
+```
+
+```         
+Reading layer `hotosm_tha_roads_lines_shp' from data source `C:\hungthq\ISSS626-GAA\Take-home_Ex\Take-home_Ex01\data\hotosm_tha_roads_lines_shp.shp' using driver `ESRI Shapefile' Simple feature collection with 2833401 features and 14 fields Geometry type: MULTILINESTRING Dimension:     XY Bounding box:  xmin: 97.33814 ymin: 5.643645 xmax: 105.6528 ymax: 20.47168 Geodetic CRS:  WGS 84
 ```
 
 The road network data contains \~2.8M road segments in Thailand. We will filter the data to include only the road segments within the Bangkok Metropolitan Region (BMR) for spatial analysis.
 
 ```{r}
+#| eval: false
 bmr_roads_orig <- thailand_roads %>%
   st_intersection(bmr_adm_boundary) # Filter road segments within the BMR
 ```
@@ -272,6 +285,7 @@ The geospatial data is in the form of MULTILINESTRING geometries, which represen
 :::
 
 ```{r}
+#| eval: false
 bmr_roads <- bmr_roads_orig %>%
   st_cast("LINESTRING") # Convert MULTILINESTRING to LINESTRING geometries
 ```
@@ -279,26 +293,23 @@ bmr_roads <- bmr_roads_orig %>%
 Check the coordinate reference system of the BMR road network data
 
 ```{r}
+#| eval: false
 st_crs(bmr_roads) 
 ```
 
-Ploting the road network data for the Bangkok Metropolitan Region (BMR) using the `tmap` package.
-
-```{r}
-tmap_mode("plot") 
-tm_shape(bmr_roads) +
-  tm_lines() +
-  tm_layout(main.title = "BMR Open Street Map",
-            main.title.position = "center",
-            main.title.size = 3,
-            legend.position = c("left", "bottom")
-           )
+```         
+Coordinate Reference System:   User input: EPSG:32647    wkt: PROJCRS["WGS 84 / UTM zone 47N",     BASEGEOGCRS["WGS 84",         ENSEMBLE["World Geodetic System 1984 ensemble",             MEMBER["World Geodetic System 1984 (Transit)"],             MEMBER["World Geodetic System 1984 (G730)"],             MEMBER["World Geodetic System 1984 (G873)"],             MEMBER["World Geodetic System 1984 (G1150)"],             MEMBER["World Geodetic System 1984 (G1674)"],             MEMBER["World Geodetic System 1984 (G1762)"],             MEMBER["World Geodetic System 1984 (G2139)"],             MEMBER["World Geodetic System 1984 (G2296)"],             ELLIPSOID["WGS 84",6378137,298.257223563,                 LENGTHUNIT["metre",1]],             ENSEMBLEACCURACY[2.0]],         PRIMEM["Greenwich",0,             ANGLEUNIT["degree",0.0174532925199433]],         ID["EPSG",4326]],     CONVERSION["UTM zone 47N",         METHOD["Transverse Mercator",             ID["EPSG",9807]],         PARAMETER["Latitude of natural origin",0,             ANGLEUNIT["degree",0.0174532925199433],             ID["EPSG",8801]],         PARAMETER["Longitude of natural origin",99,             ANGLEUNIT["degree",0.0174532925199433],             ID["EPSG",8802]],         PARAMETER["Scale factor at natural origin",0.9996,             SCALEUNIT["unity",1],             ID["EPSG",8805]],         PARAMETER["False easting",500000,             LENGTHUNIT["metre",1],             ID["EPSG",8806]],         PARAMETER["False northing",0,             LENGTHUNIT["metre",1],             ID["EPSG",8807]]],     CS[Cartesian,2],         AXIS["(E)",east,             ORDER[1],             LENGTHUNIT["metre",1]],         AXIS["(N)",north,             ORDER[2],             LENGTHUNIT["metre",1]],     USAGE[         SCOPE["Navigation and medium accuracy spatial referencing."],         AREA["Between 96°E and 102°E, northern hemisphere between equator and 84°N, onshore and offshore. China. Indonesia. Laos. Malaysia - West Malaysia. Mongolia. Myanmar (Burma). Russian Federation. Thailand."],         BBOX[0,96,84,102]],     ID["EPSG",32647]]
 ```
 
 Exploring the attributes of the BMR road network data to understand the available information for analysis.
 
 ```{r}
+#| eval: false
 glimpse(bmr_roads) 
+```
+
+```         
+Rows: 592,641 Columns: 16 $ name       <chr> NA, NA, NA, "ถนนราชดำเนินกลาง", "ถนนราชดำเนินกลาง", NA, NA, NA, "ซอยสามเสน 1", "ถนนสมเด็จพระปิ่นเกล้า", "ถนนหน้าหับเผย", NA, NA, NA, "ถนนหน้าหับเผย", NA, NA, NA, NA, NA, NA, N… $ name_en    <chr> NA, NA, NA, "Ratchadamnoen Klang Road", "Ratchadamnoen Klang Road", NA, NA, NA, "Soi Samsen 1", "Somdet Phra Pinklao Road", "Na Hap Phoei Road", NA, NA, NA, "Na Ha… $ highway    <chr> "steps", "footway", "footway", "secondary", "secondary", "service", "footway", "footway", "residential", "primary", "footway", "service", "service", "service", "fo… $ surface    <chr> NA, NA, NA, "asphalt", "asphalt", NA, "paving_stones", "paving_stones", "concrete", "asphalt", "paving_stones", NA, NA, NA, "paving_stones", NA, NA, NA, "paving_st… $ smoothness <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, "excellent", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA… $ width      <chr> NA, NA, NA, NA, NA, NA, NA, NA, "5", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA… $ lanes      <chr> NA, NA, NA, NA, "3", NA, NA, NA, NA, "3", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N… $ oneway     <chr> NA, NA, NA, "yes", "yes", "yes", NA, NA, "yes", "yes", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "no", "yes", NA, "yes", NA, NA, NA, NA, NA, NA, NA, NA, … $ bridge     <chr> NA, NA, NA, "yes", "yes", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N… $ layer      <chr> NA, NA, NA, "1", "1", NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N… $ source     <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, "Bing", NA,… $ name_th    <chr> NA, NA, NA, "ถนนราชดำเนินกลาง", "ถนนราชดำเนินกลาง", NA, NA, NA, "ซอยสามเสน 1", "ถนนสมเด็จพระปิ่นเกล้า", "ถนนหน้าหับเผย", NA, NA, NA, "ถนนหน้าหับเผย", NA, NA, NA, NA, NA, NA, N… $ osm_id     <dbl> 826834653, 1264028727, 1264028728, 175803643, 175803646, 707021285, 1294704160, 1296288435, 274710632, 25715013, 196823083, 626858467, 1162004952, 1162004953, 1223… $ osm_type   <chr> "ways_line", "ways_line", "ways_line", "ways_line", "ways_line", "ways_line", "ways_line", "ways_line", "ways_line", "ways_line", "ways_line", "ways_line", "ways_l… $ adm1_name  <chr> "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok", "Bangkok"… $ geometry   <LINESTRING [m]> LINESTRING (661956.2 151980..., LINESTRING (661230.6 151997..., LINESTRING (661234.5 151996..., LINESTRING (661606.9 152137..., LINESTRING (661637 15213…
 ```
 
 Observing the attributes of the BMR road network data, we can see that it contains information about the road segments, including their names, types, and geometries. This data will be useful for spatial analysis and visualization of road traffic accidents in relation to the road network. For further analysis, we will focus on the road segments that are classified as "primary" roads, which are major roads that connect different regions and are likely to have higher traffic volumes. We will filter the data to include only these primary road segments for spatial analysis from "highway" attribute.
@@ -306,12 +317,18 @@ Observing the attributes of the BMR road network data, we can see that it contai
 Displaying the unique values in the "highway" attribute to identify the different types of roads in the BMR road network data.
 
 ```{r}
+#| eval: false
 unique(bmr_roads$highway)
+```
+
+```         
+[1] "steps"          "footway"        "secondary"      "service"        "residential"    "primary"        "tertiary_link"  "path"           "secondary_link" "pedestrian"     [11] "tertiary"       "primary_link"   "unclassified"   "corridor"       "cycleway"       "busway"         "construction"   "motorway_link"  "track"          "trunk_link"     [21] "trunk"          "motorway"       "proposed"       "road"           "raceway"        "platform"   
 ```
 
 For the study purpose, we will focus on the primary roads in the BMR road network data. The primary roads are classified as "motoway", "trunk", "primary", "secondary", "tertiary" and "unclassified". We will filter the data to include only these primary road segments for spatial analysis.
 
 ```{r}
+#| eval: false
 hw_types <- c("motorway", "trunk", "primary", "secondary", "tertiary", "unclassified")
 
 bmr_roads_filtered <- bmr_roads %>%
@@ -320,12 +337,18 @@ bmr_roads_filtered <- bmr_roads %>%
 ```
 
 ```{r}
+#| eval: false
 glimpse(bmr_roads_filtered)
 ```
 
-#plotting the filtered primary road network data for the Bangkok Metropolitan Region (BMR) using the `tmap` package.
+```         
+Rows: 24,054 Columns: 2 $ highway  <chr> "secondary", "secondary", "primary", "secondary", "secondary", "secondary", "secondary", "primary", "primary", "secondary", "secondary", "secondary", "tertiary", "se… $ geometry <LINESTRING [m]> LINESTRING (661606.9 152137..., LINESTRING (661637 1521372,..., LINESTRING (661716.3 152142..., LINESTRING (662279.2 152244..., LINESTRING (661792.8 15202…
+```
+
+plotting the filtered primary road network data for the Bangkok Metropolitan Region (BMR) using the `tmap` package.
 
 ```{r}
+#| eval: false
 tmap_mode("plot")
 tm_shape(bmr_roads_filtered) +
   tm_lines(col = "highway", title = "Road Type") +
@@ -336,6 +359,20 @@ tm_shape(bmr_roads_filtered) +
            )
 ```
 
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+#| echo: false
+bmr_roads <- readRDS("data/bmr_primary_roads.rds")
+tm_shape(bmr_roads) +
+  tm_lines(col = "highway", title = "Road Type") +
+  tm_layout(main.title = "BMR Primary Road Network",
+            main.title.position = "center",
+            main.title.size = 3,
+            legend.position = c("left", "bottom")
+  )
+```
+
 ::: callout-note
 ## Note
 
@@ -343,12 +380,19 @@ By filtering the road network data to include only the primary roads, we reduce 
 :::
 
 ```{r}
+#| eval: false
 # save the filtered primary road network data for the Bangkok Metropolitan Region (BMR) in RDS format for future use.
-saveRDS(bmr_roads_filtered, file = "../../data/takehome01/bmr_primary_roads.rds")
+saveRDS(bmr_roads_filtered, file = "data/bmr_primary_roads.rds")
 ```
 
 ```{r}
-bmr_primary_roads <- read_rds("../../data/takehome01/bmr_primary_roads.rds")
+#| echo: false
+bmr_primary_roads <- read_rds("data/bmr_primary_roads.rds")
+```
+
+```{r}
+#| echo: false
+bmr_acc_sf <- read_rds("data/takehome01/bmr_acc_sf.rds")
 ```
 
 ## 5 Exploratory Data Analysis (EDA)
@@ -360,6 +404,8 @@ In this section, we will perform exploratory data analysis (EDA) on the road tra
 Ploting 3 datasets onto a single choropleth map to have an general view.
 
 ```{r}
+#| fig-width: 10
+#| fig-height: 8
 tmap_mode('plot')
 
 tm_shape(bmr_adm_boundary) +
@@ -367,16 +413,608 @@ tm_shape(bmr_adm_boundary) +
   tm_shape(bmr_primary_roads) +
   tm_lines(col = "darkgreen", lwd=1, alpha = 0.8) +
   tm_shape(bmr_acc_sf) + 
-  tm_dots(col = "red", size = 0.1, alpha = 0.5) +                                                
+  tm_dots(col = "red", size = 0.3, alpha = 0.5) +                                     
+  tm_layout(main.title = "Road Traffic Accidents in Bangkok Metropolitan Region (2019 - 2022)",
+            main.title.position = "center",
+            main.title.size = 3,
+            #title.position = c("center", "top"),
+            legend.position = c("left", "bottom"),
+            legend.text.size = 0.6
+            
+  )
+```
+
+::: callout-note
+## Note
+
+The overall plot provides a visual summary of the road traffic accidents in the Bangkok Metropolitan Region (BMR) for the year 2019 to 2022. It overlays the administrative boundaries, primary road network, and accident locations, allowing us to quickly identify areas with high accident density and their relation to major roads.
+
+Observing the map, we can see that the majority of accidents are concentrated along the primary roads and in densely populated areas, highlighting the importance of focusing on these regions for traffic safety interventions.
+
+This insight indicates that the 6 road types classified as primary roads are the most critical areas to target for traffic safety improvements and accident prevention measures.
+:::
+
+### Visualization Geographic Distribution of Accidents by year
+
+```{r}
+bmr_acc_sf <- bmr_acc_sf %>%
+  mutate(year = year(incident_datetime))
+```
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+tm_shape(bmr_adm_boundary) +
+  #tm_polygons(col='adm1_name', alpha=0.6, border.col="black", lwd=0.7, title = "Region") +
+  tm_shape(bmr_primary_roads) +
+  tm_lines(col = "darkgreen", lwd=0.7, alpha = 0.8) +
+  tm_shape(bmr_acc_sf) + 
+  tm_dots(col = "red", size = 0.25, alpha = 0.6) +                                                
+  tm_facets(by = "year") +
   tm_layout(
-    main.title = "Road Traffic Accidents in Bangkok Metropolitan Region (2022)",
+    main.title = "Road Traffic Accidents in Bangkok Metropolitan Region (2019-2022)",
     main.title.position = c("center", "top"), 
     main.title.size = 0.9,
     frame = FALSE,
-    legend.outside = TRUE,               
-    legend.outside.position = "left", 
-    legend.outside.size = 0.25,     
-    legend.text.size = 0.55, 
-    legend.title.size = 0.7 
+    #legend.outside = TRUE,               
+    #legend.outside.position = "left", 
+    #legend.outside.size = 0.25,     
+    #legend.text.size = 0.55, 
+    #legend.title.size = 0.7 
   )
 ```
+
+Accidents by year and province
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+# calculate total accidents by year
+bmr_acc_by_year <- bmr_acc_sf %>%
+  st_drop_geometry() %>%
+  group_by(year) %>%
+  summarise(total_accidents = n())
+
+# Calculate total accidents by province and year
+bmr_acc_by_province_year <- bmr_acc_sf %>%
+  st_drop_geometry() %>%
+  group_by(year, province_en) %>%
+  summarise(total_accidents = n()) %>%
+  ungroup()
+
+# Summarise total accidents for each year (trend)
+total_accidents_by_year <- bmr_acc_by_province_year %>%
+  group_by(year) %>%
+  summarise(total_accidents = sum(total_accidents))
+
+# create stacked bar chart for accidents by province and year
+fig_acc_by_province_year <- ggplot(bmr_acc_by_province_year, aes(x = factor(year), y = total_accidents, fill = province_en)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Road Traffic Accidents by Province and Year",
+       x = "Year",
+       y = "Total Accidents",
+       fill = "Province_en") +
+  theme_minimal() +
+  # add trend line for total accidents by year
+  geom_line(data = total_accidents_by_year, 
+  aes(x = factor(year), y = total_accidents, group = 1), 
+  color = "black", size = 1,
+  linetype = "dashed",
+  inherit.aes = FALSE) 
+
+fig_acc_by_province_year
+```
+
+::: callout-note
+- Accident trend is represented by the dashed black line in the stacked bar chart. The line indicate an uptrend in the total number of accidents over the years.
+- Bangkok consistently has the highest number of accidents compared to other provinces in the Bangkok Metropolitan Region.
+- The number of accidents of other provinces shows a relatively stable trend over the years.
+- The number of accidents in 2022 rises compared to previous years, it's related to the rise in number of accidents in Bangkok.
+:::
+
+### Visualization Geographic Distribution of Accidents by month
+
+```{r}
+# mutate month column
+bmr_acc_sf <- bmr_acc_sf %>%
+  mutate(month = lubridate::month(incident_datetime, label = TRUE)) 
+```
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+# Visualization Geographic Distribution of Accidents by month
+tm_shape(bmr_adm_boundary) +
+  #tm_polygons(col='adm1_name', alpha=0.6, border.col="black", lwd=0.7, title = "Region") +
+  tm_shape(bmr_primary_roads) +
+  tm_lines(col = "darkgreen", lwd=0.7, alpha = 0.8) +
+  tm_shape(bmr_acc_sf) + 
+  tm_dots(col = "red", size = 0.25, alpha = 0.6) +                                                
+  tm_facets(by = "month") +
+  tm_layout(
+    main.title = "Road Traffic Accidents by month in Bangkok Metropolitan Region (2019-2022)",
+    main.title.position = c("center", "top"), 
+    main.title.size = 0.9,
+    frame = FALSE
+  )
+
+```
+
+Visualization Geographic Distribution of Accidents by month
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+# create a summary of accidents by month and province
+bmr_acc_by_month_province <- bmr_acc_sf %>%
+  st_drop_geometry() %>%
+  group_by(month, province_en) %>%
+  summarise(total_accidents = n()) %>%
+  ungroup()
+
+# create stacked bar chart for accidents by month and province
+fig_acc_by_month_province <- ggplot(bmr_acc_by_month_province, aes(x = month, y = total_accidents, fill = province_en)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Road Traffic Accidents by Month and Province",
+       x = "Month",
+       y = "Total Accidents",
+       fill = "Province_en") +
+  theme_minimal()
+
+fig_acc_by_month_province
+```
+
+::: callout-note
+- The stacked bar chart shows the distribution of road traffic accidents by month and province.
+- The number of accidents spikes in certain months (e.g., April and December), indicating potential seasonal trends or periods of increased traffic activity.
+:::
+
+### Visualization Geographic Distribution of Accidents by day of the week
+
+```{r}
+# mutate day of the week column
+bmr_acc_sf <- bmr_acc_sf %>%
+  mutate(day_of_week = lubridate::wday(incident_datetime, label = TRUE)) 
+```
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+# Visualization Geographic Distribution of Accidents by day of the week
+tm_shape(bmr_adm_boundary) +
+  #tm_polygons(col='adm1_name', alpha=0.6, border.col="black", lwd=0.7, title = "Region") +
+  tm_shape(bmr_primary_roads) +
+  tm_lines(col = "darkgreen", lwd=0.7) +
+  tm_shape(bmr_acc_sf) + 
+  tm_dots(col = "red", size = 0.25, alpha = 0.6) +                                                
+  tm_facets(by = "day_of_week") +
+  tm_layout(
+    main.title = "Road Traffic Accidents by day of the week in Bangkok Metropolitan Region (2019-2022)",
+    main.title.position = c("center", "top"), 
+    main.title.size = 0.9,
+    frame = FALSE
+  )
+```
+
+Bar chart accidents by days of the week
+
+```{r}
+#compute accidents by day of the week 
+accidents_by_day_of_week <- bmr_acc_sf %>%
+  st_drop_geometry() %>%
+  mutate(
+    day_type = case_when(
+      day_of_week %in% c("Sat", "Sun") ~ "Weekend",
+      TRUE ~ "Weekday"
+    )
+  ) %>%
+  group_by(day_of_week, day_type) %>%
+  summarise(total_accidents = n()) %>%
+  ungroup()
+
+```
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+# create a bar chart for accidents by day of the week and day type in different colors
+ggplot(accidents_by_day_of_week, aes(x = day_of_week, y = total_accidents, fill = day_type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Road Traffic Accidents by Day of the Week and Day Type",
+       x = "Day of the Week",
+       y = "Total Accidents",
+       fill = "Day Type") +
+  theme_minimal()
+```
+
+::: callout-note
+- Weekdays generally have fewer accidents compared to weekends except for Friday.
+- Both Friday & Saturday have relatively high numbers of accidents suggesting increased traffic activity or risky driving behavior (possibly due to social events or nightlife - parties, gatherings, or late-night activities. Be noted that in general, people tend to drink more alcohol on Friday and Saturday nights).
+:::
+
+### Visualization Geographic Distribution of Accidents by peak hours
+
+```{r}
+# mutate peak hour column
+bmr_acc_sf <- bmr_acc_sf %>%
+  #st_drop_geometry() %>%
+  mutate(hour = lubridate::hour(incident_datetime)) %>%
+  mutate(
+    peak_hour = case_when(
+      hour %in% 6:9 ~ "Morning Peak",
+      hour %in% 16:19 ~ "Afternoon Peak",
+      TRUE ~ "Off-Peak"
+    )
+  ) 
+```
+
+```{r}
+#| fig-width: 14
+#| fig-height: 8
+# Visualization Geographic Distribution of Accidents by peak hours
+tmap_mode('plot')
+tm_shape(bmr_adm_boundary) +
+  
+  tm_shape(bmr_primary_roads) +
+  tm_lines(col = "darkgreen", lwd=0.7) +
+  tm_shape(bmr_acc_sf) + 
+  tm_dots(col = "red", size = 0.25, fill_alpha = 0.6) +                                                
+  tm_facets(by = "peak_hour") +
+  tm_title ("Road Traffic Accidents by Peak Hours in Bangkok Metropolitan Region (2019-2022)",
+    position = c("center", "top"), 
+    size = 1.5,
+  )
+```
+
+### Visualization Geographic Distribution of Accidents by day-night
+
+```{r}
+# mutate peak hour column
+bmr_acc_sf <- bmr_acc_sf %>%
+  #st_drop_geometry() %>%
+  mutate(daynight = lubridate::hour(incident_datetime)) %>%
+  mutate(
+    daynight = case_when(
+      hour %in% 6:18 ~ "Day",
+      TRUE ~ "Night"
+    )
+  ) 
+```
+
+```{r}
+#| fig-width: 12
+#| fig-height: 8
+# Visualization Geographic Distribution of Accidents by peak hours
+tmap_mode('plot')
+tm_shape(bmr_adm_boundary) +
+  
+  tm_shape(bmr_primary_roads) +
+  tm_lines(col = "darkgreen", lwd=0.7) +
+  tm_shape(bmr_acc_sf) + 
+  tm_dots(col = "red", size = 0.25, fill_alpha = 0.6) +                                                
+  tm_facets(by = "daynight") +
+  tm_title ("Road Traffic Accidents by Day Night in Bangkok Metropolitan Region (2019-2022)",
+            position = c("center", "top"), 
+            size = 1.5,
+  )
+```
+
+## 6 First-order Spatial Analysis
+
+In this section, we will perform a first-order spatial analysis to understand the distribution of road traffic accidents in the Bangkok Metropolitan Region.
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+# 1. Filter to study year (2022, per the brief's mandatory restriction 
+#    for this dataset)
+#acc_2022 <- bmr_acc_sf |>
+#  filter(lubridate::year(incident_datetime) == 2022)
+
+#nrow(acc_2022)  # sanity check on sample size
+
+# 2. Apply jitter to break coincident points
+JITTER_RADIUS <- 50 # ~ 50 meters
+set.seed(1234)  # reproducibility - document this in your report
+acc_jittered <- st_jitter(bmr_acc_sf, amount = JITTER_RADIUS)
+
+# confirm duplicates resolved
+sum(duplicated(st_coordinates(acc_jittered)))
+
+# 3. Build owin from the BMR union, and convert to ppp
+library(spatstat)
+
+bmr_owin <- as.owin(st_union(bmr_adm_boundary))
+acc_ppp  <- as.ppp(st_coordinates(acc_jittered), W = bmr_owin)
+
+acc_ppp        # summary: check n, window area, units
+plot(acc_ppp, main = "BMR 2019 - 2022 Accidents")
+```
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+# Re-run as.ppp with a check, and explicitly report + drop rejects
+acc_ppp <- as.ppp(st_coordinates(acc_jittered), W = bmr_owin, check = TRUE)
+n_rejected <- length(attr(acc_ppp, "rejects")$x)
+n_rejected  # confirm it's 9
+
+# The rejects are already excluded from the main point set (3589 is correct,
+# not 3593) — attr(,"rejects") is just a stored record for transparency.
+# To plot cleanly without the warning:
+plot(acc_ppp, main = "BMR 2019 - 2022 Accidents", clipwin = bmr_owin)
+```
+
+### Clark-Evans Test for Nearest neighbor analysis
+
+```{r}
+clark_evans_test <- clarkevans.test(acc_ppp,
+  correction="none",
+  clipregion = bmr_owin,
+  alternative = "clustered"
+  )
+clark_evans_test
+```
+
+::: {.cell-output .text}
+```         
+    Clark-Evans test
+    No edge correction
+    Z-test
+```
+
+data: acc_ppp R = 0.30091, p-value \< 2.2e-16 alternative hypothesis: clustered (R \< 1)
+:::
+
+::: callout-note
+The results provide overwhelmingly strong evidence that your traffic accidents are highly clustered rather than randomly scattered across the region. Here is the breakdown of the two key metrics:
+
+- The R-value (0.30091): The Clark-Evans index ($R$) measures the distance between nearest neighbors. An $R$ value of 1.0 means complete spatial randomness, while values greater than 1 mean points are evenly dispersed. Your value of roughly 0.30 is well below 1, meaning the accidents are highly clustered. On average, the distance between any accident and its nearest neighbor is only 30% of what it would be if they were distributed entirely at random.
+- The p-value (\< 2.2e-16): This is the smallest p-value R can display, essentially zero. It means the probability of this clustered pattern happening by random chance is virtually non-existent. You can confidently reject the null hypothesis of complete spatial randomness (CSR).
+:::
+
+To visualize the exact locations of those clusters, we create a Kernel Density Estimation (KDE) map using the spatstat package.
+
+Calculate the KDE to visualize accident clusters.
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+# Calculate the kernel density estimate
+acc_kde <- density(acc_ppp, sigma = 0.1)
+plot(acc_kde, main = "BMR 2022 Accidents - KDE")
+
+# add the regional boundary on top for context
+plot(bmr_owin, add = TRUE, lwd = 1.5, border = "yellow")
+
+```
+
+### Quadrat Analysis
+
+::: callout-note
+Quadrat analysis is a foundational spatial statistics method used to determine whether a set of points (like your traffic accidents) is randomly distributed, clustered, or evenly dispersed across a study area.
+
+Here is how it works:
+
+- **The Grid**: The study area is divided into a grid of equal-sized sub-regions, called "quadrats" (like laying a checkerboard over your map of the Bangkok Metropolitan Region).
+
+- **The Count**: The algorithm counts the number of points that fall inside each quadrat.
+
+- **The Comparison**: It compares the observed counts against what you would expect if the points were completely random (Complete Spatial Randomness, or CSR).
+:::
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+# Define the number of quadrats along x and y directions
+nx <- 10
+ny <- 10
+
+# Perform quadrat count
+quadrat_counts <- quadratcount(acc_ppp, nx = nx, ny = ny)
+quadrat_counts
+
+# Plot the quadrat counts
+plot(acc_ppp, pch = 20, cex = 0.5, main = "BMR 2022 Accidents - Quadrat Analysis")
+plot(quadrat_counts, add = TRUE, col = "red")
+
+
+
+```
+
+```{r}
+# Chi-squared test for CSR
+quadrat_test <- quadrat.test(acc_ppp, nx = nx, ny = ny)
+quadrat_test
+```
+
+### KDE - comparing bandwidth selections
+
+```{r}
+#| fig-width: 12
+#| fig-height: 6
+# Compare a few standard bandwidth selectors
+bw_diggle <- bw.diggle(acc_ppp)
+bw_ppl    <- bw.ppl(acc_ppp)
+bw_scott  <- bw.scott(acc_ppp)
+
+bw_diggle
+bw_ppl
+bw_scott
+
+# Plot density surfaces side by side using each bandwidth
+par(mfrow = c(1, 3))
+plot(density(acc_ppp, sigma = bw_diggle), main = paste("bw.diggle =", round(bw_diggle)))
+plot(density(acc_ppp, sigma = bw_ppl), main = paste("bw.ppl =", round(bw_ppl)))
+plot(density(acc_ppp, sigma = bw_scott[1]), main = paste("bw.scott"))
+par(mfrow = c(1, 1))
+```
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+plot(density(acc_ppp, sigma = bw_scott), main = "bw.scott")
+```
+
+### Plotting cartographic quality KDE maps
+
+Converting gridded output into raster format for cartographic-quality plotting.
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+# Convert the KDE to a raster for better plotting
+acc_kde_bw_terra <- rast(acc_kde)
+plot(acc_kde_bw_terra, main = "Cartographic Quality KDE of Accidents")
+```
+
+### First-order SPPA at province level
+
+```{r}
+#| echo: false
+Bangkok <- bmr_adm_boundary %>%
+  filter(adm1_name == "Bangkok") %>%  
+  st_transform(crs = 4326)
+
+Nonthaburi <- bmr_adm_boundary %>%
+  filter(adm1_name == "Nonthaburi") %>%
+  st_transform(crs = 4326)
+
+Pathum_Thani <- bmr_adm_boundary %>%
+  filter(adm1_name == "Pathum Thani") %>%
+  st_transform(crs = 4326)
+
+Samut_Prakan <- bmr_adm_boundary %>%
+  filter(adm1_name == "Samut Prakan") %>%
+  st_transform(crs = 4326)
+
+Nakhon_Pathom <- bmr_adm_boundary %>%
+  filter(adm1_name == "Nakhon Pathom") %>%
+  st_transform(crs = 4326)
+
+Samut_Sakhon <- bmr_adm_boundary %>%
+  filter(adm1_name == "Samut Sakhon") %>%
+  st_transform(crs = 4326)  
+
+```
+
+Create owin object for the study window based on 6 provinces separately.
+
+```{r}
+
+# Create owin objects for each province after projecting to the appropriate CRS
+Bangkok_owin <- Bangkok %>%
+  st_transform(crs = 32647) %>%
+  as.owin()
+
+Nonthaburi_owin <- Nonthaburi %>%
+  st_transform(crs = 32647) %>%
+  as.owin()
+Pathum_Thani_owin <- Pathum_Thani %>%
+  st_transform(crs = 32647) %>%
+  as.owin()
+Samut_Prakan_owin <- Samut_Prakan %>%
+  st_transform(crs = 32647) %>%
+  as.owin()
+Nakhon_Pathom_owin <- Nakhon_Pathom %>%
+  st_transform(crs = 32647) %>%
+  as.owin()
+Samut_Sakhon_owin <- Samut_Sakhon %>%
+  st_transform(crs = 32647) %>%
+  as.owin()
+```
+
+Combining point events object and owin objects for each province.
+
+```{r}
+# Combine point events and study window for each province
+Bangkok_ppp <- acc_ppp[Bangkok_owin]
+Nonthaburi_ppp <- acc_ppp[Nonthaburi_owin]
+Pathum_Thani_ppp <- acc_ppp[Pathum_Thani_owin]
+Samut_Prakan_ppp <- acc_ppp[Samut_Prakan_owin]
+Nakhon_Pathom_ppp <- acc_ppp[Nakhon_Pathom_owin]
+Samut_Sakhon_ppp <- acc_ppp[Samut_Sakhon_owin]
+```
+
+Transform the unit of measurement from meters to kilometers for easier interpretation.
+
+```{r}
+# Convert the study window and distance to road to kilometers
+# use spatstat.geom::rescale to convert units from meters to kilometers
+# we cannot use rescale as ggplot2 also has a function named rescale, which could cause conflicts
+
+Bangkok_ppp <- spatstat.geom::rescale(Bangkok_ppp, 1000, "km")
+Nonthaburi_ppp <- spatstat.geom::rescale(Nonthaburi_ppp, 1000, "km")
+Pathum_Thani_ppp <- spatstat.geom::rescale(Pathum_Thani_ppp, 1000, "km")
+Samut_Prakan_ppp <- spatstat.geom::rescale(Samut_Prakan_ppp, 1000, "km")
+Nakhon_Pathom_ppp <- spatstat.geom::rescale(Nakhon_Pathom_ppp, 1000, "km")
+Samut_Sakhon_ppp <- spatstat.geom::rescale(Samut_Sakhon_ppp, 1000, "km")
+
+
+```
+
+Plot these 6 projected study windows.
+
+```{r}
+#| fig-width: 16
+#| fig-height: 8
+par(mfrow = c(2, 3))
+plot(Bangkok_ppp, main = "Bangkok")
+plot(Nonthaburi_ppp, main = "Nonthaburi")
+plot(Pathum_Thani_ppp, main = "Pathum Thani")
+plot(Samut_Prakan_ppp, main = "Samut Prakan")
+plot(Nakhon_Pathom_ppp, main = "Nakhon Pathom")
+plot(Samut_Sakhon_ppp, main = "Samut Sakhon")
+par(mfrow = c(1, 1))
+```
+
+Clark-Evans test for spatial randomness of accidents in each province.
+
+```{r}
+
+clark_evans_bangkok <- clarkevans.test(Bangkok_ppp, correction = "none", clipregion = Bangkok_owen, alternative = "two.sided", nsim = 999)
+clark_evans_nonthaburi <- clarkevans.test(Nonthaburi_ppp, correction = "none", clipregion = Nonthaburi_owen, alternative = "two.sided", nsim = 999)
+clark_evans_pathum_thani <- clarkevans.test(Pathum_Thani_ppp, correction = "none", clipregion = Pathum_Thani_owen, alternative = "two.sided", nsim = 999)
+clark_evans_samut_prakan <- clarkevans.test(Samut_Prakan_ppp, correction = "none", clipregion = Samut_Prakan_owen, alternative = "two.sided", nsim = 999)
+clark_evans_nakhon_pathom <- clarkevans.test(Nakhon_Pathom_ppp, correction = "none", clipregion = Nakhon_Pathom_owen, alternative = "two.sided", nsim = 999)
+clark_evans_samut_sakhon <- clarkevans.test(Samut_Sakhon_ppp, correction = "none", clipregion = Samut_Sakhon_owen, alternative = "two.sided", nsim = 999)
+
+clark_evans_bangkok
+clark_evans_nonthaburi
+clark_evans_pathum_thani
+clark_evans_samut_prakan
+clark_evans_nakhon_pathom
+clark_evans_samut_sakhon
+```
+
+Computing KDE surfaces using bw.diggle method for each province.
+
+```{r}
+#| fig-width: 16
+#| fig-height: 8
+
+bw_bangkok <- bw.diggle(Bangkok_ppp)
+bw_nonthaburi <- bw.diggle(Nonthaburi_ppp)
+bw_pathum_thani <- bw.diggle(Pathum_Thani_ppp)
+bw_samut_prakan <- bw.diggle(Samut_Prakan_ppp)
+bw_nakhon_pathom <- bw.diggle(Nakhon_Pathom_ppp)
+bw_samut_sakhon <- bw.diggle(Samut_Sakhon_ppp)
+
+kde_bangkok <- density(Bangkok_ppp, sigma = bw_bangkok)
+kde_nonthaburi <- density(Nonthaburi_ppp, sigma = bw_nonthaburi)
+kde_pathum_thani <- density(Pathum_Thani_ppp, sigma = bw_pathum_thani)
+kde_samut_prakan <- density(Samut_Prakan_ppp, sigma = bw_samut_prakan)
+kde_nakhon_pathom <- density(Nakhon_Pathom_ppp, sigma = bw_nakhon_pathom)
+kde_samut_sakhon <- density(Samut_Sakhon_ppp, sigma = bw_samut_sakhon)
+
+par(mfrow = c(2, 3))
+plot(kde_bangkok, main = "Bangkok KDE")
+plot(kde_nonthaburi, main = "Nonthaburi KDE")
+plot(kde_pathum_thani, main = "Pathum Thani KDE")
+plot(kde_samut_prakan, main = "Samut Prakan KDE")
+plot(kde_nakhon_pathom, main = "Nakhon Pathom KDE")
+plot(kde_samut_sakhon, main = "Samut Sakhon KDE")
+par(mfrow = c(1, 1))
+```
+
+## 7 Second-Order Spatial Point Pattern Analysis
