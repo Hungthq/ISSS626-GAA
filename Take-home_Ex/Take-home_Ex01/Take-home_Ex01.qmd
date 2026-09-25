@@ -703,6 +703,54 @@ tm_shape(bmr_adm_boundary) +
   )
 ```
 
+```{r}
+bmr_acc_sf <- bmr_acc_sf %>%
+  # Extract the hour (0 to 23)
+  mutate(hour = lubridate::hour(incident_datetime)) %>%
+  # Categorize into 4-hour blocks
+  mutate(
+    time_block = case_when(
+      hour %in% 0:3   ~ "00:00 - 03:59",
+      hour %in% 4:7   ~ "04:00 - 07:59",
+      hour %in% 8:11  ~ "08:00 - 11:59",
+      hour %in% 12:15 ~ "12:00 - 15:59",
+      hour %in% 16:19 ~ "16:00 - 19:59",
+      hour %in% 20:23 ~ "20:00 - 23:59"
+    ),
+    # Convert to an ordered factor so plots display them in the correct time order
+    time_block = factor(time_block, levels = c(
+      "00:00 - 03:59", 
+      "04:00 - 07:59", 
+      "08:00 - 11:59", 
+      "12:00 - 15:59", 
+      "16:00 - 19:59", 
+      "20:00 - 23:59"
+    ))
+  )
+```
+
+```{r}
+names(bmr_acc_sf)
+```
+
+```{r}
+#| fig-width: 16
+#| fig-height: 8
+# Visualization Geographic Distribution of Accidents by peak hours
+tmap_mode('plot')
+tm_shape(bmr_adm_boundary) +
+  
+  tm_shape(bmr_primary_roads) +
+  tm_lines(col = "darkgreen", lwd=0.7) +
+  tm_shape(bmr_acc_sf) + 
+  tm_dots(col = "red", size = 0.25, fill_alpha = 0.6) +                                                
+  tm_facets(by = "time_block") +
+  tm_title ("Road Traffic Accidents by 4h block in Bangkok Metropolitan Region (2019-2022)",
+            position = c("center", "top"), 
+            size = 1.5,
+  )
+```
+
 ## 6 First-order Spatial Analysis
 
 In this section, we will perform a first-order spatial analysis to understand the distribution of road traffic accidents in the Bangkok Metropolitan Region.
@@ -715,8 +763,15 @@ In this section, we will perform a first-order spatial analysis to understand th
 bmr_owin <- as.owin(st_union(bmr_adm_boundary))
 acc_ppp  <- as.ppp(st_coordinates(bmr_acc_sf), W = bmr_owin)
 
-acc_ppp        # summary: check n, window area, units
+#acc_ppp        # summary: check n, window area, units
+
+```
+
+```{r}
 plot(acc_ppp, main = "BMR 2019 - 2022 Accidents")
+```
+
+```         
 ```
 
 ### Clark-Evans Test for Nearest neighbor analysis
@@ -992,3 +1047,120 @@ par(mfrow = c(1, 1))
 ```
 
 ## 7 Second-Order Spatial Point Pattern Analysis
+
+### Analysis usinng G-function
+
+Calculating G-function estimation
+
+```{r}
+# ---- G-function ----
+G_acc <- Gest(acc_ppp, correction = "border")
+plot(G_acc, xlim = c(0, 500))
+```
+
+Performing complete spatial randomness test
+
+```{r}
+#| eval: false
+G_acc.csr <- envelope(acc_ppp, Gest, nsim = 99, rank = 1, global = FALSE)
+plot(G_acc.csr)
+```
+
+![](img/g-csr.jpg)
+
+### Analysis using F-function
+
+Calculating F-function estimation
+
+```{r}
+# ---- F-function ----
+F_acc <- Fest(acc_ppp)
+plot(F_acc)
+```
+
+![](img/f-est.jpg)
+
+Performing complete spatial randomness test
+
+```{r}
+#| eval: false
+F_acc.csr <- envelope(acc_ppp, Fest, nsim = 99, rank = 1, global = FALSE)
+plot(F_acc.csr)
+```
+
+![](img/f-csr.jpg)
+
+### Analysis using K-function
+
+Calculating K-function estimation
+
+```{r}
+#| eval: false
+# ---- K-function ----
+K_acc <- Kest(acc_ppp, correction = "Ripley")
+plot(K_acc, . - r ~ r, ylab = "K(d)-r", xlab = "d(m)")
+```
+
+![](img/k-est.jpg)
+
+Performing complete spatial randomness test
+
+```{r}
+#| eval: false
+K_acc.csr <- envelope(acc_ppp, Kest, nsim = 99, rank = 1, global = FALSE)
+plot(K_acc.csr, . - r ~ r, xlab = "d", ylab = "K(d)-r")
+```
+
+::: callout-note
+```         
+Generating 99 simulated realisations of CSR  ... 1, 2,  [1.7 days remaining, estimate finish 2026-09-27 04:27:49]
+
+K CSR test processing take a long time, then I decided to scale down the size.
+```
+:::
+
+```{r}
+#| eval: false
+bmr_acc_2022 <- bmr_acc_sf %>%
+  filter(year(incident_datetime) == 2022)
+
+acc_2022_ppp  <- as.ppp(st_coordinates(bmr_acc_2022), W = bmr_owin)
+
+K_acc_2022 <- Kest(acc_2022_ppp, correction = "Ripley")
+```
+
+```{r}
+#| eval: false
+plot(K_acc_2022, . - r ~ r, ylab = "K(d)-r", xlab = "d(m)")
+```
+
+![](img/k-est_2022.jpg)
+
+```{r}
+#| eval: false
+K_acc_2022.csr <- envelope(acc_2022_ppp, Kest, nsim = 99, rank = 1, global = FALSE)
+
+plot(K_acc_2022.csr, . - r ~ r, xlab = "d", ylab = "K(d)-r")
+```
+
+### Analysis using L-function
+
+Calculating L-function estimation
+
+```{r}
+#| eval: false
+# ---- L-function ----
+L_acc <- Lest(acc_ppp, correction = "Ripley")
+plot(L_acc, . - r ~ r, ylab = "L(d)-r", xlab = "d(m)")
+```
+
+![](img/l-est.jpg)
+
+Performing complete spatial randomness test
+
+```{r}
+#| eval: false
+L_acc.csr <- envelope(acc_ppp, Lest, nsim = 99, rank = 1, global = FALSE)
+plot(L_acc.csr, . - r ~ r, xlab = "d", ylab = "L(d)-r")
+
+```
