@@ -82,7 +82,7 @@ The original data has total 81735 accident records in all over Thailand from 201
 Install and load R packages
 
 ```{r}
-pacman::p_load(readr, dplyr, lubridate, ggplot2, tmap, sf, spNetwork, spatstat, plotly, gtsummary, sparr, terra)
+pacman::p_load(readr, dplyr, lubridate, ggplot2, tmap, sf, spNetwork, spatstat, plotly, gtsummary, sparr, terra, tidyr, tidyverse)
 ```
 
 ::: callout-note
@@ -1164,3 +1164,203 @@ L_acc.csr <- envelope(acc_ppp, Lest, nsim = 99, rank = 1, global = FALSE)
 plot(L_acc.csr, . - r ~ r, xlab = "d", ylab = "L(d)-r")
 
 ```
+
+## 8 Integration and Interpretation
+
+### What does the first-order analysis reveal about event intensity or distribution?
+
+Your first-order analysis shows that accident intensity across the Bangkok Metropolitan Region is strongly inhomogeneous. Accidents pile up in a small number of core areas instead of spreading evenly.
+
+**The quadrat test rejects uniform intensity decisively.** X² = 20,675 on 88 df, p \< 2.2e-16. The counts themselves tell the story better than the test statistic, and your write-up could say so:
+
+\- The 89 tiles hold about 12,986 accidents, roughly 146 per tile on average.\
+- The actual counts run from 0 to 1,186. 13 tiles are completely empty, and several more have only 1–3 accidents.\
+- The 13 busiest tiles, about 15% of the area, hold roughly 63% of all accidents (about 8,180).\
+- The heaviest tiles (1,186, 822, 797, 695, 689, 623, 586, 556) sit together in rows 4–8, columns 5–9.\
+- That's a contiguous high-intensity core, not scattered spikes.\
+- The edge tiles (rows 1, 9–10, column 1) are close to empty, so intensity drops sharply away from the core.
+
+**The Clark-Evans ratio confirms strong clustering.** R ≈ 0.19 for the whole region, far below 1.
+
+The province-level results show that intensity differs within each province too. Every province is significantly clustered, and the degree varies:
+
+| Province      | R                      |
+|---------------|------------------------|
+| Bangkok       | 0.12 (most clustered)  |
+| Samut Prakan  | 0.14                   |
+| Samut Sakhon  | 0.24                   |
+| Pathum Thani  | 0.25                   |
+| Nakhon Pathom | 0.29                   |
+| Nonthaburi    | 0.39 (least clustered) |
+
+Bangkok and Samut Prakan have the most concentrated patterns, which fits dense urban arterials and expressway corridors. Nonthaburi's accidents are comparatively more spread out.
+
+### What does the second-order analysis reveal about interaction among events?
+
+![](img/g-csr.png)
+
+The observed G function lies far above the CSR envelope at every distance shown. Accidents have nearest neighbours much closer than they would if they were randomly scattered, so the null hypothesis of complete spatial randomness is rejected in favour of clustering.
+
+**Reading the curve**
+
+Ĝ(r) is the proportion of accidents whose nearest neighbouring accident is within r metres.
+
+| Distance r | Observed Ĝ(r) | Under CSR |
+|------------|---------------|-----------|
+| \~3 m      | \~0.30        | \~0.00    |
+| 10 m       | \~0.48        | \~0.00    |
+| 20 m       | \~0.58        | \~0.00    |
+| 50 m       | \~0.76        | \~0.01    |
+| 100 m      | \~0.86        | \~0.05    |
+| \~143 m    | \~0.90        | \~0.10    |
+
+- **Clustering at very short range:** about half of all accidents have another accident within roughly 10 m, and about three-quarters within roughly 50 m. Under CSR almost none would.
+
+- **The gap is huge at every distance:** the envelope (grey band) is so narrow that the result isn't borderline anywhere. The observed curve is 9 to 50 times the theoretical value across the whole range. The outcome is obvious, the accident events are very clusterly distributed.
+
+- **Rapid rise, then a plateau:** the curve climbs steeply below 30 m and levels off around 0.9. So about 10% of accidents have no neighbour within \~143 m. These are probably the isolated accidents in the sparse outer tiles your quadrat analysis found.
+
+### How do the first-order and second-order findings complement each other?
+
+The two analyses answer different questions, and together they give a fuller picture than either one alone.
+
+- First-order (quadrat test, KDE, province-level analysis) answers where and how many: how accident intensity varies across the region.
+
+- Second-order answers how close together: whether accidents occur near other accidents more than chance would predict.
+
+**Common result between the 2 methods**
+
+Both reject complete spatial randomness, using independent evidence:
+
+- **First-order:** quadrat counts range from 0 to 1,186 per tile. About 15% of the area holds about 63% of accidents. The Clark-Evans ratio is about 0.19.
+
+- **Second-order:** about half of all accidents have another accident within roughly 10 m, while random scattering would give almost none.
+
+**They describe clustering at different scales:**
+
+- Regional scale (kilometres), from first-order
+
+- Local scale (metres), from second-order
+
+### Are the findings consistent across different analytical views?
+
+The findings are consistent across analytical views in their main conclusion. The Clark-Evans tests (overall and for each province), the quadrat test, KDE and the G function all reject complete spatial randomness and indicate strong clustering, with Bangkok the most concentrated province. The KDE bandwidth comparison shows that the apparent hotspot pattern depends on scale: broad regional concentration at kilometre bandwidths and site-level black spots at tens of metres, a scale that matches the G-function results. Consistency over time is supported only visually by the faceted maps. Formal spatio-temporal testing and inhomogeneous second-order analysis are still needed to confirm that the clustering is stable over time and not simply a product of uneven intensity along the road network.
+
+### What assumptions or limitations should be considered when interpreting the results?
+
+These results should be interpreted with several limitations in mind. First, the analysis treats space as a continuous plane, whereas accidents are confined to the road network; combined with a homogeneous CSR null model, this biases all tests toward detecting clustering and prevents first-order concentration from being separated from genuine interaction between events. Second, the data contain many near-duplicate coordinates and exclude records with missing locations, and may under-represent roads outside national highway jurisdiction. Third, without traffic volume data, intensity reflects accident counts rather than risk. Finally, the results depend on the analyst's choices of study window, quadrat grid and KDE bandwidth, and edge effects were not corrected. Network-constrained and inhomogeneous methods, exposure-adjusted rates, and spatio-temporal analysis would strengthen the conclusions.
+
+### Are there alternative explanations for the observed patterns?
+
+The accidents might appear clustered for several reasons rather than a single underlying cause:
+
+- **Physical Layout:** Crashes naturally concentrate in high-traffic areas, busy intersections, and major highway junctions.
+
+- **Data Quirks:** Location tracking might be imprecise (pinning multiple accidents to one general landmark), and local roads might be missing from the dataset entirely.
+
+- **Time Compression:** Plotting four years of data at once makes accidents look grouped, even if they happened months or years apart. Only crashes happening at the exact same time and place (like a pile-up) are genuinely connected.
+
+- **Peak Periods:** Weekend and holiday spikes could just mean more cars are on the road, stricter police reporting, or increased drunk driving.
+
+## 9 Geovisualisation and Analytical Interpretation
+
+### District choropleths (per km²)
+
+
+```{r}
+bmr_district <- readRDS("data/bmr_district.rds")
+
+acc_joined <- st_join(bmr_acc_sf, bmr_district, join = st_within) %>%
+  filter(!is.na(adm2_pcode))
+
+```
+
+**Calculate district densities per km² and per year**
+
+```{r}
+district_density <- bmr_district %>%
+  left_join(acc_joined %>% st_drop_geometry() %>% count(adm2_pcode, name = "n_acc"),
+            by = "adm2_pcode") %>%
+  mutate(n_acc            = replace_na(n_acc, 0),
+         acc_per_km2      = n_acc / area_km2) %>%
+  arrange(desc(acc_per_km2))
+```
+
+**Plot choropleths for district-level accident densities**
+
+```{r}
+#| fig-width: 16
+#| fig-height: 8
+#| fig-cap: "District-level accident densities per km²"
+
+basemap <- tm_shape(district_density) +
+  tm_polygons() +
+  tm_text("adm1_name", size=0.5) +
+  tm_layout(legend.position = c("left", "bottom")) 
+
+acc_dens <- qtm(district_density, "acc_per_km2") +
+  tm_layout(
+    legend.position = c("left", "bottom"),
+    legend.text.size = 0.5,
+    legend.title.size = 0.7) +
+  tm_layout(legend.position = c("left", "bottom"))
+tmap_arrange(basemap, acc_dens, asp=1, ncol=2)
+```
+
+District-level accident densities per km² \>= 10
+
+```{r}
+district_density_high <- district_density %>%
+  filter(acc_per_km2 >= 5) %>%
+  arrange(desc(acc_per_km2))
+
+district_density_high
+
+```
+
+export district_density_high to a table with adm1_name and adm2_name, acc_per_km2 and n_acc and acc_per_km2
+
+```{r}
+#| eval: false
+district_density_high %>%
+  #drop the geometry column
+  st_drop_geometry() %>%
+  select(adm1_name, adm2_name, acc_per_km2, n_acc, acc_per_km2) %>%
+  knitr::kable()
+```
+
+Top districts by accident density per km²
+
+| Province     | District       | accident/km2 | Number of accidents |
+|:-------------|:---------------|------------:|------:|
+| Bangkok      | Khan Na Yao    |   17.427757 |   445 |
+| Bangkok      | Thawi Watthana |   14.782895 |   741 |
+| Bangkok      | Saphan Sung    |   13.796626 |   386 |
+| Bangkok      | Taling Chan    |   12.540164 |   447 |
+| Bangkok      | Yan Nawa       |   11.135135 |   138 |
+| Bangkok      | Prawet         |   10.094194 |   544 |
+| Bangkok      | Phaya Thai     |    8.861122 |    82 |
+| Samut Prakan | Phra Pradaeng  |    8.393648 |   495 |
+| Bangkok      | Lat Krabang    |    7.198212 |   926 |
+| Bangkok      | Suan Luang     |    6.809036 |   166 |
+| Bangkok      | Bang Khae      |    6.689740 |   320 |
+| Bangkok      | Chom Thong     |    6.198882 |   144 |
+| Bangkok      | Pathum Wan     |    5.599912 |    45 |
+
+## 10 Public-Safety Planning and Management
+
+### Transportation and road-safety planning
+
+Road-safety planning should work at two spatial scales. At the regional scale, the KDE and district choropleths identify where planning effort should be concentrated: central Bangkok. At the site scale, the G-function shows that accidents recur at specific points, along the main roads and intersections where targeted interventions can be implemented.
+
+### Emergency response planning
+
+The strong spatial and temporal concentration supports demand-based deployment of emergency resources. Ambulances and rescue units can be pre-positioned near persistent hotspots.Deployment can also be scaled up during the peak periods identified in the EDA: Friday and Saturday evenings, and the April (Songkran) and December (New Year) holiday periods.
+
+### Public-safety policy
+
+Because hot spots and road corridors cross provincial boundaries, policy should be coordinated across the six provinces and the agencies responsible for different road classes, supported by a shared, standardised accident database.
+
+### Cautions for decision-makers
+
+These recommendations rest on accident counts in planar space, pooled over 2019–2022, and may not fully capture dynamic changes in traffic patterns, road conditions, or enforcement measures. Decision-makers should complement this analysis with real-time data and local knowledge to ensure effective and context-sensitive interventions.

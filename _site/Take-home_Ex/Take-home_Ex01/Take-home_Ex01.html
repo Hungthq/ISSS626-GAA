@@ -301,6 +301,26 @@ window.Quarto = {
   <li><a href="#analysis-using-k-function" id="toc-analysis-using-k-function" class="nav-link" data-scroll-target="#analysis-using-k-function">Analysis using K-function</a></li>
   <li><a href="#analysis-using-l-function" id="toc-analysis-using-l-function" class="nav-link" data-scroll-target="#analysis-using-l-function">Analysis using L-function</a></li>
   </ul></li>
+  <li><a href="#integration-and-interpretation" id="toc-integration-and-interpretation" class="nav-link" data-scroll-target="#integration-and-interpretation">8 Integration and Interpretation</a>
+  <ul>
+  <li><a href="#what-does-the-first-order-analysis-reveal-about-event-intensity-or-distribution" id="toc-what-does-the-first-order-analysis-reveal-about-event-intensity-or-distribution" class="nav-link" data-scroll-target="#what-does-the-first-order-analysis-reveal-about-event-intensity-or-distribution">What does the first-order analysis reveal about event intensity or distribution?</a></li>
+  <li><a href="#what-does-the-second-order-analysis-reveal-about-interaction-among-events" id="toc-what-does-the-second-order-analysis-reveal-about-interaction-among-events" class="nav-link" data-scroll-target="#what-does-the-second-order-analysis-reveal-about-interaction-among-events">What does the second-order analysis reveal about interaction among events?</a></li>
+  <li><a href="#how-do-the-first-order-and-second-order-findings-complement-each-other" id="toc-how-do-the-first-order-and-second-order-findings-complement-each-other" class="nav-link" data-scroll-target="#how-do-the-first-order-and-second-order-findings-complement-each-other">How do the first-order and second-order findings complement each other?</a></li>
+  <li><a href="#are-the-findings-consistent-across-different-analytical-views" id="toc-are-the-findings-consistent-across-different-analytical-views" class="nav-link" data-scroll-target="#are-the-findings-consistent-across-different-analytical-views">Are the findings consistent across different analytical views?</a></li>
+  <li><a href="#what-assumptions-or-limitations-should-be-considered-when-interpreting-the-results" id="toc-what-assumptions-or-limitations-should-be-considered-when-interpreting-the-results" class="nav-link" data-scroll-target="#what-assumptions-or-limitations-should-be-considered-when-interpreting-the-results">What assumptions or limitations should be considered when interpreting the results?</a></li>
+  <li><a href="#are-there-alternative-explanations-for-the-observed-patterns" id="toc-are-there-alternative-explanations-for-the-observed-patterns" class="nav-link" data-scroll-target="#are-there-alternative-explanations-for-the-observed-patterns">Are there alternative explanations for the observed patterns?</a></li>
+  </ul></li>
+  <li><a href="#geovisualisation-and-analytical-interpretation" id="toc-geovisualisation-and-analytical-interpretation" class="nav-link" data-scroll-target="#geovisualisation-and-analytical-interpretation">9 Geovisualisation and Analytical Interpretation</a>
+  <ul>
+  <li><a href="#district-choropleths-per-km²" id="toc-district-choropleths-per-km²" class="nav-link" data-scroll-target="#district-choropleths-per-km²">District choropleths (per km²)</a></li>
+  </ul></li>
+  <li><a href="#public-safety-planning-and-management" id="toc-public-safety-planning-and-management" class="nav-link" data-scroll-target="#public-safety-planning-and-management">10 Public-Safety Planning and Management</a>
+  <ul>
+  <li><a href="#transportation-and-road-safety-planning" id="toc-transportation-and-road-safety-planning" class="nav-link" data-scroll-target="#transportation-and-road-safety-planning">Transportation and road-safety planning</a></li>
+  <li><a href="#emergency-response-planning" id="toc-emergency-response-planning" class="nav-link" data-scroll-target="#emergency-response-planning">Emergency response planning</a></li>
+  <li><a href="#public-safety-policy" id="toc-public-safety-policy" class="nav-link" data-scroll-target="#public-safety-policy">Public-safety policy</a></li>
+  <li><a href="#cautions-for-decision-makers" id="toc-cautions-for-decision-makers" class="nav-link" data-scroll-target="#cautions-for-decision-makers">Cautions for decision-makers</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -489,7 +509,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="data-preparation">4 Data preparation</h2>
 <p>Install and load R packages</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readr, dplyr, lubridate, ggplot2, tmap, sf, spNetwork, spatstat, plotly, gtsummary, sparr, terra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(readr, dplyr, lubridate, ggplot2, tmap, sf, spNetwork, spatstat, plotly, gtsummary, sparr, terra, tidyr, tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1679,6 +1699,347 @@ K CSR test processing take a long time, then I decided to scale down the size.</
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a>L_acc.csr <span class="ot">&lt;-</span> <span class="fu">envelope</span>(acc_ppp, Lest, <span class="at">nsim =</span> <span class="dv">99</span>, <span class="at">rank =</span> <span class="dv">1</span>, <span class="at">global =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(L_acc.csr, . <span class="sc">-</span> r <span class="sc">~</span> r, <span class="at">xlab =</span> <span class="st">"d"</span>, <span class="at">ylab =</span> <span class="st">"L(d)-r"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+</section>
+<section id="integration-and-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="integration-and-interpretation">8 Integration and Interpretation</h2>
+<section id="what-does-the-first-order-analysis-reveal-about-event-intensity-or-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-the-first-order-analysis-reveal-about-event-intensity-or-distribution">What does the first-order analysis reveal about event intensity or distribution?</h3>
+<p>Your first-order analysis shows that accident intensity across the Bangkok Metropolitan Region is strongly inhomogeneous. Accidents pile up in a small number of core areas instead of spreading evenly.</p>
+<p><strong>The quadrat test rejects uniform intensity decisively.</strong> X² = 20,675 on 88 df, p &lt; 2.2e-16. The counts themselves tell the story better than the test statistic, and your write-up could say so:</p>
+<p>- The 89 tiles hold about 12,986 accidents, roughly 146 per tile on average.<br>
+- The actual counts run from 0 to 1,186. 13 tiles are completely empty, and several more have only 1–3 accidents.<br>
+- The 13 busiest tiles, about 15% of the area, hold roughly 63% of all accidents (about 8,180).<br>
+- The heaviest tiles (1,186, 822, 797, 695, 689, 623, 586, 556) sit together in rows 4–8, columns 5–9.<br>
+- That’s a contiguous high-intensity core, not scattered spikes.<br>
+- The edge tiles (rows 1, 9–10, column 1) are close to empty, so intensity drops sharply away from the core.</p>
+<p><strong>The Clark-Evans ratio confirms strong clustering.</strong> R ≈ 0.19 for the whole region, far below 1.</p>
+<p>The province-level results show that intensity differs within each province too. Every province is significantly clustered, and the degree varies:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Province</th>
+<th>R</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Bangkok</td>
+<td>0.12 (most clustered)</td>
+</tr>
+<tr class="even">
+<td>Samut Prakan</td>
+<td>0.14</td>
+</tr>
+<tr class="odd">
+<td>Samut Sakhon</td>
+<td>0.24</td>
+</tr>
+<tr class="even">
+<td>Pathum Thani</td>
+<td>0.25</td>
+</tr>
+<tr class="odd">
+<td>Nakhon Pathom</td>
+<td>0.29</td>
+</tr>
+<tr class="even">
+<td>Nonthaburi</td>
+<td>0.39 (least clustered)</td>
+</tr>
+</tbody>
+</table>
+<p>Bangkok and Samut Prakan have the most concentrated patterns, which fits dense urban arterials and expressway corridors. Nonthaburi’s accidents are comparatively more spread out.</p>
+</section>
+<section id="what-does-the-second-order-analysis-reveal-about-interaction-among-events" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-the-second-order-analysis-reveal-about-interaction-among-events">What does the second-order analysis reveal about interaction among events?</h3>
+<p><img src="img/g-csr.png" class="img-fluid"></p>
+<p>The observed G function lies far above the CSR envelope at every distance shown. Accidents have nearest neighbours much closer than they would if they were randomly scattered, so the null hypothesis of complete spatial randomness is rejected in favour of clustering.</p>
+<p><strong>Reading the curve</strong></p>
+<p>Ĝ(r) is the proportion of accidents whose nearest neighbouring accident is within r metres.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Distance r</th>
+<th>Observed Ĝ(r)</th>
+<th>Under CSR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>~3 m</td>
+<td>~0.30</td>
+<td>~0.00</td>
+</tr>
+<tr class="even">
+<td>10 m</td>
+<td>~0.48</td>
+<td>~0.00</td>
+</tr>
+<tr class="odd">
+<td>20 m</td>
+<td>~0.58</td>
+<td>~0.00</td>
+</tr>
+<tr class="even">
+<td>50 m</td>
+<td>~0.76</td>
+<td>~0.01</td>
+</tr>
+<tr class="odd">
+<td>100 m</td>
+<td>~0.86</td>
+<td>~0.05</td>
+</tr>
+<tr class="even">
+<td>~143 m</td>
+<td>~0.90</td>
+<td>~0.10</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong>Clustering at very short range:</strong> about half of all accidents have another accident within roughly 10 m, and about three-quarters within roughly 50 m. Under CSR almost none would.</p></li>
+<li><p><strong>The gap is huge at every distance:</strong> the envelope (grey band) is so narrow that the result isn’t borderline anywhere. The observed curve is 9 to 50 times the theoretical value across the whole range. The outcome is obvious, the accident events are very clusterly distributed.</p></li>
+<li><p><strong>Rapid rise, then a plateau:</strong> the curve climbs steeply below 30 m and levels off around 0.9. So about 10% of accidents have no neighbour within ~143 m. These are probably the isolated accidents in the sparse outer tiles your quadrat analysis found.</p></li>
+</ul>
+</section>
+<section id="how-do-the-first-order-and-second-order-findings-complement-each-other" class="level3">
+<h3 class="anchored" data-anchor-id="how-do-the-first-order-and-second-order-findings-complement-each-other">How do the first-order and second-order findings complement each other?</h3>
+<p>The two analyses answer different questions, and together they give a fuller picture than either one alone.</p>
+<ul>
+<li><p>First-order (quadrat test, KDE, province-level analysis) answers where and how many: how accident intensity varies across the region.</p></li>
+<li><p>Second-order answers how close together: whether accidents occur near other accidents more than chance would predict.</p></li>
+</ul>
+<p><strong>Common result between the 2 methods</strong></p>
+<p>Both reject complete spatial randomness, using independent evidence:</p>
+<ul>
+<li><p><strong>First-order:</strong> quadrat counts range from 0 to 1,186 per tile. About 15% of the area holds about 63% of accidents. The Clark-Evans ratio is about 0.19.</p></li>
+<li><p><strong>Second-order:</strong> about half of all accidents have another accident within roughly 10 m, while random scattering would give almost none.</p></li>
+</ul>
+<p><strong>They describe clustering at different scales:</strong></p>
+<ul>
+<li><p>Regional scale (kilometres), from first-order</p></li>
+<li><p>Local scale (metres), from second-order</p></li>
+</ul>
+</section>
+<section id="are-the-findings-consistent-across-different-analytical-views" class="level3">
+<h3 class="anchored" data-anchor-id="are-the-findings-consistent-across-different-analytical-views">Are the findings consistent across different analytical views?</h3>
+<p>The findings are consistent across analytical views in their main conclusion. The Clark-Evans tests (overall and for each province), the quadrat test, KDE and the G function all reject complete spatial randomness and indicate strong clustering, with Bangkok the most concentrated province. The KDE bandwidth comparison shows that the apparent hotspot pattern depends on scale: broad regional concentration at kilometre bandwidths and site-level black spots at tens of metres, a scale that matches the G-function results. Consistency over time is supported only visually by the faceted maps. Formal spatio-temporal testing and inhomogeneous second-order analysis are still needed to confirm that the clustering is stable over time and not simply a product of uneven intensity along the road network.</p>
+</section>
+<section id="what-assumptions-or-limitations-should-be-considered-when-interpreting-the-results" class="level3">
+<h3 class="anchored" data-anchor-id="what-assumptions-or-limitations-should-be-considered-when-interpreting-the-results">What assumptions or limitations should be considered when interpreting the results?</h3>
+<p>These results should be interpreted with several limitations in mind. First, the analysis treats space as a continuous plane, whereas accidents are confined to the road network; combined with a homogeneous CSR null model, this biases all tests toward detecting clustering and prevents first-order concentration from being separated from genuine interaction between events. Second, the data contain many near-duplicate coordinates and exclude records with missing locations, and may under-represent roads outside national highway jurisdiction. Third, without traffic volume data, intensity reflects accident counts rather than risk. Finally, the results depend on the analyst’s choices of study window, quadrat grid and KDE bandwidth, and edge effects were not corrected. Network-constrained and inhomogeneous methods, exposure-adjusted rates, and spatio-temporal analysis would strengthen the conclusions.</p>
+</section>
+<section id="are-there-alternative-explanations-for-the-observed-patterns" class="level3">
+<h3 class="anchored" data-anchor-id="are-there-alternative-explanations-for-the-observed-patterns">Are there alternative explanations for the observed patterns?</h3>
+<p>The accidents might appear clustered for several reasons rather than a single underlying cause:</p>
+<ul>
+<li><p><strong>Physical Layout:</strong> Crashes naturally concentrate in high-traffic areas, busy intersections, and major highway junctions.</p></li>
+<li><p><strong>Data Quirks:</strong> Location tracking might be imprecise (pinning multiple accidents to one general landmark), and local roads might be missing from the dataset entirely.</p></li>
+<li><p><strong>Time Compression:</strong> Plotting four years of data at once makes accidents look grouped, even if they happened months or years apart. Only crashes happening at the exact same time and place (like a pile-up) are genuinely connected.</p></li>
+<li><p><strong>Peak Periods:</strong> Weekend and holiday spikes could just mean more cars are on the road, stricter police reporting, or increased drunk driving.</p></li>
+</ul>
+</section>
+</section>
+<section id="geovisualisation-and-analytical-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="geovisualisation-and-analytical-interpretation">9 Geovisualisation and Analytical Interpretation</h2>
+<section id="district-choropleths-per-km²" class="level3">
+<h3 class="anchored" data-anchor-id="district-choropleths-per-km²">District choropleths (per km²)</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a>bmr_district <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/bmr_district.rds"</span>)</span>
+<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>acc_joined <span class="ot">&lt;-</span> <span class="fu">st_join</span>(bmr_acc_sf, bmr_district, <span class="at">join =</span> st_within) <span class="sc">%&gt;%</span></span>
+<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(adm2_pcode))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Calculate district densities per km² and per year</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a>district_density <span class="ot">&lt;-</span> bmr_district <span class="sc">%&gt;%</span></span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(acc_joined <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span> <span class="fu">count</span>(adm2_pcode, <span class="at">name =</span> <span class="st">"n_acc"</span>),</span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">"adm2_pcode"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n_acc            =</span> <span class="fu">replace_na</span>(n_acc, <span class="dv">0</span>),</span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">acc_per_km2      =</span> n_acc <span class="sc">/</span> area_km2) <span class="sc">%&gt;%</span></span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(acc_per_km2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Plot choropleths for district-level accident densities</strong></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a>basemap <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(district_density) <span class="sc">+</span></span>
+<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>() <span class="sc">+</span></span>
+<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_text</span>(<span class="st">"adm1_name"</span>, <span class="at">size=</span><span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>)) </span>
+<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-6"><a href="#cb109-6" aria-hidden="true" tabindex="-1"></a>acc_dens <span class="ot">&lt;-</span> <span class="fu">qtm</span>(district_density, <span class="st">"acc_per_km2"</span>) <span class="sc">+</span></span>
+<span id="cb109-7"><a href="#cb109-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(</span>
+<span id="cb109-8"><a href="#cb109-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>),</span>
+<span id="cb109-9"><a href="#cb109-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text.size =</span> <span class="fl">0.5</span>,</span>
+<span id="cb109-10"><a href="#cb109-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title.size =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb109-11"><a href="#cb109-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_layout</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>))</span>
+<span id="cb109-12"><a href="#cb109-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(basemap, acc_dens, <span class="at">asp=</span><span class="dv">1</span>, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Take-home_Ex01_files/figure-html/unnamed-chunk-79-1.png" class="img-fluid figure-img" width="1536"></p>
+<figcaption>District-level accident densities per km²</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>District-level accident densities per km² &gt;= 10</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a>district_density_high <span class="ot">&lt;-</span> district_density <span class="sc">%&gt;%</span></span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(acc_per_km2 <span class="sc">&gt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(acc_per_km2))</span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>district_density_high</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 13 features and 6 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: 643534.4 ymin: 1503873 xmax: 703157 ymax: 1532571
+Projected CRS: WGS 84 / UTM zone 47N
+First 10 features:
+      adm1_name      adm2_name adm2_pcode   area_km2 n_acc acc_per_km2
+1       Bangkok    Khan Na Yao     TH1043  25.533979   445   17.427757
+2       Bangkok Thawi Watthana     TH1048  50.125499   741   14.782895
+3       Bangkok    Saphan Sung     TH1044  27.977854   386   13.796626
+4       Bangkok    Taling Chan     TH1019  35.645467   447   12.540164
+5       Bangkok       Yan Nawa     TH1012  12.393204   138   11.135135
+6       Bangkok         Prawet     TH1032  53.892367   544   10.094194
+7       Bangkok     Phaya Thai     TH1014   9.253907    82    8.861122
+8  Samut Prakan  Phra Pradaeng     TH1104  58.973165   495    8.393648
+9       Bangkok    Lat Krabang     TH1011 128.643059   926    7.198212
+10      Bangkok     Suan Luang     TH1034  24.379370   166    6.809036
+                         geometry
+1  MULTIPOLYGON (((680806.2 15...
+2  MULTIPOLYGON (((650687.8 15...
+3  MULTIPOLYGON (((685556.9 15...
+4  MULTIPOLYGON (((654587 1526...
+5  MULTIPOLYGON (((667818.3 15...
+6  MULTIPOLYGON (((680695.6 15...
+7  MULTIPOLYGON (((667624 1525...
+8  MULTIPOLYGON (((670827.4 15...
+9  MULTIPOLYGON (((694497.3 15...
+10 MULTIPOLYGON (((677751.8 15...</code></pre>
+</div>
+</div>
+<p>export district_density_high to a table with adm1_name and adm2_name, acc_per_km2 and n_acc and acc_per_km2</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a>district_density_high <span class="sc">%&gt;%</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">#drop the geometry column</span></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(adm1_name, adm2_name, acc_per_km2, n_acc, acc_per_km2) <span class="sc">%&gt;%</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Top districts by accident density per km²</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Province</th>
+<th style="text-align: left;">District</th>
+<th style="text-align: right;">accident/km2</th>
+<th style="text-align: right;">Number of accidents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Khan Na Yao</td>
+<td style="text-align: right;">17.427757</td>
+<td style="text-align: right;">445</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Thawi Watthana</td>
+<td style="text-align: right;">14.782895</td>
+<td style="text-align: right;">741</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Saphan Sung</td>
+<td style="text-align: right;">13.796626</td>
+<td style="text-align: right;">386</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Taling Chan</td>
+<td style="text-align: right;">12.540164</td>
+<td style="text-align: right;">447</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Yan Nawa</td>
+<td style="text-align: right;">11.135135</td>
+<td style="text-align: right;">138</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Prawet</td>
+<td style="text-align: right;">10.094194</td>
+<td style="text-align: right;">544</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Phaya Thai</td>
+<td style="text-align: right;">8.861122</td>
+<td style="text-align: right;">82</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Samut Prakan</td>
+<td style="text-align: left;">Phra Pradaeng</td>
+<td style="text-align: right;">8.393648</td>
+<td style="text-align: right;">495</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Lat Krabang</td>
+<td style="text-align: right;">7.198212</td>
+<td style="text-align: right;">926</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Suan Luang</td>
+<td style="text-align: right;">6.809036</td>
+<td style="text-align: right;">166</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Bang Khae</td>
+<td style="text-align: right;">6.689740</td>
+<td style="text-align: right;">320</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Chom Thong</td>
+<td style="text-align: right;">6.198882</td>
+<td style="text-align: right;">144</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bangkok</td>
+<td style="text-align: left;">Pathum Wan</td>
+<td style="text-align: right;">5.599912</td>
+<td style="text-align: right;">45</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="public-safety-planning-and-management" class="level2">
+<h2 class="anchored" data-anchor-id="public-safety-planning-and-management">10 Public-Safety Planning and Management</h2>
+<section id="transportation-and-road-safety-planning" class="level3">
+<h3 class="anchored" data-anchor-id="transportation-and-road-safety-planning">Transportation and road-safety planning</h3>
+<p>Road-safety planning should work at two spatial scales. At the regional scale, the KDE and district choropleths identify where planning effort should be concentrated: central Bangkok. At the site scale, the G-function shows that accidents recur at specific points, along the main roads and intersections where targeted interventions can be implemented.</p>
+</section>
+<section id="emergency-response-planning" class="level3">
+<h3 class="anchored" data-anchor-id="emergency-response-planning">Emergency response planning</h3>
+<p>The strong spatial and temporal concentration supports demand-based deployment of emergency resources. Ambulances and rescue units can be pre-positioned near persistent hotspots.Deployment can also be scaled up during the peak periods identified in the EDA: Friday and Saturday evenings, and the April (Songkran) and December (New Year) holiday periods.</p>
+</section>
+<section id="public-safety-policy" class="level3">
+<h3 class="anchored" data-anchor-id="public-safety-policy">Public-safety policy</h3>
+<p>Because hot spots and road corridors cross provincial boundaries, policy should be coordinated across the six provinces and the agencies responsible for different road classes, supported by a shared, standardised accident database.</p>
+</section>
+<section id="cautions-for-decision-makers" class="level3">
+<h3 class="anchored" data-anchor-id="cautions-for-decision-makers">Cautions for decision-makers</h3>
+<p>These recommendations rest on accident counts in planar space, pooled over 2019–2022, and may not fully capture dynamic changes in traffic patterns, road conditions, or enforcement measures. Decision-makers should complement this analysis with real-time data and local knowledge to ensure effective and context-sensitive interventions.</p>
 
 
 </section>

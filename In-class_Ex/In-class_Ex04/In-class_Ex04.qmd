@@ -50,7 +50,7 @@ hunan <- left_join(hunan,hunan2012) %>%
 ```{r}
 #| fig-width: 16
 #| fig-height: 6
-#| echo: false
+
 
 basemap <- tm_shape(hunan) +
   tm_polygons() +
