@@ -67,7 +67,7 @@
     "href": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#plot-choropleth-map",
     "title": "In-class_Ex04",
     "section": "Plot choropleth map",
-    "text": "Plot choropleth map\n\n\n\n\n\n\n\n\n\nConverting to SpatialPolygonDataFrame\n\nhunan_sp &lt;- hunan %&gt;%\n  as_Spatial()"
+    "text": "Plot choropleth map\n\nbasemap &lt;- tm_shape(hunan) +\n  tm_polygons() +\n  tm_text(\"NAME_3\", size=0.5)\n\ngdppc &lt;- qtm(hunan, \"GDPPC\") +\n  tm_layout(\n    legend.position = c(\"left\", \"bottom\"),\n    legend.text.size = 0.6,\n    legend.title.size = 0.7)\ntmap_arrange(basemap, gdppc, asp=1, ncol=2)\n\n\n\n\n\n\n\n\nConverting to SpatialPolygonDataFrame\n\nhunan_sp &lt;- hunan %&gt;%\n  as_Spatial()"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#geographically-weighted-summary-statistics-gsww-with-adaptive-bandwidth",
@@ -460,5 +460,40 @@
     "title": "Take-home Exercise 01",
     "section": "10 Public-Safety Planning and Management",
     "text": "10 Public-Safety Planning and Management\n\nTransportation and road-safety planning\nRoad-safety planning should work at two spatial scales. At the regional scale, the KDE and district choropleths identify where planning effort should be concentrated: central Bangkok. At the site scale, the G-function shows that accidents recur at specific points, along the main roads and intersections where targeted interventions can be implemented.\n\n\nEmergency response planning\nThe strong spatial and temporal concentration supports demand-based deployment of emergency resources. Ambulances and rescue units can be pre-positioned near persistent hotspots.Deployment can also be scaled up during the peak periods identified in the EDA: Friday and Saturday evenings, and the April (Songkran) and December (New Year) holiday periods.\n\n\nPublic-safety policy\nBecause hot spots and road corridors cross provincial boundaries, policy should be coordinated across the six provinces and the agencies responsible for different road classes, supported by a shared, standardised accident database.\n\n\nCautions for decision-makers\nThese recommendations rest on accident counts in planar space, pooled over 2019–2022, and may not fully capture dynamic changes in traffic patterns, road conditions, or enforcement measures. Decision-makers should complement this analysis with real-time data and local knowledge to ensure effective and context-sensitive interventions."
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#geographically-weighted-correlation",
+    "href": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#geographically-weighted-correlation",
+    "title": "In-class_Ex04",
+    "section": "Geographically Weighted Correlation",
+    "text": "Geographically Weighted Correlation\nRelationship between GDP per capita and Gross Industry Output\nConventional statistical solution\n\nggscatterstats(\n  data = hunan2012, \n  x = Agri, \n  y = GDPPC,\n  xlab = \"Gross Agriculture Output\", \n  ylab = \"GDP per capita\", \n  label.var = County, \n  label.expression = Agri &gt; 10000 & GDPPC &gt; 50000, \n  point.label.args = list(alpha = 0.7, size = 4, color = \"grey50\"),\n  xfill = \"#CC79A7\", \n  yfill = \"#009E73\", \n  title = \"Relationship between GDP PC and Gross Agriculture Output\")\n\n\n\n\n\n\n\n\nGeoVisualisation\n\ngdppcmap &lt;- tm_shape(hunan) + \n  tm_polygons(\n    fill = \"GDPPC\",\n    fill.scale = tm_scale_intervals(\n      n = 5,\n      style = \"quantile\",\n      values = \"brewer.oranges\")) +\n  tm_borders(fill_alpha = 0.25,\n             lwd = 0.5) +\n  tm_title(\"Distribution of GDP per capita\") +\n  tm_layout(legend.position = c(\"left\", \"bottom\")) \n\ngiomap &lt;- tm_shape(hunan) + \n  tm_polygons(\n    fill = \"GIO\",\n    fill.scale = tm_scale_intervals(\n      n = 5,\n      style = \"quantile\",\n      values = \"blue\")) +\n  tm_borders(fill_alpha = 0.25,\n             lwd = 0.5) +\n  tm_title(\"Distribution of Gross Industry Output\") +\n  tm_layout(legend.position = c(\"left\", \"bottom\"))\n\ntmap_arrange(gdppcmap, giomap, asp=1, ncol=2)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#geospatial-analytics-solution",
+    "href": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#geospatial-analytics-solution",
+    "title": "In-class_Ex04",
+    "section": "Geospatial analytics solution",
+    "text": "Geospatial analytics solution\nDetermine the bandwidth\n\nbw &lt;- bw.gwr(GDPPC ~ GIO, \n             data = hunan_sp, \n             approach = \"AICc\",\n             kernel = \"bisquare\",\n             adaptive = TRUE)\n\nAdaptive bandwidth (number of nearest neighbours): 62 AICc value: 1870.235 \nAdaptive bandwidth (number of nearest neighbours): 46 AICc value: 1870.852 \nAdaptive bandwidth (number of nearest neighbours): 72 AICc value: 1869.744 \nAdaptive bandwidth (number of nearest neighbours): 78 AICc value: 1869.713 \nAdaptive bandwidth (number of nearest neighbours): 82 AICc value: 1869.604 \nAdaptive bandwidth (number of nearest neighbours): 84 AICc value: 1869.537 \nAdaptive bandwidth (number of nearest neighbours): 86 AICc value: 1869.647 \nAdaptive bandwidth (number of nearest neighbours): 83 AICc value: 1869.567 \nAdaptive bandwidth (number of nearest neighbours): 84 AICc value: 1869.537 \n\n\nComputing gwCorrelation\n\ngwstats &lt;- gwss(hunan_sp, \n                vars = c(\"GDPPC\", \"GIO\"), \n                bw = bw,\n                kernel = \"bisquare\",\n                adaptive = TRUE, \n                longlat = T)\n\nExtracting the SDF data table from gwss object then convert into data.frame.\n\ngwstat_df &lt;- as.data.frame(gwstats$SDF) %&gt;%\n  select(c(12,13)) %&gt;%\n  rename(gwCorr = Corr_GDPPC.GIO,\n         gwSpearman = Spearman_rho_GDPPC.GIO)\n\ncbind() is used to append the newly derived data.frame onto hunan sf data.frame.\n\nhunan_Corr &lt;- cbind(hunan, gwstat_df)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#geospatial-analytics-solution-1",
+    "href": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#geospatial-analytics-solution-1",
+    "title": "In-class_Ex04",
+    "section": "Geospatial analytics solution",
+    "text": "Geospatial analytics solution\nDetermine the bandwidth\n\nbw &lt;- bw.gwr(GDPPC ~ GIO, \n             data = hunan_sp, \n             approach = \"AICc\",\n             kernel = \"bisquare\",\n             adaptive = TRUE)\n\nAdaptive bandwidth (number of nearest neighbours): 62 AICc value: 1870.235 \nAdaptive bandwidth (number of nearest neighbours): 46 AICc value: 1870.852 \nAdaptive bandwidth (number of nearest neighbours): 72 AICc value: 1869.744 \nAdaptive bandwidth (number of nearest neighbours): 78 AICc value: 1869.713 \nAdaptive bandwidth (number of nearest neighbours): 82 AICc value: 1869.604 \nAdaptive bandwidth (number of nearest neighbours): 84 AICc value: 1869.537 \nAdaptive bandwidth (number of nearest neighbours): 86 AICc value: 1869.647 \nAdaptive bandwidth (number of nearest neighbours): 83 AICc value: 1869.567 \nAdaptive bandwidth (number of nearest neighbours): 84 AICc value: 1869.537 \n\n\nComputing gwCorrelation\n\ngwstats &lt;- gwss(hunan_sp, \n                vars = c(\"GDPPC\", \"GIO\"), \n                bw = bw,\n                kernel = \"bisquare\",\n                adaptive = TRUE, \n                longlat = T)\n\nExtracting the SDF data table from gwss object\n\ngwstat_df &lt;- as.data.frame(gwstats$SDF) %&gt;%\n  select(c(12,13)) %&gt;%\n  rename(gwCorr = Corr_GDPPC.GIO,\n         gwSpearman = Spearman_rho_GDPPC.GIO)\n\nAppend the newly derived data.frame onto hunan sf data.frame.\n\nhunan_Corr &lt;- cbind(hunan, gwstat_df)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#visualising-local-correlation",
+    "href": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#visualising-local-correlation",
+    "title": "In-class_Ex04",
+    "section": "Visualising local correlation",
+    "text": "Visualising local correlation\nLocal correlation coefficient\n\ntm_shape(hunan_Corr) +\n  tm_polygons(fill = \"gwCorr\",\n              fill.scale = tm_scale_intervals(\n                style = \"quantile\",\n                n = 5,\n                values = \"brewer.blues\"),\n              fill.legend = tm_legend(\n                title = \"local Correlation Coefficient\")) +\n  tm_borders(fill_alpha = 0.5) +\n  tm_title(\"Local Spearman Rho\", \n           size = 2.0) +\n  tm_layout(frame = TRUE)\n\n\n\n\n\n\n\n\nLocal Spearman Coefficient\n\ntm_shape(hunan_Corr) +\n  tm_polygons(fill = \"gwSpearman\",\n              fill.scale = tm_scale_intervals(\n                style = \"quantile\",\n                n = 5,\n                values = \"brewer.blues\"),\n              fill.legend = tm_legend(\n                title = \"local Spearman Rho\")) +\n  tm_borders(fill_alpha = 0.5) +\n  tm_title(\"Local Spearman Rho\", \n           size = 2.0) +\n  tm_layout(frame = TRUE)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#references",
+    "href": "In-class_Ex/In-class_Ex04/In-class_Ex04.html#references",
+    "title": "In-class_Ex04",
+    "section": "References",
+    "text": "References\nBrunsdon, C. et. al. (2002) “Geographically weighted summary statistics - a framework for localised exploratory data analysis”, Computer, Environment and Urban Systems, Vol 26, pp. 501-525. Available as e-journal, SMU library.\nHarris, P. & Brunsdon, C. (2010) “Exploring spatial variation and spatial relationships in freshwater acidification critical load data set for Great Britain using geographically weighted summary statistics”, Computers & Geosciences, Vol. 36, pp. 54-70. Available as e-journal, SMU library.\nISSS626-ay2026-27aug In-class Exercise04"
   }
 ]

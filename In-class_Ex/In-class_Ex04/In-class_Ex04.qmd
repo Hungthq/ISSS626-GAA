@@ -154,3 +154,181 @@ tm_shape(hunan_gstat) +
   tm_layout(legend.position = c("left", "bottom"))
 
 ```
+
+## Geographically Weighted Correlation
+
+Relationship between GDP per capita and Gross Industry Output
+
+Conventional statistical solution
+
+```{r}
+ggscatterstats(
+  data = hunan2012, 
+  x = Agri, 
+  y = GDPPC,
+  xlab = "Gross Agriculture Output", 
+  ylab = "GDP per capita", 
+  label.var = County, 
+  label.expression = Agri > 10000 & GDPPC > 50000, 
+  point.label.args = list(alpha = 0.7, size = 4, color = "grey50"),
+  xfill = "#CC79A7", 
+  yfill = "#009E73", 
+  title = "Relationship between GDP PC and Gross Agriculture Output")
+```
+
+GeoVisualisation
+
+```{r}
+#| fig-width: 12
+#| fig-height: 8
+#| 
+gdppcmap <- tm_shape(hunan) + 
+  tm_polygons(
+    fill = "GDPPC",
+    fill.scale = tm_scale_intervals(
+      n = 5,
+      style = "quantile",
+      values = "brewer.oranges")) +
+  tm_borders(fill_alpha = 0.25,
+             lwd = 0.5) +
+  tm_title("Distribution of GDP per capita") +
+  tm_layout(legend.position = c("left", "bottom")) 
+
+giomap <- tm_shape(hunan) + 
+  tm_polygons(
+    fill = "GIO",
+    fill.scale = tm_scale_intervals(
+      n = 5,
+      style = "quantile",
+      values = "blue")) +
+  tm_borders(fill_alpha = 0.25,
+             lwd = 0.5) +
+  tm_title("Distribution of Gross Industry Output") +
+  tm_layout(legend.position = c("left", "bottom"))
+
+tmap_arrange(gdppcmap, giomap, asp=1, ncol=2)
+```
+
+## Geospatial analytics solution
+
+Determine the bandwidth
+
+```{r}
+bw <- bw.gwr(GDPPC ~ GIO, 
+             data = hunan_sp, 
+             approach = "AICc",
+             kernel = "bisquare",
+             adaptive = TRUE)
+```
+
+Computing gwCorrelation
+
+```{r}
+gwstats <- gwss(hunan_sp, 
+                vars = c("GDPPC", "GIO"), 
+                bw = bw,
+                kernel = "bisquare",
+                adaptive = TRUE, 
+                longlat = T)
+```
+
+Extracting the SDF data table from gwss object then convert into data.frame.
+
+```{r}
+gwstat_df <- as.data.frame(gwstats$SDF) %>%
+  select(c(12,13)) %>%
+  rename(gwCorr = Corr_GDPPC.GIO,
+         gwSpearman = Spearman_rho_GDPPC.GIO)
+```
+
+cbind() is used to append the newly derived data.frame onto hunan sf data.frame.
+
+```{r}
+hunan_Corr <- cbind(hunan, gwstat_df)
+```
+
+## Geospatial analytics solution
+
+Determine the bandwidth
+
+```{r}
+bw <- bw.gwr(GDPPC ~ GIO, 
+             data = hunan_sp, 
+             approach = "AICc",
+             kernel = "bisquare",
+             adaptive = TRUE)
+```
+
+Computing gwCorrelation
+
+```{r}
+gwstats <- gwss(hunan_sp, 
+                vars = c("GDPPC", "GIO"), 
+                bw = bw,
+                kernel = "bisquare",
+                adaptive = TRUE, 
+                longlat = T)
+```
+
+Extracting the SDF data table from gwss object
+
+```{r}
+gwstat_df <- as.data.frame(gwstats$SDF) %>%
+  select(c(12,13)) %>%
+  rename(gwCorr = Corr_GDPPC.GIO,
+         gwSpearman = Spearman_rho_GDPPC.GIO)
+```
+
+Append the newly derived data.frame onto hunan sf data.frame.
+
+```{r}
+hunan_Corr <- cbind(hunan, gwstat_df)
+```
+
+## Visualising local correlation
+
+Local correlation coefficient
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+tm_shape(hunan_Corr) +
+  tm_polygons(fill = "gwCorr",
+              fill.scale = tm_scale_intervals(
+                style = "quantile",
+                n = 5,
+                values = "brewer.blues"),
+              fill.legend = tm_legend(
+                title = "local Correlation Coefficient")) +
+  tm_borders(fill_alpha = 0.5) +
+  tm_title("Local Spearman Rho", 
+           size = 2.0) +
+  tm_layout(frame = TRUE)
+```
+
+Local Spearman Coefficient
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+tm_shape(hunan_Corr) +
+  tm_polygons(fill = "gwSpearman",
+              fill.scale = tm_scale_intervals(
+                style = "quantile",
+                n = 5,
+                values = "brewer.blues"),
+              fill.legend = tm_legend(
+                title = "local Spearman Rho")) +
+  tm_borders(fill_alpha = 0.5) +
+  tm_title("Local Spearman Rho", 
+           size = 2.0) +
+  tm_layout(frame = TRUE)
+```
+
+## References
+
+Brunsdon, C. et. al. (2002) “Geographically weighted summary statistics - a framework for localised exploratory data analysis”, Computer, *Environment and Urban Systems*, Vol 26, pp. 501-525. Available as e-journal, SMU library.
+
+Harris, P. & Brunsdon, C. (2010) “Exploring spatial variation and spatial relationships in freshwater acidification critical load data set for Great Britain using geographically weighted summary statistics”, *Computers & Geosciences*, Vol. 36, pp. 54-70. Available as e-journal, SMU library.
+
+[ISSS626-ay2026-27aug In-class Exercise04](https://isss626-ay2026-27aug.netlify.app/in-class_ex/in-class_ex04/in-class_ex04)
