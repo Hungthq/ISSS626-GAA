@@ -640,24 +640,6 @@ tm_shape(bmr_adm_boundary) +
   )
 ```
 
-```{r}
-#Plot accident 2019 to compare:
-#| echo: false
-#| eval: false
-bmr_acc_2019 <- read_rds("data/bmr_acc_2019-2022.rds") %>%
-  filter(year(incident_datetime) == 2019)  
- 
-#| fig-width: 10
-#| fig-height: 8
-tm_shape(bmr_adm_boundary) +
-  #tm_polygons(col='adm1_name', alpha=0.6, border.col="black", lwd=0.7, title = "Region") +
-  tm_shape(bmr_primary_roads) +
-  tm_lines(col = "darkgreen", lwd=0.7, alpha = 0.8) +
-  tm_shape(bmr_acc_2019) + 
-  tm_dots(col = "red", size = 0.25, alpha = 0.6)                                                
-  
-```
-
 Accidents by year and province
 
 ```{r}
@@ -1458,7 +1440,6 @@ Top districts by accident density per km²
 ### 9.2 Network KDE on the primary road (highest value)
 
 ```{r}
-#bmr_acc_2022 <- bmr_acc_sf %>% filter(year(incident_datetime) == 2022)   # keeps runtime manageable
 
 lixels  <- lixelize_lines(bmr_primary_roads, 500, mindist = 250)
 samples <- lines_center(lixels)
@@ -1475,17 +1456,26 @@ lixels$density <- nkde * 1000   # accidents per km of road
 ```
 
 ```{r}
-bmr_district <- readRDS("data/bmr_district.rds")
-```
+nz   <- lixels$density[lixels$density > 0]          
+brks <- unique(c(0, quantile(nz, c(0.5, 0.75, 0.9, 0.95, 0.99)), max(nz)))
+pal  <- c("#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15", "#67000d")[seq_len(length(brks) - 1)]
 
-```{r}
-
-tm_shape(bmr_district) + tm_borders(col = "grey70") +
-  tm_shape(lixels) +
+tm_shape(bmr_district) + tm_borders(col = "grey85") +
+  tm_shape(filter(lixels, density == 0)) + tm_lines(col = "grey85", lwd = 0.5) +
+  tm_shape(filter(lixels, density > 0) %>% arrange(density)) +
   tm_lines(col = "density", lwd = 2,
-           col.scale = tm_scale_intervals(style = "quantile", values = "-brewer.rd_yl_gn")) +
-  tm_title("Network KDE of accidents, 2022 (bw = 300 m)")
+           col.scale  = tm_scale_intervals(breaks = brks, values = pal),
+           col.legend = tm_legend(title = "NKDE density")) +
+  tm_title("Network KDE of road accidents, BMR (bw = 300 m)")
 ```
+
+::: callout-note
+**Interpretation**
+
+- **Accidents concentrate on a few segments.** 68% of the primary road network had no accident within 300 m in 2022. The darkest class, the top 1% of segments that have accidents (about 35 km), carries the highest density. This confirms the segment-scale clustering the G-function found.
+
+- **The main hotspot is the eastern expressway corridor.** It runs north–south along eastern Bangkok and then south-east through Khan Na Yao, Saphan Sung, Prawet and Lat Krabang, the same districts that top the per-km² choropleth.
+:::
 
 ### 9.3 Road accidents during Thais New-Year period (Songkran 11-17 Apr)
 
