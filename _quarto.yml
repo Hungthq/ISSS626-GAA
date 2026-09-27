@@ -45,7 +45,9 @@ website:
       - text: "In-class Exercises"
         menu:
           - href: In-class_Ex/In-class_Ex04/In-class_Ex04.html
-            text: In-class Exercise 04          
+            text: In-class Exercise 04   
+          - href: In-class_Ex/In-class_Ex05/In-class_Ex04.html
+            text: In-class Exercise 05
     right:
       - href: index.qmd
         text: Home

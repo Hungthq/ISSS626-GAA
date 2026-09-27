@@ -1,0 +1,22 @@
+{
+  "version" : "5.12.0.v202606180846",
+  "projects" : [ {
+    "name" : "In-class Exercise 05",
+    "active" : true,
+    "origin" : {
+      "providerId" : "local",
+      "spaceId" : "local",
+      "relativePath" : "In-class Exercise 05"
+    }
+  } ],
+  "mostRecentlyUsedProjects" : [ {
+    "name" : "In-class Exercise 05",
+    "timeUsed" : "2026-09-26T13:24:13.9075643+08:00",
+    "origin" : {
+      "providerId" : "local",
+      "spaceId" : "local",
+      "projectType" : "WORKFLOW",
+      "relativePath" : "In-class Exercise 05"
+    }
+  } ]
+}
