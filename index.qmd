@@ -21,6 +21,17 @@ listing:
     sort-ui: false
     filter-ui: false
     page-size: 3
+  
+  - id: in-class
+    contents: "**/*/In-class_*.qmd"
+    type: grid
+    fields: [image, date, title, reading-time]
+    sort:
+      - "date desc"
+      - "title desc"
+    sort-ui: false
+    filter-ui: false
+    page-size: 3
 author: "Hung Thai"
 date: "Aug 24th, 2026"
 date-modified: "last-modified"
@@ -62,3 +73,13 @@ Course content: [ISSS626 Geospatial Analytics and Applications](https://isss626-
 ::: {#take-home}
 :::
 ::::
+
+
+:::: {.animate__animated .animate__fadeIn .animate__faster}
+## 🏫  [In-class Exercises](/in-class_ex/)
+
+::: {#in-class}
+:::
+::::
+
+

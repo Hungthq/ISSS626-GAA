@@ -582,7 +582,7 @@ rect.hclust(hclust_ward,
 
 In this section, we explore visually driven hierarchical cluster analysis using the heatmaply package. heatmaply enables the creation of both rich interactive heatmaps and publication-ready static displays.
 
-### 5.11.1 Transforming the Data Frame into a Matrix 
+### 5.11.1 Transforming the Data Frame into a Matrix
 
 Because clustering heatmap functions require numeric matrix inputs rather than standard data frames, we must first convert the data structure. The code chunk below transforms the shan_ict data frame into a numeric data matrix.
 

@@ -1,0 +1,104 @@
+---
+title: "In-class_Ex05"
+author: "Hung Thai"
+date: "Sep 26, 2026"
+date-modified: "last-modified"
+execute:
+  echo: true
+  eval: true
+  mesage: false
+  warning: false
+  freeze: true
+format: 
+  html:
+    toc: true
+    toc-depth: 4
+    code-copy: true
+editor: visual
+---
+
+## Loading the packages
+
+```{r}
+pacman::p_load(sf, tmap, tidyverse, sfdep)
+```
+
+## Importing Hunan shapefile and GDP table
+
+Import Hunan shapefile
+
+```{r}
+hunan <- st_read(dsn = "data/geospatial", 
+                 layer = "Hunan")
+```
+
+Import Hunan GDP file:
+
+```{r}
+hunan2012 <- read_csv("data/aspatial/Hunan_2012.csv")
+```
+
+Join Hunan & Hunan2012 data.frames and tidy the data table by retaining NAME_2, ID_3, NAME_3, County, GDPPC, GIO, Agri and Service
+
+```{r}
+hunan_GDPPC_ <- left_join(hunan,hunan2012)
+```
+
+```{r}
+hunan_GDPPC <- hunan_GDPPC_ %>%
+  select(1:3, 7, 15, 16, 33)
+```
+
+## Global mearuse of Spatial Association
+
+**Step1: deriving Queen's contiguity weights: sfdep methods**
+
+```{r}
+wm_q <- hunan_GDPPC %>%
+  mutate (nb= st_contiguity(geometry),
+          wt= st_weights(nb, style = "W"),
+          .before=1)
+
+```
+
+```{r}
+names(wm_q)
+```
+
+**Step2: computing Global Moran's I**
+
+```{r}
+moranI <- global_moran(wm_q$GDPPC,
+                       wm_q$nb,
+                       wm_q$wt)
+
+glimpse(moranI)
+```
+
+**Computing Local Moran's I**
+
+```{r}
+lisa <- wm_q %>%
+  mutate(local_moran = local_moran(
+    GDPPC, nb, wt, nsim = 99),
+    .before =1) %>%
+  unnest(local_moran)
+```
+
+```{r}
+lisa_sig <- lisa %>%
+  filter(p_ii_sim < 0.05)
+tmap_mode("plot")
+tm_shape(lisa) +
+  tm_polygons() +
+  tm_borders(fill_alpha=0.5) +
+tm_shape(lisa_sig) + 
+  tm_polygons(fill = "mean",
+              fill.legend = tm_legend(
+                text.size = 1.15,
+                width =6
+              )) +
+  tm_borders(fill_alpha = 0.4) +
+  tm_layout(legend.title.size = 1.25)
+
+```

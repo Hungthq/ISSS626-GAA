@@ -134,6 +134,34 @@ ul.task-list li input[type="checkbox"] {
       window['quarto-listing-loaded']();
     }
   })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-in-class .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-image','listing-date','listing-title','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-in-class'] = new List('listing-in-class', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
   </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -265,8 +293,12 @@ window.Quarto = {
  <span class="dropdown-text">In-class Exercise 04</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./In-class_Ex/In-class_Ex05/In-class_Ex04.html">
+    <a class="dropdown-item" href="./In-class_Ex/In-class_Ex05/In-class_Ex05.html">
  <span class="dropdown-text">In-class Exercise 05</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./In-class_Ex/In-class_Ex06/In-class_Ex06.html">
+ <span class="dropdown-text">In-class Exercise 06</span></a>
   </li>  
     </ul>
   </li>
@@ -305,6 +337,7 @@ window.Quarto = {
   <ul>
   <li><a href="#hands-on-exercises" id="toc-hands-on-exercises" class="nav-link" data-scroll-target="#hands-on-exercises">✍️ Hands-on Exercises</a></li>
   <li><a href="#take-home-exercises" id="toc-take-home-exercises" class="nav-link" data-scroll-target="#take-home-exercises">🏠 Take-home Exercises</a></li>
+  <li><a href="#in-class-exercises" id="toc-in-class-exercises" class="nav-link" data-scroll-target="#in-class-exercises">🏫 In-class Exercises</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -338,7 +371,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">September 19, 2026</p>
+      <p class="date-modified">October 3, 2026</p>
     </div>
   </div>
     
@@ -502,6 +535,48 @@ Take-home Exercise 01
 <div class="card-attribution card-text-small end">
 <div class="listing-date">
 Sep 17, 2026
+</div>
+</div>
+</div>
+</div></a>
+</div>
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+</section>
+<section id="in-class-exercises" class="level2 animate__animated animate__fadeIn animate__faster">
+<h2 class="anchored" data-anchor-id="in-class-exercises">🏫 <a href="./in-class_ex/">In-class Exercises</a></h2>
+<div id="listing-in-class" class="quarto-listing quarto-listing-container-grid">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-listing-date-sort="1790352000000" data-listing-file-modified-sort="1790501532912" data-listing-date-modified-sort="1790501532000" data-listing-reading-time-sort="2" data-listing-word-count-sort="288">
+<a href="./In-class_Ex/In-class_Ex05/In-class_Ex05.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img loading='lazy' src="In-class_Ex\In-class_Ex05\In-class_Ex05_files\figure-html\unnamed-chunk-10-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+In-class_Ex05
+</h5>
+<div class="listing-reading-time card-text text-muted">2 min</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Sep 26, 2026
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="1" data-listing-date-sort="1789747200000" data-listing-file-modified-sort="1790344577257" data-listing-date-modified-sort="1790344577000" data-listing-reading-time-sort="9" data-listing-word-count-sort="1736">
+<a href="./In-class_Ex/In-class_Ex04/In-class_Ex04.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img loading='lazy' src="In-class_Ex\In-class_Ex04\In-class_Ex04_files\figure-html\unnamed-chunk-5-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+In-class_Ex04
+</h5>
+<div class="listing-reading-time card-text text-muted">9 min</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Sep 19, 2026
 </div>
 </div>
 </div>
