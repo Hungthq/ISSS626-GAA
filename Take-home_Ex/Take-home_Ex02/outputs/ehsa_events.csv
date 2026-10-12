@@ -1,0 +1,331 @@
+ST,DT,TS,TS_PCODE,tau,p_value,classification
+Kachin,Myitkyina,Myitkyina,MMR001001,-0.06432749330997467,0.7264469861984253,sporadic hotspot
+Kachin,Myitkyina,Waingmaw,MMR001002,-0.06432749330997467,0.7264469861984253,sporadic hotspot
+Kachin,Myitkyina,Injangyang,MMR001003,0.04093567654490471,0.8337352275848389,sporadic coldspot
+Kachin,Myitkyina,Tanai,MMR001004,-0.4152047038078308,0.014325739815831184,sporadic coldspot
+Kachin,Myitkyina,Chipwi,MMR001005,0.04093567654490471,0.8337352275848389,sporadic coldspot
+Kachin,Myitkyina,Tsawlaw,MMR001006,0.27485382556915283,0.10754287242889404,sporadic coldspot
+Kachin,Mohnyin,Mohnyin,MMR001007,-0.3801169991493225,0.025150934234261513,sporadic hotspot
+Kachin,Mohnyin,Mogaung,MMR001008,-0.4502924382686615,0.007839544676244259,sporadic hotspot
+Kachin,Mohnyin,Hpakant,MMR001009,-0.27485382556915283,0.10754283517599106,sporadic hotspot
+Kachin,Bhamo,Bhamo,MMR001010,0.12280702590942383,0.48410749435424805,sporadic hotspot
+Kachin,Bhamo,Shwegu,MMR001011,-0.23976610600948334,0.16168621182441711,no pattern detected
+Kachin,Bhamo,Momauk,MMR001012,0.08771930634975433,0.624276876449585,sporadic hotspot
+Kachin,Bhamo,Mansi,MMR001013,0.04093567654490471,0.8337352275848389,no pattern detected
+Kachin,Puta-O,Puta-O,MMR001014,-0.4385965168476105,0.00962740182876587,sporadic coldspot
+Kachin,Puta-O,Sumprabum,MMR001015,-0.4970760643482208,0.003294984344393015,sporadic coldspot
+Kachin,Puta-O,Machanbaw,MMR001016,-0.21637429296970367,0.20785671472549438,sporadic coldspot
+Kachin,Puta-O,Nawngmun,MMR001017,-0.15789474546909332,0.3630203604698181,sporadic coldspot
+Kachin,Puta-O,Khaunglanhpu,MMR001018,0.04093567654490471,0.8337352275848389,persistent coldspot
+Kayah,Loikaw,Loikaw,MMR002001,-0.20467838644981384,0.23423928022384644,no pattern detected
+Kayah,Loikaw,Demoso,MMR002002,-0.35672518610954285,0.035805072635412216,no pattern detected
+Kayah,Loikaw,Hpruso,MMR002003,-0.25146201252937317,0.14172597229480743,no pattern detected
+Kayah,Loikaw,Shadaw,MMR002004,-0.3684210777282715,0.030074669048190117,sporadic coldspot
+Kayah,Bawlake,Bawlake,MMR002005,-0.4152047038078308,0.014325739815831184,no pattern detected
+Kayah,Bawlake,Hpasawng,MMR002006,-0.4035088121891022,0.017358791083097458,no pattern detected
+Kayah,Bawlake,Mese,MMR002007,-0.39181289076805115,0.020940935239195824,no pattern detected
+Kayin,Hpa-An,Hpa-An,MMR003001,-0.017543861642479897,0.9442166090011597,sporadic hotspot
+Kayin,Hpa-An,Hlaingbwe,MMR003002,-0.005847953725606203,1,sporadic hotspot
+Kayin,Hpapun,Hpapun,MMR003003,0.4152047038078308,0.014325737953186035,sporadic hotspot
+Kayin,Hpa-An,Thandaunggyi,MMR003004,0.3684210777282715,0.030074715614318848,sporadic hotspot
+Kayin,Myawaddy,Myawaddy,MMR003005,0.3801169991493225,0.02515089511871338,sporadic hotspot
+Kayin,Kawkareik,Kawkareik,MMR003006,0.35672518610954285,0.0358051061630249,sporadic hotspot
+Kayin,Kawkareik,Kyainseikgyi,MMR003007,0.3333333730697632,0.05009031295776367,consecutive hotspot
+Chin,Falam,Falam,MMR004001,-0.28654974699020386,0.09309213608503342,no pattern detected
+Chin,Hakha,Hakha,MMR004002,-0.4035088121891022,0.017358791083097458,sporadic hotspot
+Chin,Hakha,Thantlang,MMR004003,-0.2982456386089325,0.08024287968873978,sporadic coldspot
+Chin,Falam,Tedim,MMR004004,-0.23976610600948334,0.16168621182441711,sporadic hotspot
+Chin,Falam,Tonzang,MMR004005,-0.20467838644981384,0.23423928022384644,sporadic hotspot
+Chin,Mindat,Mindat,MMR004006,-0.42690062522888184,0.011770164594054222,no pattern detected
+Chin,Matupi,Matupi,MMR004007,-0.4035088121891022,0.017358791083097458,sporadic hotspot
+Chin,Mindat,Kanpetlet,MMR004008,-0.28654974699020386,0.09309213608503342,no pattern detected
+Chin,Matupi,Paletwa,MMR004009,-0.1461988389492035,0.40110254287719727,no pattern detected
+Sagaing,Sagaing,Sagaing,MMR005001,0.16959065198898315,0.3272855281829834,oscilating hotspot
+Sagaing,Sagaing,Myinmu,MMR005002,-0.029239768162369728,0.8887056112289429,oscilating hotspot
+Sagaing,Sagaing,Myaung,MMR005003,0.18128655850887299,0.293917179107666,oscilating hotspot
+Sagaing,Shwebo,Shwebo,MMR005004,-0.18128655850887299,0.293917179107666,no pattern detected
+Sagaing,Shwebo,Khin-U,MMR005005,0.005847953725606203,1,oscilating hotspot
+Sagaing,Shwebo,Wetlet,MMR005006,0.09941521286964417,0.5756368637084961,oscilating hotspot
+Sagaing,Kanbalu,Kanbalu,MMR005007,-0.21637429296970367,0.20785671472549438,no pattern detected
+Sagaing,Kanbalu,Kyunhla,MMR005008,-0.2982456386089325,0.08024287968873978,no pattern detected
+Sagaing,Shwebo,Ye-U,MMR005009,-0.42690062522888184,0.011770164594054222,no pattern detected
+Sagaing,Shwebo,Tabayin,MMR005010,-0.2982456386089325,0.08024287968873978,no pattern detected
+Sagaing,Shwebo,Taze,MMR005011,-0.2631579041481018,0.12371517717838287,no pattern detected
+Sagaing,Monywa,Monywa,MMR005012,-0.18128655850887299,0.293917179107666,oscilating hotspot
+Sagaing,Monywa,Budalin,MMR005013,-0.39181289076805115,0.020940935239195824,no pattern detected
+Sagaing,Monywa,Ayadaw,MMR005014,-0.09941521286964417,0.5756368637084961,oscilating hotspot
+Sagaing,Monywa,Chaung-U,MMR005015,-0.13450293242931366,0.4414881467819214,no pattern detected
+Sagaing,Yinmarbin,Yinmarbin,MMR005016,-0.3801169991493225,0.025150934234261513,oscilating hotspot
+Sagaing,Yinmarbin,Kani,MMR005017,-0.4152047038078308,0.014325739815831184,sporadic hotspot
+Sagaing,Yinmarbin,Salingyi,MMR005018,-0.15789474546909332,0.3630203604698181,oscilating hotspot
+Sagaing,Yinmarbin,Pale,MMR005019,-0.23976610600948334,0.16168621182441711,persistent hotspot
+Sagaing,Katha,Katha,MMR005020,-0.3684210777282715,0.030074669048190117,sporadic hotspot
+Sagaing,Katha,Indaw,MMR005021,-0.27485382556915283,0.10754283517599106,no pattern detected
+Sagaing,Katha,Tigyaing,MMR005022,0.0760233998298645,0.6746119260787964,no pattern detected
+Sagaing,Katha,Banmauk,MMR005023,-0.029239768162369728,0.8887056112289429,sporadic coldspot
+Sagaing,Kawlin,Kawlin,MMR005024,-0.029239768162369728,0.8887056112289429,no pattern detected
+Sagaing,Kawlin,Wuntho,MMR005025,-0.111111119389534,0.5288645029067993,no pattern detected
+Sagaing,Kawlin,Pinlebu,MMR005026,0.017543861642479897,0.9442166090011597,sporadic coldspot
+Sagaing,Kale,Kale,MMR005027,-0.4385965168476105,0.00962740182876587,sporadic hotspot
+Sagaing,Kale,Kalewa,MMR005028,-0.3801169991493225,0.025150934234261513,no pattern detected
+Sagaing,Kale,Mingin,MMR005029,-0.3801169991493225,0.025150934234261513,sporadic hotspot
+Sagaing,Tamu,Tamu,MMR005030,-0.0760233998298645,0.6746119260787964,sporadic hotspot
+Sagaing,Mawlaik,Mawlaik,MMR005031,-0.15789474546909332,0.3630203604698181,sporadic hotspot
+Sagaing,Mawlaik,Paungbyin,MMR005032,0.005847953725606203,1,no pattern detected
+Sagaing,Hkamti,Hkamti,MMR005033,-0.12280702590942383,0.48410749435424805,new hotspot
+Sagaing,Hkamti,Homalin,MMR005034,-0.04093567654490471,0.8337352275848389,sporadic hotspot
+Sagaing,Naga Self-Administered Zone,Layshi,MMR005035,0.12280702590942383,0.48410749435424805,sporadic coldspot
+Sagaing,Naga Self-Administered Zone,Lahe,MMR005036,0.13450293242931366,0.4414881467819214,persistent coldspot
+Sagaing,Naga Self-Administered Zone,Nanyun,MMR005037,-0.25146201252937317,0.14172597229480743,sporadic coldspot
+Tanintharyi,Dawei,Dawei,MMR006001,0.4035088121891022,0.017358779907226563,oscilating hotspot
+Tanintharyi,Dawei,Launglon,MMR006002,0.13450293242931366,0.4414881467819214,sporadic hotspot
+Tanintharyi,Dawei,Thayetchaung,MMR006003,0.192982479929924,0.2629106044769287,consecutive hotspot
+Tanintharyi,Dawei,Yebyu,MMR006004,0.16959065198898315,0.3272855281829834,consecutive hotspot
+Tanintharyi,Myeik,Myeik,MMR006005,0.4970760643482208,0.0032949447631835938,oscilating hotspot
+Tanintharyi,Myeik,Kyunsu,MMR006006,0.6959065198898315,3.6597251892089844e-5,no pattern detected
+Tanintharyi,Myeik,Palaw,MMR006007,0.42690062522888184,0.011770129203796387,oscilating hotspot
+Tanintharyi,Myeik,Tanintharyi,MMR006008,0.4035088121891022,0.017358779907226563,oscilating hotspot
+Tanintharyi,Kawthoung,Kawthoung,MMR006009,0.35672518610954285,0.0358051061630249,sporadic coldspot
+Tanintharyi,Kawthoung,Bokpyin,MMR006010,0.6842105984687805,4.947185516357422e-5,no pattern detected
+Bago (East),Bago,Bago,MMR007001,0.4035088121891022,0.017358779907226563,sporadic coldspot
+Bago (East),Bago,Thanatpin,MMR007002,-0.18128655850887299,0.293917179107666,sporadic coldspot
+Bago (East),Bago,Kawa,MMR007003,-0.4619883596897125,0.006355085875838995,sporadic coldspot
+Bago (East),Bago,Waw,MMR007004,0.5672515034675598,7.833242416381836e-4,sporadic coldspot
+Bago (East),Bago,Nyaunglebin,MMR007005,0.5204678773880005,0.0020788908004760742,no pattern detected
+Bago (East),Bago,Kyauktaga,MMR007006,0.6725146770477295,6.651878356933594e-5,oscilating hotspot
+Bago (East),Bago,Daik-U,MMR007007,0.28654974699020386,0.09309208393096924,no pattern detected
+Bago (East),Bago,Shwegyin,MMR007008,0.5906433463096619,4.677772521972656e-4,consecutive hotspot
+Bago (East),Taungoo,Taungoo,MMR007009,0.6491228938102722,1.188516616821289e-4,sporadic coldspot
+Bago (East),Taungoo,Yedashe,MMR007010,0.6023392081260681,3.5893917083740234e-4,sporadic coldspot
+Bago (East),Taungoo,Kyaukkyi,MMR007011,0.5906433463096619,4.677772521972656e-4,consecutive hotspot
+Bago (East),Taungoo,Phyu,MMR007012,0.6257310509681702,2.084970474243164e-4,oscilating hotspot
+Bago (East),Taungoo,Oktwin,MMR007013,0.6491228938102722,1.188516616821289e-4,sporadic coldspot
+Bago (East),Taungoo,Htantabin,MMR007014,0.6374269723892212,0.00015783309936523438,oscilating hotspot
+Bago (West),Pyay,Pyay,MMR008001,0.35672518610954285,0.0358051061630249,sporadic coldspot
+Bago (West),Pyay,Paukkhaung,MMR008002,0.6023392081260681,3.5893917083740234e-4,no pattern detected
+Bago (West),Pyay,Padaung,MMR008003,0.111111119389534,0.5288645029067993,sporadic coldspot
+Bago (West),Pyay,Paungde,MMR008004,0.6959065198898315,3.6597251892089844e-5,sporadic coldspot
+Bago (West),Pyay,Thegon,MMR008005,0.6023392081260681,3.5893917083740234e-4,sporadic coldspot
+Bago (West),Pyay,Shwedaung,MMR008006,0.21637429296970367,0.2078566551208496,sporadic coldspot
+Bago (West),Thayarwady,Thayarwady,MMR008007,0.04093567654490471,0.8337352275848389,sporadic coldspot
+Bago (West),Thayarwady,Letpadan,MMR008008,0.6374269723892212,0.00015783309936523438,sporadic coldspot
+Bago (West),Thayarwady,Minhla,MMR008009,0.7660819292068481,5.364418029785156e-6,oscilating hotspot
+Bago (West),Thayarwady,Okpho,MMR008010,0.7192983031272888,1.9669532775878906e-5,no pattern detected
+Bago (West),Thayarwady,Zigon,MMR008011,0.5672515034675598,7.833242416381836e-4,sporadic coldspot
+Bago (West),Thayarwady,Nattalin,MMR008012,0.6023392081260681,3.5893917083740234e-4,sporadic coldspot
+Bago (West),Thayarwady,Monyo,MMR008013,0.7076023817062378,2.6941299438476563e-05,sporadic coldspot
+Bago (West),Thayarwady,Gyobingauk,MMR008014,0.7192983031272888,1.9669532775878906e-5,no pattern detected
+Magway,Magway,Magway,MMR009001,0.0760233998298645,0.6746119260787964,sporadic coldspot
+Magway,Magway,Yenangyaung,MMR009002,0.18128655850887299,0.293917179107666,sporadic coldspot
+Magway,Magway,Chauk,MMR009003,0.8011696338653564,1.9073486328125e-6,oscilating hotspot
+Magway,Magway,Taungdwingyi,MMR009004,-0.09941521286964417,0.5756368637084961,sporadic coldspot
+Magway,Magway,Myothit,MMR009005,-0.111111119389534,0.5288645029067993,sporadic coldspot
+Magway,Magway,Natmauk,MMR009006,0.017543861642479897,0.9442166090011597,sporadic coldspot
+Magway,Minbu,Minbu,MMR009007,0.029239768162369728,0.8887056112289429,sporadic coldspot
+Magway,Minbu,Pwintbyu,MMR009008,0.12280702590942383,0.48410749435424805,no pattern detected
+Magway,Minbu,Ngape,MMR009009,0.32163745164871216,0.05886220932006836,no pattern detected
+Magway,Minbu,Salin,MMR009010,0.39181289076805115,0.02094089984893799,no pattern detected
+Magway,Minbu,Sidoktaya,MMR009011,0.4619883596897125,0.0063550472259521484,no pattern detected
+Magway,Thayet,Thayet,MMR009012,0.3450292646884918,0.042441725730895996,sporadic coldspot
+Magway,Thayet,Minhla,MMR009013,0.3801169991493225,0.02515089511871338,sporadic coldspot
+Magway,Thayet,Mindon,MMR009014,0.5204678773880005,0.0020788908004760742,no pattern detected
+Magway,Thayet,Kamma,MMR009015,0.39181289076805115,0.02094089984893799,sporadic coldspot
+Magway,Thayet,Aunglan,MMR009016,0.5555555820465088,0.0010067224502563477,sporadic coldspot
+Magway,Thayet,Sinbaungwe,MMR009017,-0.09941521286964417,0.5756368637084961,sporadic coldspot
+Magway,Pakokku,Pakokku,MMR009018,0.25146201252937317,0.14172601699829102,oscilating hotspot
+Magway,Pakokku,Yesagyo,MMR009019,0.16959065198898315,0.3272855281829834,oscilating hotspot
+Magway,Pakokku,Myaing,MMR009020,0.005847953725606203,1,oscilating hotspot
+Magway,Pakokku,Pauk,MMR009021,-0.0760233998298645,0.6746119260787964,sporadic hotspot
+Magway,Pakokku,Seikphyu,MMR009022,0.5204678773880005,0.0020788908004760742,oscilating hotspot
+Magway,Gangaw,Gangaw,MMR009023,-0.3801169991493225,0.025150934234261513,sporadic hotspot
+Magway,Gangaw,Tilin,MMR009024,-0.3450292646884918,0.042441677302122116,sporadic hotspot
+Magway,Gangaw,Saw,MMR009025,0.111111119389534,0.5288645029067993,no pattern detected
+Mandalay,Mandalay,Aungmyaythazan,MMR010001,-0.6023392081260681,3.5899231443181634e-4,no pattern detected
+Mandalay,Mandalay,Chanayethazan,MMR010002,-0.6140351295471191,2.7423110441304743e-4,no pattern detected
+Mandalay,Mandalay,Mahaaungmyay,MMR010003,-0.7192983031272888,1.9702169083757326e-5,sporadic coldspot
+Mandalay,Mandalay,Chanmyathazi,MMR010004,-0.6374269723892212,1.5781277033966035e-4,no pattern detected
+Mandalay,Mandalay,Pyigyitagon,MMR010005,-0.5906433463096619,4.677829856518656e-4,no pattern detected
+Mandalay,Mandalay,Amarapura,MMR010006,-0.42690062522888184,0.011770164594054222,sporadic hotspot
+Mandalay,Mandalay,Patheingyi,MMR010007,-0.27485382556915283,0.10754283517599106,sporadic hotspot
+Mandalay,Pyinoolwin,Pyinoolwin,MMR010008,0.8128655552864075,1.430511474609375e-6,oscilating hotspot
+Mandalay,Pyinoolwin,Madaya,MMR010009,0.7309942245483398,1.430511474609375e-5,oscilating hotspot
+Mandalay,Pyinoolwin,Singu,MMR010010,0.5438597202301025,0.0012878179550170898,intensifying hotspot
+Mandalay,Pyinoolwin,Mogoke,MMR010011,0.4970760643482208,0.0032949447631835938,consecutive hotspot
+Mandalay,Pyinoolwin,Thabeikkyin,MMR010012,0.6023392081260681,3.5893917083740234e-4,oscilating hotspot
+Mandalay,Kyaukse,Kyaukse,MMR010013,0.5438597202301025,0.0012878179550170898,oscilating hotspot
+Mandalay,Kyaukse,Sintgaing,MMR010014,-0.4502924382686615,0.007839544676244259,sporadic coldspot
+Mandalay,Kyaukse,Myittha,MMR010015,0.47368425130844116,0.005128622055053711,sporadic coldspot
+Mandalay,Kyaukse,Tada-U,MMR010016,0.4035088121891022,0.017358779907226563,sporadic coldspot
+Mandalay,Myingyan,Myingyan,MMR010017,0.4619883596897125,0.0063550472259521484,oscilating hotspot
+Mandalay,Myingyan,Taungtha,MMR010018,0.5906433463096619,4.677772521972656e-4,oscilating hotspot
+Mandalay,Myingyan,Natogyi,MMR010019,0.7543860077857971,7.510185241699219e-6,oscilating hotspot
+Mandalay,Nyaung-U,Kyaukpadaung,MMR010020,0.2982456386089325,0.08024287223815918,sporadic coldspot
+Mandalay,Myingyan,Ngazun,MMR010021,0.23976610600948334,0.16168618202209473,oscilating hotspot
+Mandalay,Nyaung-U,Nyaung-U,MMR010022,0.8128655552864075,1.430511474609375e-6,oscilating hotspot
+Mandalay,Yamethin,Yamethin,MMR010023,0.2280701994895935,0.18369901180267334,sporadic coldspot
+Mandalay,Yamethin,Pyawbwe,MMR010024,0.3099415600299835,0.06887328624725342,sporadic coldspot
+Mandalay,Meiktila,Meiktila,MMR010028,0.1461988389492035,0.40110254287719727,sporadic coldspot
+Mandalay,Meiktila,Mahlaing,MMR010029,0.6023392081260681,3.5893917083740234e-4,sporadic coldspot
+Mandalay,Meiktila,Thazi,MMR010030,0.12280702590942383,0.48410749435424805,sporadic coldspot
+Mandalay,Meiktila,Wundwin,MMR010031,0.5789474248886108,6.067752838134766e-4,sporadic coldspot
+Mon,Mawlamyine,Mawlamyine,MMR011001,-0.06432749330997467,0.7264469861984253,no pattern detected
+Mon,Mawlamyine,Kyaikmaraw,MMR011002,0.4970760643482208,0.0032949447631835938,sporadic hotspot
+Mon,Mawlamyine,Chaungzon,MMR011003,-0.4385965168476105,0.00962740182876587,sporadic coldspot
+Mon,Mawlamyine,Thanbyuzayat,MMR011004,0.08771930634975433,0.624276876449585,sporadic hotspot
+Mon,Mawlamyine,Mudon,MMR011005,0.09941521286964417,0.5756368637084961,no pattern detected
+Mon,Mawlamyine,Ye,MMR011006,0.1461988389492035,0.40110254287719727,sporadic hotspot
+Mon,Thaton,Thaton,MMR011007,-0.27485382556915283,0.10754283517599106,sporadic hotspot
+Mon,Thaton,Paung,MMR011008,-0.6023392081260681,3.5899231443181634e-4,no pattern detected
+Mon,Thaton,Kyaikto,MMR011009,0.5555555820465088,0.0010067224502563477,sporadic hotspot
+Mon,Thaton,Bilin,MMR011010,-0.32163745164871216,0.05886223912239075,sporadic hotspot
+Rakhine,Sittwe,Sittwe,MMR012001,0.47368425130844116,0.005128622055053711,sporadic hotspot
+Rakhine,Sittwe,Ponnagyun,MMR012002,0.2982456386089325,0.08024287223815918,no pattern detected
+Rakhine,Mrauk-U,Mrauk-U,MMR012003,0.16959065198898315,0.3272855281829834,no pattern detected
+Rakhine,Mrauk-U,Kyauktaw,MMR012004,0.13450293242931366,0.4414881467819214,no pattern detected
+Rakhine,Mrauk-U,Minbya,MMR012005,0.35672518610954285,0.0358051061630249,no pattern detected
+Rakhine,Mrauk-U,Myebon,MMR012006,0.35672518610954285,0.0358051061630249,no pattern detected
+Rakhine,Sittwe,Pauktaw,MMR012007,0.28654974699020386,0.09309208393096924,no pattern detected
+Rakhine,Sittwe,Rathedaung,MMR012008,0.28654974699020386,0.09309208393096924,no pattern detected
+Rakhine,Maungdaw,Maungdaw,MMR012009,0.3099415600299835,0.06887328624725342,sporadic hotspot
+Rakhine,Maungdaw,Buthidaung,MMR012010,0.2631579041481018,0.12371516227722168,no pattern detected
+Rakhine,Kyaukpyu,Kyaukpyu,MMR012011,0.5906433463096619,4.677772521972656e-4,oscilating hotspot
+Rakhine,Kyaukpyu,Munaung,MMR012012,0.3450292646884918,0.042441725730895996,sporadic coldspot
+Rakhine,Kyaukpyu,Ramree,MMR012013,0.6023392081260681,3.5893917083740234e-4,oscilating hotspot
+Rakhine,Kyaukpyu,Ann,MMR012014,0.5438597202301025,0.0012878179550170898,no pattern detected
+Rakhine,Thandwe,Thandwe,MMR012015,0.25146201252937317,0.14172601699829102,no pattern detected
+Rakhine,Thandwe,Toungup,MMR012016,0.5204678773880005,0.0020788908004760742,no pattern detected
+Rakhine,Thandwe,Gwa,MMR012017,0.16959065198898315,0.3272855281829834,no pattern detected
+Yangon,Yangon (North),Insein,MMR013001,-0.5906433463096619,4.677829856518656e-4,consecutive coldspot
+Yangon,Yangon (North),Mingaladon,MMR013002,-0.5321637988090515,0.0016399763990193605,sporadic coldspot
+Yangon,Yangon (North),Hmawbi,MMR013003,-0.5438597202301025,0.0012878547422587872,sporadic coldspot
+Yangon,Yangon (North),Hlegu,MMR013004,-0.5789474248886108,6.067341892048717e-4,oscilating coldspot
+Yangon,Yangon (North),Taikkyi,MMR013005,-0.21637429296970367,0.20785671472549438,persistent coldspot
+Yangon,Yangon (North),Htantabin,MMR013006,-0.4970760643482208,0.003294984344393015,sporadic coldspot
+Yangon,Yangon (North),Shwepyithar,MMR013007,-0.5789474248886108,6.067341892048717e-4,sporadic coldspot
+Yangon,Yangon (East),Thingangyun,MMR013009,-0.6491228938102722,1.1888561130035669e-4,oscilating coldspot
+Yangon,Yangon (East),Yankin,MMR013010,-0.6257310509681702,2.085148444166407e-4,sporadic coldspot
+Yangon,Yangon (East),South Okkalapa,MMR013011,-0.6491228938102722,1.1888561130035669e-4,sporadic coldspot
+Yangon,Yangon (East),North Okkalapa,MMR013012,-0.5321637988090515,0.0016399763990193605,sporadic coldspot
+Yangon,Yangon (East),Thaketa,MMR013013,-0.6023392081260681,3.5899231443181634e-4,consecutive coldspot
+Yangon,Yangon (East),Dawbon,MMR013014,-0.6374269723892212,1.5781277033966035e-4,consecutive coldspot
+Yangon,Yangon (East),Tamwe,MMR013015,-0.6023392081260681,3.5899231443181634e-4,oscilating coldspot
+Yangon,Yangon (East),Pazundaung,MMR013016,-0.42690062522888184,0.011770164594054222,sporadic coldspot
+Yangon,Yangon (East),Botahtaung,MMR013017,-0.4385965168476105,0.00962740182876587,consecutive coldspot
+Yangon,Yangon (East),Dagon Myothit (South),MMR013018,-0.6257310509681702,2.085148444166407e-4,sporadic coldspot
+Yangon,Yangon (East),Dagon Myothit (North),MMR013019,-0.5438597202301025,0.0012878547422587872,sporadic coldspot
+Yangon,Yangon (East),Dagon Myothit (East),MMR013020,-0.47368425130844116,0.0051285624504089355,sporadic coldspot
+Yangon,Yangon (East),Dagon Myothit (Seikkan),MMR013021,-0.6023392081260681,3.5899231443181634e-4,consecutive coldspot
+Yangon,Yangon (East),Mingalartaungnyunt,MMR013022,-0.5204678773880005,0.0020788474939763546,oscilating coldspot
+Yangon,Yangon (South),Thanlyin,MMR013023,-0.6023392081260681,3.5899231443181634e-4,sporadic coldspot
+Yangon,Yangon (South),Kyauktan,MMR013024,-0.4970760643482208,0.003294984344393015,consecutive coldspot
+Yangon,Yangon (South),Thongwa,MMR013025,-0.5438597202301025,0.0012878547422587872,sporadic coldspot
+Yangon,Yangon (South),Kayan,MMR013026,-0.5906433463096619,4.677829856518656e-4,sporadic coldspot
+Yangon,Yangon (South),Twantay,MMR013027,-0.47368425130844116,0.0051285624504089355,sporadic coldspot
+Yangon,Yangon (South),Kawhmu,MMR013028,-0.39181289076805115,0.020940935239195824,sporadic coldspot
+Yangon,Yangon (South),Kungyangon,MMR013029,-0.3801169991493225,0.025150934234261513,sporadic coldspot
+Yangon,Yangon (South),Dala,MMR013030,-0.4152047038078308,0.014325739815831184,sporadic coldspot
+Yangon,Yangon (South),Seikgyikanaungto,MMR013031,-0.47368425130844116,0.0051285624504089355,sporadic coldspot
+Yangon,Yangon (South),Cocokyun,MMR013032,0.13450293242931366,0.4414881467819214,sporadic coldspot
+Yangon,Yangon (West),Kyauktada,MMR013033,-0.42690062522888184,0.011770164594054222,sporadic coldspot
+Yangon,Yangon (West),Pabedan,MMR013034,-0.28654974699020386,0.09309213608503342,persistent coldspot
+Yangon,Yangon (West),Lanmadaw,MMR013035,-0.35672518610954285,0.035805072635412216,intensifying coldspot
+Yangon,Yangon (West),Latha,MMR013036,-0.111111119389534,0.5288645029067993,consecutive coldspot
+Yangon,Yangon (West),Ahlone,MMR013037,-0.5204678773880005,0.0020788474939763546,consecutive coldspot
+Yangon,Yangon (West),Kyeemyindaing,MMR013038,-0.6140351295471191,2.7423110441304743e-4,sporadic coldspot
+Yangon,Yangon (West),Sanchaung,MMR013039,-0.6491228938102722,1.1888561130035669e-4,consecutive coldspot
+Yangon,Yangon (West),Hlaing,MMR013040,-0.5906433463096619,4.677829856518656e-4,sporadic coldspot
+Yangon,Yangon (West),Kamaryut,MMR013041,-0.6257310509681702,2.085148444166407e-4,oscilating coldspot
+Yangon,Yangon (West),Mayangone,MMR013042,-0.6140351295471191,2.7423110441304743e-4,oscilating coldspot
+Yangon,Yangon (West),Dagon,MMR013043,-0.5438597202301025,0.0012878547422587872,sporadic coldspot
+Yangon,Yangon (West),Bahan,MMR013044,-0.6140351295471191,2.7423110441304743e-4,sporadic coldspot
+Yangon,Yangon (North),Hlaingtharya (East),MMR013046,-0.5906433463096619,4.677829856518656e-4,sporadic coldspot
+Yangon,Yangon (North),Hlaingtharya (West),MMR013047,-0.5555555820465088,0.0010067140683531761,sporadic coldspot
+Shan (South),Taunggyi,Taunggyi,MMR014001,0.1461988389492035,0.40110254287719727,no pattern detected
+Shan (South),Taunggyi,Nyaungshwe,MMR014002,0.16959065198898315,0.3272855281829834,no pattern detected
+Shan (South),Pa-O Self-Administered Zone,Hopong,MMR014003,0.09941521286964417,0.5756368637084961,sporadic coldspot
+Shan (South),Pa-O Self-Administered Zone,Hsihseng,MMR014004,0.08771930634975433,0.624276876449585,sporadic coldspot
+Shan (South),Taunggyi,Kalaw,MMR014005,0.2982456386089325,0.08024287223815918,sporadic coldspot
+Shan (South),Danu Self-Administered Zone,Pindaya,MMR014006,0.1461988389492035,0.40110254287719727,sporadic coldspot
+Shan (South),Danu Self-Administered Zone,Ywangan,MMR014007,0.16959065198898315,0.3272855281829834,sporadic coldspot
+Shan (South),Taunggyi,Lawksawk,MMR014008,0.25146201252937317,0.14172601699829102,oscilating hotspot
+Shan (South),Pa-O Self-Administered Zone,Pinlaung,MMR014009,0.192982479929924,0.2629106044769287,sporadic coldspot
+Shan (South),Taunggyi,Pekon,MMR014010,-0.25146201252937317,0.14172597229480743,no pattern detected
+Shan (South),Loilen,Loilen,MMR014011,0.35672518610954285,0.0358051061630249,sporadic coldspot
+Shan (South),Loilen,Laihka,MMR014012,-0.20467838644981384,0.23423928022384644,sporadic coldspot
+Shan (South),Loilen,Nansang,MMR014013,0.05263158306479454,0.7795660495758057,persistent coldspot
+Shan (South),Loilen,Kunhing,MMR014014,-0.029239768162369728,0.8887056112289429,persistent coldspot
+Shan (South),Loilen,Kyethi,MMR014015,0.005847953725606203,1,sporadic coldspot
+Shan (South),Loilen,Mongkaing,MMR014016,0.05263158306479454,0.7795660495758057,sporadic coldspot
+Shan (South),Loilen,Monghsu,MMR014017,-0.0760233998298645,0.6746119260787964,persistent coldspot
+Shan (South),Langkho,Langkho,MMR014018,0.28654974699020386,0.09309208393096924,persistent coldspot
+Shan (South),Langkho,Mongnai,MMR014019,0.23976610600948334,0.16168618202209473,persistent coldspot
+Shan (South),Langkho,Mawkmai,MMR014020,-0.12280702590942383,0.48410749435424805,sporadic coldspot
+Shan (South),Langkho,Mongpan,MMR014021,0.27485382556915283,0.10754287242889404,persistent coldspot
+Shan (North),Lashio,Lashio,MMR015001,0.04093567654490471,0.8337352275848389,oscilating coldspot
+Shan (North),Lashio,Hseni,MMR015002,-0.18128655850887299,0.293917179107666,sporadic hotspot
+Shan (North),Lashio,Mongyai,MMR015003,0.04093567654490471,0.8337352275848389,no pattern detected
+Shan (North),Lashio,Tangyan,MMR015004,0.111111119389534,0.5288645029067993,sporadic coldspot
+Shan (North),Matman,Pangsang (Panghkam),MMR015005,0.1461988389492035,0.40110254287719727,persistent coldspot
+Shan (North),Matman,Narphan,MMR015006,0.192982479929924,0.2629106044769287,persistent coldspot
+Shan (North),Hopang,Pangwaun,MMR015007,0.25146201252937317,0.14172601699829102,persistent coldspot
+Shan (North),Hopang,Mongmao,MMR015008,0.192982479929924,0.2629106044769287,persistent coldspot
+Shan (North),Muse,Muse,MMR015009,-0.5555555820465088,0.0010067140683531761,sporadic hotspot
+Shan (North),Muse,Namhkan,MMR015010,-0.5321637988090515,0.0016399763990193605,sporadic hotspot
+Shan (North),Muse,Kutkai,MMR015011,-0.5438597202301025,0.0012878547422587872,oscilating coldspot
+Shan (North),Kyaukme,Kyaukme,MMR015012,0.27485382556915283,0.10754287242889404,consecutive hotspot
+Shan (North),Kyaukme,Nawnghkio,MMR015013,0.6140351295471191,2.741813659667969e-4,consecutive hotspot
+Shan (North),Kyaukme,Hsipaw,MMR015014,0.017543861642479897,0.9442166090011597,no pattern detected
+Shan (North),Kyaukme,Namtu,MMR015015,0.06432749330997467,0.7264469861984253,sporadic hotspot
+Shan (North),Pa Laung Self-Administered Zone,Namhsan,MMR015016,-0.005847953725606203,1,no pattern detected
+Shan (North),Mongmit,Mongmit,MMR015017,0.20467838644981384,0.2342393398284912,sporadic hotspot
+Shan (North),Mongmit,Mabein,MMR015018,0.16959065198898315,0.3272855281829834,no pattern detected
+Shan (North),Pa Laung Self-Administered Zone,Manton,MMR015019,-0.20467838644981384,0.23423928022384644,oscilating coldspot
+Shan (North),Lashio,Kunlong,MMR015020,-0.1461988389492035,0.40110254287719727,sporadic hotspot
+Shan (North),Hopang,Hopang,MMR015021,0.09941521286964417,0.5756368637084961,oscilating coldspot
+Shan (North),Kokang Self-Administered Zone,Laukkaing,MMR015022,-0.2982456386089325,0.08024287968873978,oscilating coldspot
+Shan (North),Kokang Self-Administered Zone,Konkyan,MMR015023,-0.5789474248886108,6.067341892048717e-4,sporadic hotspot
+Shan (North),Matman,Matman,MMR015024,0.08771930634975433,0.624276876449585,persistent coldspot
+Shan (East),Kengtung,Kengtung,MMR016001,0.21637429296970367,0.2078566551208496,persistent coldspot
+Shan (East),Kengtung,Mongkhet,MMR016002,0.21637429296970367,0.2078566551208496,persistent coldspot
+Shan (East),Kengtung,Mongyang,MMR016003,0.21637429296970367,0.2078566551208496,persistent coldspot
+Shan (East),Kengtung,Mongla,MMR016005,0.192982479929924,0.2629106044769287,persistent coldspot
+Shan (East),Monghsat,Monghsat,MMR016006,0.13450293242931366,0.4414881467819214,persistent coldspot
+Shan (East),Kengtung,Mongping,MMR016007,0.15789474546909332,0.3630204200744629,persistent coldspot
+Shan (East),Monghsat,Mongton,MMR016008,0.25146201252937317,0.14172601699829102,persistent coldspot
+Shan (East),Tachileik,Tachileik,MMR016009,0.1461988389492035,0.40110254287719727,persistent coldspot
+Shan (East),Tachileik,Monghpyak,MMR016010,0.12280702590942383,0.48410749435424805,persistent coldspot
+Shan (East),Tachileik,Mongyawng,MMR016011,0.08771930634975433,0.624276876449585,persistent coldspot
+Ayeyarwady,Pathein,Pathein,MMR017001,-0.05263158306479454,0.7795660495758057,oscilating coldspot
+Ayeyarwady,Pathein,Kangyidaunt,MMR017002,-0.0760233998298645,0.6746119260787964,sporadic coldspot
+Ayeyarwady,Pathein,Thabaung,MMR017003,0.04093567654490471,0.8337352275848389,no pattern detected
+Ayeyarwady,Pathein,Ngapudaw,MMR017004,-0.2631579041481018,0.12371517717838287,sporadic coldspot
+Ayeyarwady,Pathein,Kyonpyaw,MMR017005,0.111111119389534,0.5288645029067993,sporadic coldspot
+Ayeyarwady,Pathein,Yegyi,MMR017006,0.15789474546909332,0.3630204200744629,no pattern detected
+Ayeyarwady,Pathein,Kyaunggon,MMR017007,0.04093567654490471,0.8337352275848389,sporadic coldspot
+Ayeyarwady,Hinthada,Hinthada,MMR017008,0.2631579041481018,0.12371516227722168,sporadic coldspot
+Ayeyarwady,Hinthada,Zalun,MMR017009,0.2982456386089325,0.08024287223815918,sporadic coldspot
+Ayeyarwady,Hinthada,Lemyethna,MMR017010,0.16959065198898315,0.3272855281829834,no pattern detected
+Ayeyarwady,Hinthada,Myanaung,MMR017011,0.2631579041481018,0.12371516227722168,no pattern detected
+Ayeyarwady,Hinthada,Kyangin,MMR017012,0.18128655850887299,0.293917179107666,sporadic coldspot
+Ayeyarwady,Hinthada,Ingapu,MMR017013,0.3801169991493225,0.02515089511871338,sporadic coldspot
+Ayeyarwady,Myaungmya,Myaungmya,MMR017014,-0.08771930634975433,0.624276876449585,persistent coldspot
+Ayeyarwady,Myaungmya,Einme,MMR017015,-0.017543861642479897,0.9442166090011597,persistent coldspot
+Ayeyarwady,Labutta,Labutta,MMR017016,-0.08771930634975433,0.624276876449585,sporadic coldspot
+Ayeyarwady,Myaungmya,Wakema,MMR017017,-0.09941521286964417,0.5756368637084961,persistent coldspot
+Ayeyarwady,Labutta,Mawlamyinegyun,MMR017018,-0.08771930634975433,0.624276876449585,sporadic coldspot
+Ayeyarwady,Maubin,Maubin,MMR017019,-0.3450292646884918,0.042441677302122116,sporadic coldspot
+Ayeyarwady,Maubin,Pantanaw,MMR017020,-0.017543861642479897,0.9442166090011597,persistent coldspot
+Ayeyarwady,Maubin,Nyaungdon,MMR017021,-0.35672518610954285,0.035805072635412216,sporadic coldspot
+Ayeyarwady,Maubin,Danubyu,MMR017022,-0.05263158306479454,0.7795660495758057,persistent coldspot
+Ayeyarwady,Pyapon,Pyapon,MMR017023,-0.28654974699020386,0.09309213608503342,sporadic coldspot
+Ayeyarwady,Pyapon,Bogale,MMR017024,-0.35672518610954285,0.035805072635412216,sporadic coldspot
+Ayeyarwady,Pyapon,Kyaiklat,MMR017025,-0.27485382556915283,0.10754283517599106,sporadic coldspot
+Ayeyarwady,Pyapon,Dedaye,MMR017026,-0.3450292646884918,0.042441677302122116,sporadic coldspot
+Nay Pyi Taw,Oke Ta Ra,Zay Yar Thi Ri,MMR018001,0.18128655850887299,0.293917179107666,sporadic coldspot
+Nay Pyi Taw,Det Khi Na,Za Bu Thi Ri,MMR018002,0.005847953725606203,1,sporadic coldspot
+Nay Pyi Taw,Oke Ta Ra,Tatkon,MMR018003,0.017543861642479897,0.9442166090011597,sporadic coldspot
+Nay Pyi Taw,Det Khi Na,Det Khi Na Thi Ri,MMR018004,0.005847953725606203,1,sporadic coldspot
+Nay Pyi Taw,Oke Ta Ra,Poke Ba Thi Ri,MMR018005,0.029239768162369728,0.8887056112289429,persistent coldspot
+Nay Pyi Taw,Det Khi Na,Pyinmana,MMR018006,0.13450293242931366,0.4414881467819214,sporadic coldspot
+Nay Pyi Taw,Det Khi Na,Lewe,MMR018007,0.2631579041481018,0.12371516227722168,sporadic coldspot
+Nay Pyi Taw,Oke Ta Ra,Oke Ta Ra Thi Ri,MMR018008,-0.0760233998298645,0.6746119260787964,sporadic coldspot

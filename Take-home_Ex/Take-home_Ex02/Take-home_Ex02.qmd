@@ -1,0 +1,201 @@
+---
+title: "Take-home Exercise 2: Geospatial Analytics for Peace"
+subtitle: "Where, and how, is armed conflict clustering and evolving across Myanmar's townships? (Jan 2021 – Sep 2025)"
+author: "Hung"
+date: "2026-10-12"
+date-modified: "last-modified"
+format:
+  html:
+    toc: true
+    toc-depth: 4
+    code-fold: true
+    #code-tools: true
+    code-copy: true
+execute:
+  echo: true
+  eval: true
+  mesage: false
+  warning: false
+  freeze: true
+editor: visual
+---
+
+# 0.0 Overview
+
+Myanmar has been in armed conflict since independence in 1948. The February 2021 military coup turned a long-running set of ethnic insurgencies into a nationwide civil war. Thousands of people have been killed and more than three million displaced, and large parts of the country have slipped out of the junta's control.
+
+This report uses township-level spatial and spatio-temporal statistics to show **where** armed conflict concentrates and **how** those concentrations have shifted between 1 January 2021 and 30 September 2025. The aim is evidence that peace-building and humanitarian actors can act on.
+
+## Objectives
+
+1.  **Spatial pattern (LMSA).** Pinpoint statistically significant hot spots, cold spots and spatial outliers of armed conflict at township level.
+2.  **Spatio-temporal pattern (EHSA).** Reveal where, how fast and in what pattern violence is intensifying, persisting or diminishing over time.
+
+## Analytical workflow
+
+| Stage | Purpose | Main tools |
+|------------------------|------------------------|------------------------|
+| 1\. Data wrangling | Turn \~87k geocoded ACLED events into a clean township × quarter panel | `sf`, `tidyverse` |
+| 2\. Exploratory geovisualisation | Describe the raw distribution and trend of conflict | `tmap`, `ggplot2` |
+| 3\. Spatial weights | Define who is a "neighbour" of whom | `sfdep`, `spdep` |
+| 4\. LMSA | Local Moran's I (clusters + outliers) and Getis-Ord Gi\* (hot/cold spots), whole study period | `sfdep` |
+| 5\. EHSA | Gi\* per quarter → Mann-Kendall trend → ESRI emerging-hot-spot classes | `sfdep`, `Kendall` |
+
+# The Data
+
+| Dataset | Description | Format | Source |
+|------------------|------------------|------------------|------------------|
+| ACLED Myanmar, Jan 2021 – Sep 2025 | Geocoded political violence, demonstration and strategic-development events | CSV | [ACLED](https://acleddata.com/) (provided via eLearn) |
+| Myanmar Township Boundaries, MIMU v9.4 | 330 township (admin level 3) polygons | ESRI shapefile | [MIMU GeoNode](https://geonode.themimu.info/) |
+
+# Setting up the R environment
+
+| Package | Purpose in this exercise |
+|------------------------------------|------------------------------------|
+| **sf** | Import, project, validate and spatially join vector data |
+| **sfdep** | Spatial weights, local Moran's I, Gi\*, space-time cube and EHSA |
+| **spdep** | Lower-level neighbour utilities (`card()`, `make.sym.nb()`) |
+| **tmap** (v4) | Cartographic-quality choropleth maps |
+| **tidyverse** | Data wrangling (`dplyr`, `tidyr`, `readr`) and charts (`ggplot2`) |
+| **lubridate** | Deriving years and quarters from event dates |
+| **Kendall** | Mann-Kendall trend test |
+| **knitr**, **DT** | Report tables |
+| **plotly** | Interactive time-series plots |
+
+```{r}
+#| label: setup
+pacman::p_load(sf, sfdep, spdep, tmap, tidyverse, lubridate,
+               Kendall, knitr, DT, plotly)
+set.seed(1234)   # all permutation tests below are reproducible
+```
+
+# Importing the data
+
+## Township boundaries (geospatial)
+
+The MIMU layer ships as a zipped shapefile. It is unzipped once into `data/geospatial/` and then read with `st_read()`.
+
+```{r}
+#| label: import-mimu
+
+mmr_ts_raw <- st_read(dsn = "data/geospatial",
+                      layer = "mmr_polbnda_adm3_250k_mimu_1",
+                      quiet = TRUE)
+glimpse(mmr_ts_raw)
+```
+
+Before using the layer we check four things: the CRS, the geometry types, geometry validity, and whether township names can serve as a join key.
+
+```{r}
+#| label: check-mimu
+tibble(
+  check = c("Features", "CRS (EPSG)", "Invalid geometries",
+            "Unique TS names", "Unique TS_PCODE"),
+  value = c(nrow(mmr_ts_raw),
+            st_crs(mmr_ts_raw)$epsg,
+            sum(!st_is_valid(mmr_ts_raw)),
+            n_distinct(mmr_ts_raw$TS),
+            n_distinct(mmr_ts_raw$TS_PCODE))
+) %>% kable()
+
+table(st_geometry_type(mmr_ts_raw))
+```
+
+```{r}
+#| label: dup-names
+mmr_ts_raw %>%
+  st_drop_geometry() %>%
+  group_by(TS) %>%
+  filter(n() > 1) %>%
+  select(ST, DT, TS, TS_PCODE) %>%
+  arrange(TS) %>%
+  kable()
+```
+
+Next we transform the layer to a projected CRS. The layer arrives in geographic WGS 84 (EPSG:4326), and distance-based neighbours, areas and inverse-distance weights all need planar units.
+
+We use **WGS 84 / UTM zone 47N (EPSG:32647)**, whose central meridian (99°E) sits near the centre of mainland Myanmar. Western Rakhine (about 92°E) lies outside zone 47. The resulting scale distortion there (under 1%) is negligible for neighbourhood definition, but it is noted as a limitation.
+
+```{r}
+#| label: transform-mimu
+mmr_ts <- mmr_ts_raw %>%
+  st_make_valid() %>%
+  st_transform(crs = 32647) %>%
+  select(ST, ST_PCODE, DT, DT_PCODE, TS, TS_PCODE) %>%
+  arrange(TS_PCODE) %>%                                  # see callout below
+  mutate(area_km2 = as.numeric(st_area(geometry)) / 1000000)
+
+summary(mmr_ts$area_km2)
+```
+
+## ACLED events (aspatial)
+
+```{r}
+#| label: import-acled
+acled_raw <- read_csv("data/ACLED_Data_Myanmar_Jan2021-Sep2025.csv",
+                      show_col_types = FALSE)
+dim(acled_raw)
+```
+
+```{r}
+#| label: check-acled
+tibble(
+  check = c("Records", "First event date", "Last event date",
+            "Duplicate event_id_cnty", "Fully duplicated rows",
+            "Missing latitude/longitude", "Missing fatalities"),
+  value = c(nrow(acled_raw),
+            as.character(min(acled_raw$event_date)),
+            as.character(max(acled_raw$event_date)),
+            sum(duplicated(acled_raw$event_id_cnty)),
+            sum(duplicated(acled_raw)),
+            sum(is.na(acled_raw$latitude) | is.na(acled_raw$longitude)),
+            sum(is.na(acled_raw$fatalities)))
+) %>% kable()
+```
+
+The date range matches the study period exactly. There are no duplicates or missing coordinates, so no rows need to be removed at this stage.
+
+# 1.0 Data quality assessment and cleaning
+
+## Defining "armed conflict"
+
+ACLED records six event types. They do not all measure armed conflict.
+
+```{r}
+#| label: event-type-year
+acled_raw %>%
+  count(event_type, year) %>%
+  pivot_wider(names_from = year, values_from = n, values_fill = 0) %>%
+  mutate(Total = rowSums(across(where(is.numeric)))) %>%
+  arrange(desc(Total)) %>%
+  kable(format.args = list(big.mark = ","))
+```
+
+This study defines **armed conflict** as ACLED's *political violence* event types that involve the use of force:
+
+- **Battles**: armed clashes and changes of territorial control between organised armed groups.
+- **Explosions/Remote violence**: air and drone strikes, shelling, landmines and IEDs.
+- **Violence against civilians**: attacks, abductions and sexual violence targeting civilians.
+
+The other three types are excluded:
+
+- **Protests** are non-violent by definition. They also collapse after 2021, which would add a spurious declining trend unrelated to armed conflict.
+- **Riots** are negligible in number.
+- **Strategic developments** are non-violent contextual events such as arrests, looting and agreements.
+
+```{r}
+#| label: armed-types
+armed_types <- c("Battles",
+                 "Explosions/Remote violence",
+                 "Violence against civilians")
+```
+
+# 2.0 Exploratory geovisualisation
+
+# 3.0 Spatial weights
+
+# 4.0 Local Measures of Spatial Association
+
+# 5.0 Emerging Hot Spot Analysis
+
+- 

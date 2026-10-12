@@ -1,0 +1,50 @@
+---
+title: "Hands-on Exercise 07"
+subtitle: "Geographically Weighted Models - Callibrating Hedonic Pricing Model with GWR Method"
+author: "Hung Thai"
+date: "Oct 12, 2026"
+date-modified: "last-modified"
+execute:
+  echo: true
+  eval: true
+  mesage: false
+  warning: false
+  freeze: true
+format: 
+  html:
+    toc: true
+    toc-depth: 4
+    code-copy: true
+editor: visual
+---
+
+# 1. Overview
+
+**Geographically weighted regression (GWR)** is a spatial statistical technique that takes non-stationary variables into consideration (e.g., climate; demographic factors; physical environment characteristics) and models the local relationships between these independent variables and an outcome of interest (also known as dependent variable). In this hands-on exercise, you will learn how to build [hedonic pricing](https://www.investopedia.com/terms/h/hedonicpricing.asp) models by using GWR methods. The dependent variable is the resale prices of condominium in 2015. The independent variables are divided into either structural and locational.
+
+::: callout-note
+Hedonic pricing evaluates how factors like features and location affect the market value of goods and services.
+
+Hedonic pricing identifies price factors based on the idea that a good's price is influenced by both its internal characteristics and external factors.
+
+Hedonic pricing is often used to estimate the [value](https://www.investopedia.com/articles/trading/09/quant-strategies.asp) of environmental or ecosystem services that influence home prices. This valuation method often requires statistical expertise and model specification after collecting data.
+:::
+
+## The data
+
+Two data sets will be used in this model building exercise, they are:
+
+- URA Master Plan subzone boundary in shapefile format (i.e. *MP14_SUBZONE_WEB_PL*)
+
+- condo_resale_2015 in csv format (i.e. *condo_resale_2015.csv*)
+
+```{r}
+#| echo: false
+pacman::p_load(spdep, tmap, sf, ClustGeo, 
+               ggpubr, cluster, factoextra, NbClust,
+               heatmaply, corrplot, psych, tidyverse, GGally)
+```
+
+# 2. Data Import and Preparation
+
+## 
