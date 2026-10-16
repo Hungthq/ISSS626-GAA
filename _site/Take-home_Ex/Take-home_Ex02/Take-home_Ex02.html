@@ -111,6 +111,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<link href="../../site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet">
+
+<script src="../../site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<script src="../../site_libs/plotly-binding-4.12.1/plotly.js"></script>
+
+<script src="../../site_libs/typedarray-0.1/typedarray.min.js"></script>
+
+<script src="../../site_libs/jquery-3.5.1/jquery.min.js"></script>
+
+<link href="../../site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="../../site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
+
+<link href="../../site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet">
+
+<script src="../../site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
+
 
 
 </head>
@@ -254,21 +272,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">0.0 Overview</a>
   <ul>
-  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">Objectives</a></li>
-  <li><a href="#analytical-workflow" id="toc-analytical-workflow" class="nav-link" data-scroll-target="#analytical-workflow">Analytical workflow</a></li>
-  </ul></li>
-  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The Data</a></li>
-  <li><a href="#setting-up-the-r-environment" id="toc-setting-up-the-r-environment" class="nav-link" data-scroll-target="#setting-up-the-r-environment">Setting up the R environment</a></li>
-  <li><a href="#importing-the-data" id="toc-importing-the-data" class="nav-link" data-scroll-target="#importing-the-data">Importing the data</a>
-  <ul>
+  <li><a href="#objectives" id="toc-objectives" class="nav-link" data-scroll-target="#objectives">0.1 Objectives</a></li>
+  <li><a href="#analytical-workflow" id="toc-analytical-workflow" class="nav-link" data-scroll-target="#analytical-workflow">0.2 Analytical workflow</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">0.3 The Data</a></li>
+  <li><a href="#setting-up-the-r-environment" id="toc-setting-up-the-r-environment" class="nav-link" data-scroll-target="#setting-up-the-r-environment">0.3 Setting up the R environment</a></li>
+  <li><a href="#importing-the-data" id="toc-importing-the-data" class="nav-link" data-scroll-target="#importing-the-data">0.4 Importing the data</a>
+  <ul class="collapse">
   <li><a href="#township-boundaries-geospatial" id="toc-township-boundaries-geospatial" class="nav-link" data-scroll-target="#township-boundaries-geospatial">Township boundaries (geospatial)</a></li>
   <li><a href="#acled-events-aspatial" id="toc-acled-events-aspatial" class="nav-link" data-scroll-target="#acled-events-aspatial">ACLED events (aspatial)</a></li>
   </ul></li>
+  </ul></li>
   <li><a href="#data-quality-assessment-and-cleaning" id="toc-data-quality-assessment-and-cleaning" class="nav-link" data-scroll-target="#data-quality-assessment-and-cleaning">1.0 Data quality assessment and cleaning</a>
   <ul>
-  <li><a href="#defining-armed-conflict" id="toc-defining-armed-conflict" class="nav-link" data-scroll-target="#defining-armed-conflict">Defining “armed conflict”</a></li>
+  <li><a href="#defining-armed-conflict" id="toc-defining-armed-conflict" class="nav-link" data-scroll-target="#defining-armed-conflict">1.1. Defining “armed conflict”</a></li>
+  <li><a href="#spatial-precision" id="toc-spatial-precision" class="nav-link" data-scroll-target="#spatial-precision">1.2 Spatial precision</a></li>
+  <li><a href="#temporal-precision" id="toc-temporal-precision" class="nav-link" data-scroll-target="#temporal-precision">1.3 Temporal precision</a></li>
+  <li><a href="#out-of-country-records" id="toc-out-of-country-records" class="nav-link" data-scroll-target="#out-of-country-records">1.4 Out-of-country records</a></li>
+  <li><a href="#fatalities" id="toc-fatalities" class="nav-link" data-scroll-target="#fatalities">1.5 Fatalities</a>
+  <ul class="collapse">
+  <li><a href="#applying-the-filters" id="toc-applying-the-filters" class="nav-link" data-scroll-target="#applying-the-filters">Applying the filters</a></li>
   </ul></li>
-  <li><a href="#exploratory-geovisualisation" id="toc-exploratory-geovisualisation" class="nav-link" data-scroll-target="#exploratory-geovisualisation">2.0 Exploratory geovisualisation</a></li>
+  <li><a href="#assigning-events-to-townships" id="toc-assigning-events-to-townships" class="nav-link" data-scroll-target="#assigning-events-to-townships">1.6 Assigning events to townships</a>
+  <ul class="collapse">
+  <li><a href="#points-to-sf" id="toc-points-to-sf" class="nav-link" data-scroll-target="#points-to-sf">Points to <code>sf</code></a></li>
+  <li><a href="#point-in-polygon-join" id="toc-point-in-polygon-join" class="nav-link" data-scroll-target="#point-in-polygon-join">Point-in-polygon join</a></li>
+  <li><a href="#validating-the-join" id="toc-validating-the-join" class="nav-link" data-scroll-target="#validating-the-join">Validating the join</a></li>
+  </ul></li>
+  <li><a href="#deriving-the-analytical-variables" id="toc-deriving-the-analytical-variables" class="nav-link" data-scroll-target="#deriving-the-analytical-variables">1.7 Deriving the analytical variables</a>
+  <ul class="collapse">
+  <li><a href="#township-quarter-panel" id="toc-township-quarter-panel" class="nav-link" data-scroll-target="#township-quarter-panel">Township × quarter panel</a></li>
+  <li><a href="#whole-period-township-layer" id="toc-whole-period-township-layer" class="nav-link" data-scroll-target="#whole-period-township-layer">Whole-period township layer</a></li>
+  </ul></li>
+  <li><a href="#space-time-cube" id="toc-space-time-cube" class="nav-link" data-scroll-target="#space-time-cube">1.8 Space-time cube</a></li>
+  </ul></li>
+  <li><a href="#exploratory-geovisualisation" id="toc-exploratory-geovisualisation" class="nav-link" data-scroll-target="#exploratory-geovisualisation">2.0 Exploratory geovisualisation</a>
+  <ul>
+  <li><a href="#national-trend" id="toc-national-trend" class="nav-link" data-scroll-target="#national-trend">2.1 National trend</a></li>
+  <li><a href="#where-conflict-concentrates-whole-period" id="toc-where-conflict-concentrates-whole-period" class="nav-link" data-scroll-target="#where-conflict-concentrates-whole-period">2.2 Where conflict concentrates (whole period)</a></li>
+  <li><a href="#conflict-by-type" id="toc-conflict-by-type" class="nav-link" data-scroll-target="#conflict-by-type">2.3 Conflict by type</a></li>
+  <li><a href="#how-the-geography-changes-year-by-year" id="toc-how-the-geography-changes-year-by-year" class="nav-link" data-scroll-target="#how-the-geography-changes-year-by-year">2.4 How the geography changes year by year</a></li>
+  </ul></li>
   <li><a href="#spatial-weights" id="toc-spatial-weights" class="nav-link" data-scroll-target="#spatial-weights">3.0 Spatial weights</a></li>
   <li><a href="#local-measures-of-spatial-association" id="toc-local-measures-of-spatial-association" class="nav-link" data-scroll-target="#local-measures-of-spatial-association">4.0 Local Measures of Spatial Association</a></li>
   <li><a href="#emerging-hot-spot-analysis" id="toc-emerging-hot-spot-analysis" class="nav-link" data-scroll-target="#emerging-hot-spot-analysis">5.0 Emerging Hot Spot Analysis</a></li>
@@ -305,7 +348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">October 12, 2026</p>
+      <p class="date-modified">October 16, 2026</p>
     </div>
   </div>
     
@@ -321,14 +364,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Myanmar has been in armed conflict since independence in 1948. The February 2021 military coup turned a long-running set of ethnic insurgencies into a nationwide civil war. Thousands of people have been killed and more than three million displaced, and large parts of the country have slipped out of the junta’s control.</p>
 <p>This report uses township-level spatial and spatio-temporal statistics to show <strong>where</strong> armed conflict concentrates and <strong>how</strong> those concentrations have shifted between 1 January 2021 and 30 September 2025. The aim is evidence that peace-building and humanitarian actors can act on.</p>
 <section id="objectives" class="level2">
-<h2 class="anchored" data-anchor-id="objectives">Objectives</h2>
+<h2 class="anchored" data-anchor-id="objectives">0.1 Objectives</h2>
 <ol type="1">
 <li><strong>Spatial pattern (LMSA).</strong> Pinpoint statistically significant hot spots, cold spots and spatial outliers of armed conflict at township level.</li>
 <li><strong>Spatio-temporal pattern (EHSA).</strong> Reveal where, how fast and in what pattern violence is intensifying, persisting or diminishing over time.</li>
 </ol>
 </section>
 <section id="analytical-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="analytical-workflow">Analytical workflow</h2>
+<h2 class="anchored" data-anchor-id="analytical-workflow">0.2 Analytical workflow</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -371,9 +414,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-</section>
-<section id="the-data" class="level1">
-<h1>The Data</h1>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">0.3 The Data</h2>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -399,8 +441,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="setting-up-the-r-environment" class="level1">
-<h1>Setting up the R environment</h1>
+<section id="setting-up-the-r-environment" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-the-r-environment">0.3 Setting up the R environment</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -460,10 +502,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </section>
-<section id="importing-the-data" class="level1">
-<h1>Importing the data</h1>
-<section id="township-boundaries-geospatial" class="level2">
-<h2 class="anchored" data-anchor-id="township-boundaries-geospatial">Township boundaries (geospatial)</h2>
+<section id="importing-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="importing-the-data">0.4 Importing the data</h2>
+<section id="township-boundaries-geospatial" class="level3">
+<h3 class="anchored" data-anchor-id="township-boundaries-geospatial">Township boundaries (geospatial)</h3>
 <p>The MIMU layer ships as a zipped shapefile. It is unzipped once into <code>data/geospatial/</code> and then read with <code>st_read()</code>.</p>
 <div class="cell">
 <details class="code-fold">
@@ -621,8 +663,8 @@ $ geometry &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((95.21313 17..., MULTIPOLYGO
 </div>
 </div>
 </section>
-<section id="acled-events-aspatial" class="level2">
-<h2 class="anchored" data-anchor-id="acled-events-aspatial">ACLED events (aspatial)</h2>
+<section id="acled-events-aspatial" class="level3">
+<h3 class="anchored" data-anchor-id="acled-events-aspatial">ACLED events (aspatial)</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -694,10 +736,11 @@ $ geometry &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((95.21313 17..., MULTIPOLYGO
 <p>The date range matches the study period exactly. There are no duplicates or missing coordinates, so no rows need to be removed at this stage.</p>
 </section>
 </section>
+</section>
 <section id="data-quality-assessment-and-cleaning" class="level1">
 <h1>1.0 Data quality assessment and cleaning</h1>
 <section id="defining-armed-conflict" class="level2">
-<h2 class="anchored" data-anchor-id="defining-armed-conflict">Defining “armed conflict”</h2>
+<h2 class="anchored" data-anchor-id="defining-armed-conflict">1.1. Defining “armed conflict”</h2>
 <p>ACLED records six event types. They do not all measure armed conflict.</p>
 <div class="cell">
 <details class="code-fold">
@@ -802,9 +845,691 @@ $ geometry &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((95.21313 17..., MULTIPOLYGO
 </details>
 </div>
 </section>
+<section id="spatial-precision" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-precision">1.2 Spatial precision</h2>
+<p>ACLED’s <code>geo_precision</code> codes how accurately an event was located:</p>
+<ul>
+<li><strong>1</strong>: the exact town or village.</li>
+<li><strong>2</strong>: the event is near, or within part of, a named area, so it is placed at that area’s centroid.</li>
+<li><strong>3</strong>: only a larger region is known, so the event is placed at a regional or provincial centroid.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>acled_raw <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(event_type <span class="sc">%in%</span> armed_types) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(event_type, geo_precision) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> geo_precision, <span class="at">values_from =</span> n,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">names_prefix =</span> <span class="st">"geo_precision_"</span>, <span class="at">values_fill =</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">big.mark =</span> <span class="st">","</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">event_type</th>
+<th style="text-align: right;">geo_precision_1</th>
+<th style="text-align: right;">geo_precision_2</th>
+<th style="text-align: right;">geo_precision_3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Battles</td>
+<td style="text-align: right;">8,894</td>
+<td style="text-align: right;">12,175</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Explosions/Remote violence</td>
+<td style="text-align: right;">13,819</td>
+<td style="text-align: right;">9,080</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: right;">6,878</td>
+<td style="text-align: right;">3,064</td>
+<td style="text-align: right;">16</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Precision-3 events are pinned to a large-area centroid. Including them would credit an arbitrary township with violence that happened somewhere across a whole district or region, creating artificial hot spots. They are a very small share of armed events, so they are <strong>dropped</strong>.</p>
+<p>Precision-2 events are kept. They are placed within the correct small area, which at township scale is still informative. However, they mean some events are stacked on locality centroids (see Limitations).</p>
+</section>
+<section id="temporal-precision" class="level2">
+<h2 class="anchored" data-anchor-id="temporal-precision">1.3 Temporal precision</h2>
+<p><code>time_precision</code> is 1 (exact day), 2 (known to the week) or 3 (known to the month).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>acled_raw <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(event_type <span class="sc">%in%</span> armed_types) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(time_precision) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">share =</span> scales<span class="sc">::</span><span class="fu">percent</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n), <span class="fl">0.1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">time_precision</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: left;">share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">51888</td>
+<td style="text-align: left;">96.1%</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2033</td>
+<td style="text-align: left;">3.8%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">83</td>
+<td style="text-align: left;">0.2%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The analysis uses <strong>quarterly</strong> bins, so week- or month-level imprecision can at most move an event into an adjacent quarter, and only for events dated near a quarter boundary. These events are kept.</p>
+</section>
+<section id="out-of-country-records" class="level2">
+<h2 class="anchored" data-anchor-id="out-of-country-records">1.4 Out-of-country records</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(acled_raw, country, admin1) <span class="sc">|&gt;</span> <span class="fu">filter</span>(country <span class="sc">!=</span> <span class="st">"Myanmar"</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: left;">admin1</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Indian Ocean</td>
+<td style="text-align: left;">North Indian Ocean</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>A handful of events are coded to the Bay of Bengal (country = “Indian Ocean”), outside every township. They are removed.</p>
+</section>
+<section id="fatalities" class="level2">
+<h2 class="anchored" data-anchor-id="fatalities">1.5 Fatalities</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>acled_raw <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(event_type <span class="sc">%in%</span> armed_types) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(event_type) <span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">events =</span> <span class="fu">n</span>(),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">fatalities =</span> <span class="fu">sum</span>(fatalities),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean =</span> <span class="fu">mean</span>(fatalities),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">median =</span> <span class="fu">median</span>(fatalities),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">max =</span> <span class="fu">max</span>(fatalities),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">share_zero =</span> <span class="fu">mean</span>(fatalities <span class="sc">==</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>, <span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">big.mark =</span> <span class="st">","</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 35%">
+<col style="width: 9%">
+<col style="width: 14%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">event_type</th>
+<th style="text-align: right;">events</th>
+<th style="text-align: right;">fatalities</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">median</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">share_zero</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Battles</td>
+<td style="text-align: right;">21,121</td>
+<td style="text-align: right;">59,287</td>
+<td style="text-align: right;">59,287</td>
+<td style="text-align: right;">59,287</td>
+<td style="text-align: right;">59,287</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Explosions/Remote violence</td>
+<td style="text-align: right;">22,925</td>
+<td style="text-align: right;">20,735</td>
+<td style="text-align: right;">20,735</td>
+<td style="text-align: right;">20,735</td>
+<td style="text-align: right;">20,735</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: right;">9,958</td>
+<td style="text-align: right;">9,205</td>
+<td style="text-align: right;">9,205</td>
+<td style="text-align: right;">9,205</td>
+<td style="text-align: right;">9,205</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Fatality counts are extremely right-skewed: most events report zero deaths and a few report hundreds. ACLED codes fatalities conservatively, so they are a lower bound.</p>
+<p>For these reasons, <strong>event counts</strong> are the primary conflict variable and <strong>fatalities</strong> a secondary one, used to check whether the <em>most lethal</em> areas coincide with the <em>most active</em> ones.</p>
+<section id="applying-the-filters" class="level3">
+<h3 class="anchored" data-anchor-id="applying-the-filters">Applying the filters</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>acled_armed <span class="ot">&lt;-</span> acled_raw <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(event_type <span class="sc">%in%</span> armed_types,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>         country <span class="sc">==</span> <span class="st">"Myanmar"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>         geo_precision <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">between</span>(event_date, <span class="fu">as.Date</span>(<span class="st">"2021-01-01"</span>), <span class="fu">as.Date</span>(<span class="st">"2025-09-30"</span>)))</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Audit trail: how many records each rule removes</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">step =</span> <span class="fu">c</span>(<span class="st">"All ACLED records"</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Armed-conflict event types"</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>           <span class="st">"... and inside Myanmar"</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>           <span class="st">"... and geo_precision 1-2"</span>),</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">records =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(acled_raw),</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>              <span class="fu">sum</span>(acled_raw<span class="sc">$</span>event_type <span class="sc">%in%</span> armed_types),</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>              <span class="fu">sum</span>(acled_raw<span class="sc">$</span>event_type <span class="sc">%in%</span> armed_types <span class="sc">&amp;</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>                    acled_raw<span class="sc">$</span>country <span class="sc">==</span> <span class="st">"Myanmar"</span>),</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>              <span class="fu">nrow</span>(acled_armed))</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">kable</span>(<span class="at">format.args =</span> <span class="fu">list</span>(<span class="at">big.mark =</span> <span class="st">","</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">step</th>
+<th style="text-align: right;">records</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">All ACLED records</td>
+<td style="text-align: right;">87,109</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Armed-conflict event types</td>
+<td style="text-align: right;">54,004</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">… and inside Myanmar</td>
+<td style="text-align: right;">54,000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">… and geo_precision 1-2</td>
+<td style="text-align: right;">53,907</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+<section id="assigning-events-to-townships" class="level2">
+<h2 class="anchored" data-anchor-id="assigning-events-to-townships">1.6 Assigning events to townships</h2>
+<section id="points-to-sf" class="level3">
+<h3 class="anchored" data-anchor-id="points-to-sf">Points to <code>sf</code></h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>acled_sf <span class="ot">&lt;-</span> acled_armed <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"longitude"</span>, <span class="st">"latitude"</span>), <span class="at">crs =</span> <span class="dv">4326</span>, <span class="at">remove =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="at">crs =</span> <span class="dv">32647</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="point-in-polygon-join" class="level3">
+<h3 class="anchored" data-anchor-id="point-in-polygon-join">Point-in-polygon join</h3>
+<p>Each event is assigned to the township polygon that contains it with <code>st_join(join = st_within)</code>. We do <strong>not</strong> use ACLED’s <code>admin3</code> text field: its spellings and boundary vintage differ from MIMU v9.4, and names are not unique (see above).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>acled_ts <span class="ot">&lt;-</span> <span class="fu">st_join</span>(acled_sf,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">select</span>(mmr_ts, TS, TS_PCODE),</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">join =</span> st_within)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">events =</span> <span class="fu">nrow</span>(acled_sf),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">joined_rows =</span> <span class="fu">nrow</span>(acled_ts),            <span class="co"># must equal events: no double counting</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">unmatched =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(acled_ts<span class="sc">$</span>TS_PCODE)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     events joined_rows   unmatched 
+      53907       53907           8 </code></pre>
+</div>
+</div>
+<p>A few events fall just outside every polygon, usually on coastlines or at the border where the 1:250k boundary is generalised. We assign them to the <strong>nearest</strong> township, but only after checking that the gap is small.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>unmatched <span class="ot">&lt;-</span> <span class="fu">filter</span>(acled_ts, <span class="fu">is.na</span>(TS_PCODE))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>nearest   <span class="ot">&lt;-</span> <span class="fu">st_nearest_feature</span>(unmatched, mmr_ts)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>snapped <span class="ot">&lt;-</span> unmatched <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">TS       =</span> mmr_ts<span class="sc">$</span>TS[nearest],</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">TS_PCODE =</span> mmr_ts<span class="sc">$</span>TS_PCODE[nearest],</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">snap_m   =</span> <span class="fu">as.numeric</span>(<span class="fu">st_distance</span>(unmatched, mmr_ts[nearest, ],</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">by_element =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>snapped <span class="sc">%&gt;%</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(event_type, admin3, location, TS, snap_m) <span class="sc">%&gt;%</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 16%">
+<col style="width: 17%">
+<col style="width: 16%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">event_type</th>
+<th style="text-align: left;">admin3</th>
+<th style="text-align: left;">location</th>
+<th style="text-align: left;">TS</th>
+<th style="text-align: right;">snap_m</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">Buthidaung</td>
+<td style="text-align: left;">Wa Ra Kyun</td>
+<td style="text-align: left;">Buthidaung</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Battles</td>
+<td style="text-align: left;">Bokpyin</td>
+<td style="text-align: left;">Ma Thay</td>
+<td style="text-align: left;">Bokpyin</td>
+<td style="text-align: right;">488</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Battles</td>
+<td style="text-align: left;">Myawaddy</td>
+<td style="text-align: left;">Me Ka Lar</td>
+<td style="text-align: left;">Myawaddy</td>
+<td style="text-align: right;">260</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Battles</td>
+<td style="text-align: left;">Myawaddy</td>
+<td style="text-align: left;">Me Ka Lar</td>
+<td style="text-align: left;">Myawaddy</td>
+<td style="text-align: right;">260</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Battles</td>
+<td style="text-align: left;">Myawaddy</td>
+<td style="text-align: left;">Me Ka Lar</td>
+<td style="text-align: left;">Myawaddy</td>
+<td style="text-align: right;">260</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">Kyunsu</td>
+<td style="text-align: left;">Kawt Ka Nin</td>
+<td style="text-align: left;">Kyunsu</td>
+<td style="text-align: right;">485</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">Buthidaung</td>
+<td style="text-align: left;">Wa Ra Kyun</td>
+<td style="text-align: left;">Buthidaung</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Violence against civilians</td>
+<td style="text-align: left;">Pauktaw</td>
+<td style="text-align: left;">Ku La Thein</td>
+<td style="text-align: left;">Pauktaw</td>
+<td style="text-align: right;">7</td>
+</tr>
+</tbody>
+</table>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(snapped<span class="sc">$</span>snap_m <span class="sc">&lt;</span> <span class="dv">1000</span>))  <span class="co"># fail loudly if any point is &gt; 1 km away</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>acled_ts <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(<span class="fu">filter</span>(acled_ts, <span class="sc">!</span><span class="fu">is.na</span>(TS_PCODE)),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">select</span>(snapped, <span class="sc">-</span>snap_m))</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(acled_ts) <span class="sc">==</span> <span class="fu">nrow</span>(acled_sf))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="validating-the-join" class="level3">
+<h3 class="anchored" data-anchor-id="validating-the-join">Validating the join</h3>
+<p>ACLED’s own <code>admin3</code> field gives an independent check of the spatial join. After normalising spelling, the two should agree for nearly every event.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>name_key <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">str_to_lower</span>(<span class="fu">str_remove_all</span>(x, <span class="st">"[^A-Za-z]"</span>))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>acled_ts <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(admin3)) <span class="sc">%&gt;%</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">agreement =</span> scales<span class="sc">::</span><span class="fu">percent</span>(<span class="fu">mean</span>(<span class="fu">name_key</span>(admin3) <span class="sc">==</span> <span class="fu">name_key</span>(TS)), <span class="fl">0.1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  agreement
+  &lt;chr&gt;    
+1 100.0%   </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>acled_ts <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(admin3), <span class="fu">name_key</span>(admin3) <span class="sc">!=</span> <span class="fu">name_key</span>(TS)) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(admin3, TS, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">admin3</th>
+<th style="text-align: left;">TS</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Pangsang</td>
+<td style="text-align: left;">Pangsang (Panghkam)</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Kawhmu</td>
+<td style="text-align: left;">Twantay</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Pekon</td>
+<td style="text-align: left;">Pinlaung</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Toungup</td>
+<td style="text-align: left;">Ann</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The remaining disagreements are mostly naming variants rather than misplaced points, such as <em>Pangsang</em> vs <em>Pangsang (Panghkam)</em>. A few are events lying right on a township boundary. The spatial join is used throughout.</p>
+</section>
+</section>
+<section id="deriving-the-analytical-variables" class="level2">
+<h2 class="anchored" data-anchor-id="deriving-the-analytical-variables">1.7 Deriving the analytical variables</h2>
+<section id="township-quarter-panel" class="level3">
+<h3 class="anchored" data-anchor-id="township-quarter-panel">Township × quarter panel</h3>
+<p>The time unit is the <strong>calendar quarter</strong>, giving 19 periods (2021-Q1 to 2025-Q3).</p>
+<ul>
+<li>Monthly bins would give 57 periods but would leave about half of all township-month cells at zero. That makes per-period Gi* unstable and inflates the noise that the Mann-Kendall test has to see through.</li>
+<li>Annual bins would give only 5 periods, too few for a meaningful trend test.</li>
+</ul>
+<p>Quarters balance temporal detail against statistical stability.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>acled_ts <span class="ot">&lt;-</span> acled_ts <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">t =</span> (<span class="fu">year</span>(event_date) <span class="sc">-</span> <span class="dv">2021</span>) <span class="sc">*</span> <span class="dv">4</span> <span class="sc">+</span> <span class="fu">quarter</span>(event_date))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>quarters <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">t =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">19</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">qtr_label =</span> <span class="fu">paste0</span>(<span class="dv">2021</span> <span class="sc">+</span> (t <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">%/%</span> <span class="dv">4</span>, <span class="st">"-Q"</span>, (t <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">%%</span> <span class="dv">4</span> <span class="sc">+</span> <span class="dv">1</span>))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>conflict_qtr <span class="ot">&lt;-</span> acled_ts <span class="sc">%&gt;%</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(TS_PCODE, t) <span class="sc">%&gt;%</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">events     =</span> <span class="fu">n</span>(),</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">battles    =</span> <span class="fu">sum</span>(event_type <span class="sc">==</span> <span class="st">"Battles"</span>),</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">explosions =</span> <span class="fu">sum</span>(event_type <span class="sc">==</span> <span class="st">"Explosions/Remote violence"</span>),</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">vac        =</span> <span class="fu">sum</span>(event_type <span class="sc">==</span> <span class="st">"Violence against civilians"</span>),</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">fatalities =</span> <span class="fu">sum</span>(fatalities),</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># zero-fill: every township must appear in every quarter</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(<span class="at">TS_PCODE =</span> mmr_ts<span class="sc">$</span>TS_PCODE, <span class="at">t =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">19</span>,</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>           <span class="at">fill =</span> <span class="fu">list</span>(<span class="at">events =</span> <span class="dv">0</span>L, <span class="at">battles =</span> <span class="dv">0</span>L, <span class="at">explosions =</span> <span class="dv">0</span>L,</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>                       <span class="at">vac =</span> <span class="dv">0</span>L, <span class="at">fatalities =</span> <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(quarters, <span class="at">by =</span> <span class="st">"t"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(t, TS_PCODE)</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">rows =</span> <span class="fu">nrow</span>(conflict_qtr),</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">expected =</span> <span class="fu">nrow</span>(mmr_ts) <span class="sc">*</span> <span class="dv">19</span>,</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">share_zero_cells =</span> <span class="fu">round</span>(<span class="fu">mean</span>(conflict_qtr<span class="sc">$</span>events <span class="sc">==</span> <span class="dv">0</span>), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>            rows         expected share_zero_cells 
+        6270.000         6270.000            0.314 </code></pre>
+</div>
+</div>
+</section>
+<section id="whole-period-township-layer" class="level3">
+<h3 class="anchored" data-anchor-id="whole-period-township-layer">Whole-period township layer</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>conflict_ts <span class="ot">&lt;-</span> mmr_ts <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(conflict_qtr <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">group_by</span>(TS_PCODE) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(events, battles, explosions, vac, fatalities), sum)),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="st">"TS_PCODE"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">events_per_1000km2 =</span> events <span class="sc">/</span> area_km2 <span class="sc">*</span> <span class="dv">1000</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Reconciliation: no event lost or double-counted</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">sum</span>(conflict_ts<span class="sc">$</span>events) <span class="sc">==</span> <span class="fu">nrow</span>(acled_ts))</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">select</span>(<span class="fu">st_drop_geometry</span>(conflict_ts), events, fatalities, events_per_1000km2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     events         fatalities     events_per_1000km2
+ Min.   :   0.0   Min.   :   0.0   Min.   :    0.00  
+ 1st Qu.:  24.0   1st Qu.:  14.0   1st Qu.:   19.77  
+ Median :  79.0   Median :  81.0   Median :   63.78  
+ Mean   : 163.4   Mean   : 269.7   Mean   :  933.79  
+ 3rd Qu.: 214.0   3rd Qu.: 377.0   3rd Qu.:  223.83  
+ Max.   :1039.0   Max.   :1877.0   Max.   :31793.96  </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="space-time-cube" class="level2">
+<h2 class="anchored" data-anchor-id="space-time-cube">1.8 Space-time cube</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>conflict_st <span class="ot">&lt;-</span> <span class="fu">spacetime</span>(<span class="at">.data =</span> <span class="fu">select</span>(conflict_qtr, <span class="sc">-</span>qtr_label),</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">.geometry =</span> mmr_ts,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">.loc_col =</span> <span class="st">"TS_PCODE"</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">.time_col =</span> <span class="st">"t"</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">is_spacetime_cube</span>(conflict_st)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"data/rds"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(mmr_ts, <span class="st">"data/rds/mmr_ts.rds"</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(acled_ts, <span class="st">"data/rds/acled_ts.rds"</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(conflict_ts, <span class="st">"data/rds/conflict_ts.rds"</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">write_rds</span>(conflict_qtr, <span class="st">"data/rds/conflict_qtr.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
 </section>
 <section id="exploratory-geovisualisation" class="level1">
 <h1>2.0 Exploratory geovisualisation</h1>
+<section id="national-trend" class="level2">
+<h2 class="anchored" data-anchor-id="national-trend">2.1 National trend</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>trend <span class="ot">&lt;-</span> acled_ts <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(t, event_type) <span class="sc">%&gt;%</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(quarters, <span class="at">by =</span> <span class="st">"t"</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(trend, <span class="fu">aes</span>(qtr_label, n, <span class="at">colour =</span> event_type, <span class="at">group =</span> event_type)) <span class="sc">+</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#b2182b"</span>, <span class="st">"#ef8a62"</span>, <span class="st">"#2166ac"</span>)) <span class="sc">+</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Events per quarter"</span>, <span class="at">colour =</span> <span class="cn">NULL</span>,</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Armed conflict events in Myanmar by type, 2021-Q1 to 2025-Q3"</span>) <span class="sc">+</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"top"</span>)</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-1b4ff99564eb6e8884a5" style="width:100%;height:371px;"></div>
+<script type="application/json" data-for="htmlwidget-1b4ff99564eb6e8884a5">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[156,676,645,945,1073,1170,1270,1139,1187,1109,1441,1649,1418,1316,1339,1205,1068,1108,1155],"text":["qtr_label: 2021-Q1<br />n:  156<br />event_type: Battles<br />event_type: Battles","qtr_label: 2021-Q2<br />n:  676<br />event_type: Battles<br />event_type: Battles","qtr_label: 2021-Q3<br />n:  645<br />event_type: Battles<br />event_type: Battles","qtr_label: 2021-Q4<br />n:  945<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q1<br />n: 1073<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q2<br />n: 1170<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q3<br />n: 1270<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q4<br />n: 1139<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q1<br />n: 1187<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q2<br />n: 1109<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q3<br />n: 1441<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q4<br />n: 1649<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q1<br />n: 1418<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q2<br />n: 1316<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q3<br />n: 1339<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q4<br />n: 1205<br />event_type: Battles<br />event_type: Battles","qtr_label: 2025-Q1<br />n: 1068<br />event_type: Battles<br />event_type: Battles","qtr_label: 2025-Q2<br />n: 1108<br />event_type: Battles<br />event_type: Battles","qtr_label: 2025-Q3<br />n: 1155<br />event_type: Battles<br />event_type: Battles"],"type":"scatter","mode":"lines+markers","line":{"width":3.4015748031496069,"color":"rgba(178,24,43,1)","dash":"solid"},"hoveron":"points","name":"Battles","legendgroup":"Battles","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(178,24,43,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(178,24,43,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[75,783,730,1280,1176,1010,1116,1242,1124,1116,1271,1923,1779,1466,1373,1407,1425,1428,1175],"text":["qtr_label: 2021-Q1<br />n:   75<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2021-Q2<br />n:  783<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2021-Q3<br />n:  730<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2021-Q4<br />n: 1280<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q1<br />n: 1176<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q2<br />n: 1010<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q3<br />n: 1116<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q4<br />n: 1242<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q1<br />n: 1124<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q2<br />n: 1116<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q3<br />n: 1271<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q4<br />n: 1923<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q1<br />n: 1779<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q2<br />n: 1466<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q3<br />n: 1373<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q4<br />n: 1407<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2025-Q1<br />n: 1425<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2025-Q2<br />n: 1428<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2025-Q3<br />n: 1175<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence"],"type":"scatter","mode":"lines+markers","line":{"width":3.4015748031496069,"color":"rgba(239,138,98,1)","dash":"solid"},"hoveron":"points","name":"Explosions/Remote violence","legendgroup":"Explosions/Remote violence","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(239,138,98,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(239,138,98,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[170,499,630,779,576,729,655,609,577,515,573,454,463,424,391,517,492,390,496],"text":["qtr_label: 2021-Q1<br />n:  170<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2021-Q2<br />n:  499<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2021-Q3<br />n:  630<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2021-Q4<br />n:  779<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q1<br />n:  576<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q2<br />n:  729<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q3<br />n:  655<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q4<br />n:  609<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q1<br />n:  577<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q2<br />n:  515<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q3<br />n:  573<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q4<br />n:  454<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q1<br />n:  463<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q2<br />n:  424<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q3<br />n:  391<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q4<br />n:  517<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2025-Q1<br />n:  492<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2025-Q2<br />n:  390<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2025-Q3<br />n:  496<br />event_type: Violence against civilians<br />event_type: Violence against civilians"],"type":"scatter","mode":"lines+markers","line":{"width":3.4015748031496069,"color":"rgba(33,102,172,1)","dash":"solid"},"hoveron":"points","name":"Violence against civilians","legendgroup":"Violence against civilians","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(33,102,172,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(33,102,172,1)"}},"frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":33.311572198566381,"l":48.949771689497723},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Armed conflict events in Myanmar by type, 2021-Q1 to 2025-Q3","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,19.600000000000001],"tickmode":"array","ticktext":["2021-Q1","2021-Q2","2021-Q3","2021-Q4","2022-Q1","2022-Q2","2022-Q3","2022-Q4","2023-Q1","2023-Q2","2023-Q3","2023-Q4","2024-Q1","2024-Q2","2024-Q3","2024-Q4","2025-Q1","2025-Q2","2025-Q3"],"tickvals":[1,2,3,4,5,6.0000000000000009,7,8,9,10,11,12,13,14.000000000000002,15,16,17,18,19],"categoryorder":"array","categoryarray":["2021-Q1","2021-Q2","2021-Q3","2021-Q4","2022-Q1","2022-Q2","2022-Q3","2022-Q4","2023-Q1","2023-Q2","2023-Q3","2023-Q4","2024-Q1","2024-Q2","2024-Q3","2024-Q4","2025-Q1","2025-Q2","2025-Q3"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716894984},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-17.400000000000006,2015.4000000000001],"tickmode":"array","ticktext":["0","500","1000","1500","2000"],"tickvals":[0,500,999.99999999999989,1500,2000],"categoryorder":"array","categoryarray":["0","500","1000","1500","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Events per quarter","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716894984},"orientation":"h","x":0.5,"y":1.02,"xanchor":"center","yanchor":"bottom","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"fdb875184ddf":{"x":{},"y":{},"colour":{},"type":"scatter"},"fdb85fd477cb":{"x":{},"y":{},"colour":{}}},"cur_data":"fdb875184ddf","visdat":{"fdb875184ddf":["function (y) ","x"],"fdb85fd477cb":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="where-conflict-concentrates-whole-period" class="level2">
+<h2 class="anchored" data-anchor-id="where-conflict-concentrates-whole-period">2.2 Where conflict concentrates (whole period)</h2>
+<p>Event counts are highly skewed, so the maps use Jenks natural breaks rather than equal intervals. Equal intervals would colour almost every township the same.</p>
+<p>The count map is shown next to an <strong>area-normalised</strong> map because township size varies by more than four orders of magnitude. A large township can record many events simply because it is large.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>map_count <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(conflict_ts) <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"events"</span>,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(<span class="at">style =</span> <span class="st">"jenks"</span>, <span class="at">n =</span> <span class="dv">6</span>,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">values =</span> <span class="st">"brewer.or_rd"</span>),</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(<span class="at">title =</span> <span class="st">"Events"</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">position =</span> <span class="fu">tm_pos_in</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>)),</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">lwd =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"Armed conflict events, 2021-01 to 2025-09"</span>)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>map_density <span class="ot">&lt;-</span> <span class="fu">tm_shape</span>(conflict_ts) <span class="sc">+</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"events_per_1000km2"</span>,</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(<span class="at">style =</span> <span class="st">"jenks"</span>, <span class="at">n =</span> <span class="dv">6</span>,</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">values =</span> <span class="st">"brewer.or_rd"</span>),</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(<span class="at">title =</span> <span class="st">"Events per 1,000 km²"</span>,</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">position =</span> <span class="fu">tm_pos_in</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>)),</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">lwd =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"Armed conflict density"</span>)</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(map_count, map_density, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex02_files/figure-html/map-totals-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="conflict-by-type" class="level2">
+<h2 class="anchored" data-anchor-id="conflict-by-type">2.3 Conflict by type</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>conflict_ts <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(TS_PCODE, <span class="at">Battles =</span> battles,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Explosions/Remote violence</span><span class="st">`</span> <span class="ot">=</span> explosions,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Violence against civilians</span><span class="st">`</span> <span class="ot">=</span> vac) <span class="sc">%&gt;%</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(TS_PCODE, geometry), <span class="at">names_to =</span> <span class="st">"type"</span>, <span class="at">values_to =</span> <span class="st">"n"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"n"</span>,</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(<span class="at">style =</span> <span class="st">"jenks"</span>, <span class="at">n =</span> <span class="dv">5</span>,</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">values =</span> <span class="st">"brewer.or_rd"</span>),</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(<span class="at">title =</span> <span class="st">"Events"</span>),</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_facets_wrap</span>(<span class="at">by =</span> <span class="st">"type"</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex02_files/figure-html/map-types-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="how-the-geography-changes-year-by-year" class="level2">
+<h2 class="anchored" data-anchor-id="how-the-geography-changes-year-by-year">2.4 How the geography changes year by year</h2>
+<p>2025 covers only nine months, so each year is shown as the <strong>average events per quarter</strong>. This keeps the years comparable.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>conflict_year <span class="ot">&lt;-</span> conflict_qtr <span class="sc">%&gt;%</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="dv">2021</span> <span class="sc">+</span> (t <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">%/%</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(TS_PCODE, year) <span class="sc">%&gt;%</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">events_per_qtr =</span> <span class="fu">mean</span>(events), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>mmr_ts <span class="sc">%&gt;%</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(conflict_year, <span class="at">by =</span> <span class="st">"TS_PCODE"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"events_per_qtr"</span>,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.scale =</span> <span class="fu">tm_scale_intervals</span>(<span class="at">style =</span> <span class="st">"fixed"</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="cn">Inf</span>),</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">values =</span> <span class="st">"brewer.or_rd"</span>),</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(<span class="at">title =</span> <span class="st">"Events per quarter"</span>),</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">lwd =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_facets_wrap</span>(<span class="at">by =</span> <span class="st">"year"</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex02_files/figure-html/map-years-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="spatial-weights" class="level1">
 <h1>3.0 Spatial weights</h1>

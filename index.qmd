@@ -48,11 +48,12 @@ format:
     code-copy: true
 ---
 
+
 # Welcome to ISSS626 Geospatial Analytics and Applications (AY2026-27AUG)
 
 This website contains the coursework by Hung Thai. It features a collection of projects, assignments, and notes from the class, complete with geospatial visualizations and analytical insights..
 
-Student: Thai Hoang Quang Hung Instructor: [Dr. Kam Tin Seong](https://www.smu.edu.sg/faculty/profile/9618/KAM-Tin-Seong), Associate Professor of Information Systems (Practice)
+Student: Thai Hoang Quang Hung Instructor: [Dr. Kam Tin Seong](https://faculty.smu.edu.sg/profile/kam-tin-seong-486), Associate Professor of Information Systems (Practice)
 
 Date & Time: Saturday 12:30pm - 3:45pm
 
@@ -74,12 +75,9 @@ Course content: [ISSS626 Geospatial Analytics and Applications](https://isss626-
 :::
 ::::
 
-
 :::: {.animate__animated .animate__fadeIn .animate__faster}
-## 🏫  [In-class Exercises](/in-class_ex/)
+## 🏫 [In-class Exercises](/in-class_ex/)
 
 ::: {#in-class}
 :::
 ::::
-
-

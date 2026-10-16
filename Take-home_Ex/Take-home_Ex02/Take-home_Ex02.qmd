@@ -26,12 +26,12 @@ Myanmar has been in armed conflict since independence in 1948. The February 2021
 
 This report uses township-level spatial and spatio-temporal statistics to show **where** armed conflict concentrates and **how** those concentrations have shifted between 1 January 2021 and 30 September 2025. The aim is evidence that peace-building and humanitarian actors can act on.
 
-## Objectives
+## 0.1 Objectives
 
 1.  **Spatial pattern (LMSA).** Pinpoint statistically significant hot spots, cold spots and spatial outliers of armed conflict at township level.
 2.  **Spatio-temporal pattern (EHSA).** Reveal where, how fast and in what pattern violence is intensifying, persisting or diminishing over time.
 
-## Analytical workflow
+## 0.2 Analytical workflow
 
 | Stage | Purpose | Main tools |
 |------------------------|------------------------|------------------------|
@@ -41,14 +41,14 @@ This report uses township-level spatial and spatio-temporal statistics to show *
 | 4\. LMSA | Local Moran's I (clusters + outliers) and Getis-Ord Gi\* (hot/cold spots), whole study period | `sfdep` |
 | 5\. EHSA | Gi\* per quarter → Mann-Kendall trend → ESRI emerging-hot-spot classes | `sfdep`, `Kendall` |
 
-# The Data
+## 0.3 The Data
 
 | Dataset | Description | Format | Source |
 |------------------|------------------|------------------|------------------|
 | ACLED Myanmar, Jan 2021 – Sep 2025 | Geocoded political violence, demonstration and strategic-development events | CSV | [ACLED](https://acleddata.com/) (provided via eLearn) |
 | Myanmar Township Boundaries, MIMU v9.4 | 330 township (admin level 3) polygons | ESRI shapefile | [MIMU GeoNode](https://geonode.themimu.info/) |
 
-# Setting up the R environment
+## 0.3 Setting up the R environment
 
 | Package | Purpose in this exercise |
 |------------------------------------|------------------------------------|
@@ -69,9 +69,9 @@ pacman::p_load(sf, sfdep, spdep, tmap, tidyverse, lubridate,
 set.seed(1234)   # all permutation tests below are reproducible
 ```
 
-# Importing the data
+## 0.4 Importing the data
 
-## Township boundaries (geospatial)
+### Township boundaries (geospatial)
 
 The MIMU layer ships as a zipped shapefile. It is unzipped once into `data/geospatial/` and then read with `st_read()`.
 
@@ -128,7 +128,7 @@ mmr_ts <- mmr_ts_raw %>%
 summary(mmr_ts$area_km2)
 ```
 
-## ACLED events (aspatial)
+### ACLED events (aspatial)
 
 ```{r}
 #| label: import-acled
@@ -157,7 +157,7 @@ The date range matches the study period exactly. There are no duplicates or miss
 
 # 1.0 Data quality assessment and cleaning
 
-## Defining "armed conflict"
+## 1.1. Defining "armed conflict"
 
 ACLED records six event types. They do not all measure armed conflict.
 
@@ -190,7 +190,344 @@ armed_types <- c("Battles",
                  "Violence against civilians")
 ```
 
+## 1.2 Spatial precision
+
+ACLED's `geo_precision` codes how accurately an event was located:
+
+- **1**: the exact town or village.
+- **2**: the event is near, or within part of, a named area, so it is placed at that area's centroid.
+- **3**: only a larger region is known, so the event is placed at a regional or provincial centroid.
+
+```{r}
+#| label: geo-precision
+acled_raw |>
+  filter(event_type %in% armed_types) |>
+  count(event_type, geo_precision) |>
+  pivot_wider(names_from = geo_precision, values_from = n,
+              names_prefix = "geo_precision_", values_fill = 0) |>
+  kable(format.args = list(big.mark = ","))
+```
+
+Precision-3 events are pinned to a large-area centroid. Including them would credit an arbitrary township with violence that happened somewhere across a whole district or region, creating artificial hot spots. They are a very small share of armed events, so they are **dropped**.
+
+Precision-2 events are kept. They are placed within the correct small area, which at township scale is still informative. However, they mean some events are stacked on locality centroids (see Limitations).
+
+## 1.3 Temporal precision
+
+`time_precision` is 1 (exact day), 2 (known to the week) or 3 (known to the month).
+
+```{r}
+#| label: time-precision
+acled_raw %>%
+  filter(event_type %in% armed_types) %>%
+  count(time_precision) %>%
+  mutate(share = scales::percent(n / sum(n), 0.1)) %>%
+  kable()
+```
+
+The analysis uses **quarterly** bins, so week- or month-level imprecision can at most move an event into an adjacent quarter, and only for events dated near a quarter boundary. These events are kept.
+
+## 1.4 Out-of-country records
+
+```{r}
+#| label: country
+count(acled_raw, country, admin1) |> filter(country != "Myanmar") |> kable()
+```
+
+A handful of events are coded to the Bay of Bengal (country = "Indian Ocean"), outside every township. They are removed.
+
+## 1.5 Fatalities
+
+```{r}
+#| label: fatalities
+acled_raw %>%
+  filter(event_type %in% armed_types) %>%
+  group_by(event_type) %>%
+  summarise(events = n(),
+            fatalities = sum(fatalities),
+            mean = mean(fatalities),
+            median = median(fatalities),
+            max = max(fatalities),
+            share_zero = mean(fatalities == 0)) %>%
+  kable(digits = 2, format.args = list(big.mark = ","))
+```
+
+Fatality counts are extremely right-skewed: most events report zero deaths and a few report hundreds. ACLED codes fatalities conservatively, so they are a lower bound.
+
+For these reasons, **event counts** are the primary conflict variable and **fatalities** a secondary one, used to check whether the *most lethal* areas coincide with the *most active* ones.
+
+### Applying the filters
+
+```{r}
+#| label: filter-acled
+acled_armed <- acled_raw %>%
+  filter(event_type %in% armed_types,
+         country == "Myanmar",
+         geo_precision %in% c(1, 2),
+         between(event_date, as.Date("2021-01-01"), as.Date("2025-09-30")))
+
+# Audit trail: how many records each rule removes
+tibble(
+  step = c("All ACLED records",
+           "Armed-conflict event types",
+           "... and inside Myanmar",
+           "... and geo_precision 1-2"),
+  records = c(nrow(acled_raw),
+              sum(acled_raw$event_type %in% armed_types),
+              sum(acled_raw$event_type %in% armed_types &
+                    acled_raw$country == "Myanmar"),
+              nrow(acled_armed))
+) %>% kable(format.args = list(big.mark = ","))
+
+```
+
+## 1.6 Assigning events to townships
+
+### Points to `sf`
+
+```{r}
+#| label: acled-sf
+acled_sf <- acled_armed %>%
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326, remove = FALSE) %>%
+  st_transform(crs = 32647)
+```
+
+### Point-in-polygon join
+
+Each event is assigned to the township polygon that contains it with `st_join(join = st_within)`. We do **not** use ACLED's `admin3` text field: its spellings and boundary vintage differ from MIMU v9.4, and names are not unique (see above).
+
+```{r}
+#| label: spatial-join
+acled_ts <- st_join(acled_sf,
+                    select(mmr_ts, TS, TS_PCODE),
+                    join = st_within)
+
+c(events = nrow(acled_sf),
+  joined_rows = nrow(acled_ts),            # must equal events: no double counting
+  unmatched = sum(is.na(acled_ts$TS_PCODE)))
+```
+
+A few events fall just outside every polygon, usually on coastlines or at the border where the 1:250k boundary is generalised. We assign them to the **nearest** township, but only after checking that the gap is small.
+
+```{r}
+#| label: snap-unmatched
+unmatched <- filter(acled_ts, is.na(TS_PCODE))
+nearest   <- st_nearest_feature(unmatched, mmr_ts)
+
+snapped <- unmatched %>%
+  mutate(TS       = mmr_ts$TS[nearest],
+         TS_PCODE = mmr_ts$TS_PCODE[nearest],
+         snap_m   = as.numeric(st_distance(unmatched, mmr_ts[nearest, ],
+                                           by_element = TRUE)))
+
+snapped %>%
+  st_drop_geometry() %>%
+  select(event_type, admin3, location, TS, snap_m) %>%
+  kable(digits = 0)
+
+stopifnot(all(snapped$snap_m < 1000))  # fail loudly if any point is > 1 km away
+
+acled_ts <- bind_rows(filter(acled_ts, !is.na(TS_PCODE)),
+                      select(snapped, -snap_m))
+stopifnot(nrow(acled_ts) == nrow(acled_sf))
+```
+
+### Validating the join
+
+ACLED's own `admin3` field gives an independent check of the spatial join. After normalising spelling, the two should agree for nearly every event.
+
+```{r}
+#| label: validate-join
+name_key <- function(x) str_to_lower(str_remove_all(x, "[^A-Za-z]"))
+
+acled_ts %>%
+  st_drop_geometry() %>%
+  filter(!is.na(admin3)) %>%
+  summarise(agreement = scales::percent(mean(name_key(admin3) == name_key(TS)), 0.1))
+
+acled_ts %>%
+  st_drop_geometry() %>%
+  filter(!is.na(admin3), name_key(admin3) != name_key(TS)) %>%
+  count(admin3, TS, sort = TRUE) %>%
+  head(10) %>%
+  kable()
+```
+
+The remaining disagreements are mostly naming variants rather than misplaced points, such as *Pangsang* vs *Pangsang (Panghkam)*. A few are events lying right on a township boundary. The spatial join is used throughout.
+
+## 1.7 Deriving the analytical variables
+
+### Township × quarter panel
+
+The time unit is the **calendar quarter**, giving 19 periods (2021-Q1 to 2025-Q3).
+
+- Monthly bins would give 57 periods but would leave about half of all township-month cells at zero. That makes per-period Gi\* unstable and inflates the noise that the Mann-Kendall test has to see through.
+- Annual bins would give only 5 periods, too few for a meaningful trend test.
+
+Quarters balance temporal detail against statistical stability.
+
+```{r}
+#| label: panel
+acled_ts <- acled_ts %>%
+  mutate(t = (year(event_date) - 2021) * 4 + quarter(event_date))
+
+quarters <- tibble(t = 1:19) %>%
+  mutate(qtr_label = paste0(2021 + (t - 1) %/% 4, "-Q", (t - 1) %% 4 + 1))
+
+conflict_qtr <- acled_ts %>%
+  st_drop_geometry() %>%
+  group_by(TS_PCODE, t) %>%
+  summarise(events     = n(),
+            battles    = sum(event_type == "Battles"),
+            explosions = sum(event_type == "Explosions/Remote violence"),
+            vac        = sum(event_type == "Violence against civilians"),
+            fatalities = sum(fatalities),
+            .groups = "drop") %>%
+  # zero-fill: every township must appear in every quarter
+  complete(TS_PCODE = mmr_ts$TS_PCODE, t = 1:19,
+           fill = list(events = 0L, battles = 0L, explosions = 0L,
+                       vac = 0L, fatalities = 0)) %>%
+  left_join(quarters, by = "t") %>%
+  arrange(t, TS_PCODE)
+
+c(rows = nrow(conflict_qtr),
+  expected = nrow(mmr_ts) * 19,
+  share_zero_cells = round(mean(conflict_qtr$events == 0), 3))
+```
+
+### Whole-period township layer
+
+```{r}
+#| label: township-totals
+conflict_ts <- mmr_ts %>%
+  left_join(conflict_qtr %>%
+              group_by(TS_PCODE) %>%
+              summarise(across(c(events, battles, explosions, vac, fatalities), sum)),
+            by = "TS_PCODE") %>%
+  mutate(events_per_1000km2 = events / area_km2 * 1000)
+
+# Reconciliation: no event lost or double-counted
+stopifnot(sum(conflict_ts$events) == nrow(acled_ts))
+
+summary(select(st_drop_geometry(conflict_ts), events, fatalities, events_per_1000km2))
+```
+
+## 1.8 Space-time cube
+
+```{r}
+#| label: spacetime-cube
+conflict_st <- spacetime(.data = select(conflict_qtr, -qtr_label),
+                         .geometry = mmr_ts,
+                         .loc_col = "TS_PCODE",
+                         .time_col = "t")
+is_spacetime_cube(conflict_st)
+```
+
+```{r}
+#| label: save-rds
+dir.create("data/rds", showWarnings = FALSE)
+write_rds(mmr_ts, "data/rds/mmr_ts.rds")
+write_rds(acled_ts, "data/rds/acled_ts.rds")
+write_rds(conflict_ts, "data/rds/conflict_ts.rds")
+write_rds(conflict_qtr, "data/rds/conflict_qtr.rds")
+```
+
 # 2.0 Exploratory geovisualisation
+
+## 2.1 National trend
+
+```{r}
+#| label: national-trend
+#| fig-height: 4
+trend <- acled_ts %>%
+  st_drop_geometry() %>%
+  count(t, event_type) %>%
+  left_join(quarters, by = "t")
+
+p <- ggplot(trend, aes(qtr_label, n, colour = event_type, group = event_type)) +
+  geom_line(linewidth = 0.9) +
+  geom_point(size = 1.5) +
+  scale_colour_manual(values = c("#b2182b", "#ef8a62", "#2166ac")) +
+  labs(x = NULL, y = "Events per quarter", colour = NULL,
+       title = "Armed conflict events in Myanmar by type, 2021-Q1 to 2025-Q3") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "top")
+ggplotly(p)
+```
+
+## 2.2 Where conflict concentrates (whole period)
+
+Event counts are highly skewed, so the maps use Jenks natural breaks rather than equal intervals. Equal intervals would colour almost every township the same.
+
+The count map is shown next to an **area-normalised** map because township size varies by more than four orders of magnitude. A large township can record many events simply because it is large.
+
+```{r}
+#| label: map-totals
+#| fig-height: 8
+map_count <- tm_shape(conflict_ts) +
+  tm_polygons(fill = "events",
+              fill.scale = tm_scale_intervals(style = "jenks", n = 6,
+                                              values = "brewer.or_rd"),
+              fill.legend = tm_legend(title = "Events",
+                                      position = tm_pos_in("left", "bottom")),
+              col = "grey60", lwd = 0.3) +
+  tm_title("Armed conflict events, 2021-01 to 2025-09")
+
+map_density <- tm_shape(conflict_ts) +
+  tm_polygons(fill = "events_per_1000km2",
+              fill.scale = tm_scale_intervals(style = "jenks", n = 6,
+                                              values = "brewer.or_rd"),
+              fill.legend = tm_legend(title = "Events per 1,000 km²",
+                                      position = tm_pos_in("left", "bottom")),
+              col = "grey60", lwd = 0.3) +
+  tm_title("Armed conflict density")
+
+tmap_arrange(map_count, map_density, ncol = 2)
+```
+
+## 2.3 Conflict by type
+
+```{r}
+#| label: map-types
+#| fig-height: 6
+conflict_ts %>%
+  select(TS_PCODE, Battles = battles,
+         `Explosions/Remote violence` = explosions,
+         `Violence against civilians` = vac) %>%
+  pivot_longer(-c(TS_PCODE, geometry), names_to = "type", values_to = "n") %>%
+  tm_shape() +
+  tm_polygons(fill = "n",
+              fill.scale = tm_scale_intervals(style = "jenks", n = 5,
+                                              values = "brewer.or_rd"),
+              fill.legend = tm_legend(title = "Events"),
+              col = "grey60", lwd = 0.2) +
+  tm_facets_wrap(by = "type", ncol = 3)
+```
+
+## 2.4 How the geography changes year by year
+
+2025 covers only nine months, so each year is shown as the **average events per quarter**. This keeps the years comparable.
+
+```{r}
+#| label: map-years
+#| fig-height: 6
+conflict_year <- conflict_qtr %>%
+  mutate(year = 2021 + (t - 1) %/% 4) %>%
+  group_by(TS_PCODE, year) %>%
+  summarise(events_per_qtr = mean(events), .groups = "drop")
+
+mmr_ts %>%
+  left_join(conflict_year, by = "TS_PCODE") %>%
+  tm_shape() +
+  tm_polygons(fill = "events_per_qtr",
+              fill.scale = tm_scale_intervals(style = "fixed",
+                                              breaks = c(0, 1, 5, 10, 20, 40, Inf),
+                                              values = "brewer.or_rd"),
+              fill.legend = tm_legend(title = "Events per quarter"),
+              col = "grey60", lwd = 0.2) +
+  tm_facets_wrap(by = "year", ncol = 5)
+```
 
 # 3.0 Spatial weights
 
