@@ -382,7 +382,7 @@
     "href": "index.html",
     "title": "ISSS626-GAA",
     "section": "",
-    "text": "This website contains the coursework by Hung Thai. It features a collection of projects, assignments, and notes from the class, complete with geospatial visualizations and analytical insights..\nStudent: Thai Hoang Quang Hung Instructor: Dr. Kam Tin Seong, Associate Professor of Information Systems (Practice)\nDate & Time: Saturday 12:30pm - 3:45pm\nVenue: SOE/SCIS2 Seminar Room 3-5\nCourse content: ISSS626 Geospatial Analytics and Applications\n\n\n\n\n\n\n\n\n\n\n13 min\n\n\nOct 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n31 min\n\n\nOct 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n33 min\n\n\nSep 23, 2026\n\n\n\n\n\n\n\n\n\n\n\n12 min\n\n\nSep 17, 2026\n\n\n\n\n\n\n\n\n\n\n\n6 min\n\n\nSep 8, 2026\n\n\n\n\n\n\n\n\n\n\n\n62 min\n\n\nSep 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n6 min\n\n\nAug 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n8 min\n\n\nAug 24, 2026\n\n\n\n\n\n\nNo matching items\n\n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n18 min\n\n\nOct 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n54 min\n\n\nSep 17, 2026\n\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n\n\n\n8 min\n\n\nSep 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n2 min\n\n\nSep 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n9 min\n\n\nSep 19, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "This website contains the coursework by Hung Thai. It features a collection of projects, assignments, and notes from the class, complete with geospatial visualizations and analytical insights..\nStudent: Thai Hoang Quang Hung Instructor: Dr. Kam Tin Seong, Associate Professor of Information Systems (Practice)\nDate & Time: Saturday 12:30pm - 3:45pm\nVenue: SOE/SCIS2 Seminar Room 3-5\nCourse content: ISSS626 Geospatial Analytics and Applications\n\n\n\n\n\n\n\n\n\n\n13 min\n\n\nOct 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n31 min\n\n\nOct 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n33 min\n\n\nSep 23, 2026\n\n\n\n\n\n\n\n\n\n\n\n12 min\n\n\nSep 17, 2026\n\n\n\n\n\n\n\n\n\n\n\n6 min\n\n\nSep 8, 2026\n\n\n\n\n\n\n\n\n\n\n\n62 min\n\n\nSep 1, 2026\n\n\n\n\n\n\n\n\n\n\n\n6 min\n\n\nAug 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n8 min\n\n\nAug 24, 2026\n\n\n\n\n\n\nNo matching items\n\n  \n\n\n\n\n\n\n\n\n\n\n\n\n\n18 min\n\n\nOct 12, 2026\n\n\n\n\n\n\n\n\n\n\n\n54 min\n\n\nSep 17, 2026\n\n\n\n\n\n\nNo matching items\n\n\n\n\n\n\n\n\n\n\n\n\n7 min\n\n\nOct 17, 2026\n\n\n\n\n\n\n\n\n\n\n\n8 min\n\n\nSep 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n2 min\n\n\nSep 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n9 min\n\n\nSep 19, 2026\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html#hands-on-exercises",
@@ -781,7 +781,7 @@
     "href": "index.html#in-class-exercises",
     "title": "ISSS626-GAA",
     "section": "",
-    "text": "8 min\n\n\nSep 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n2 min\n\n\nSep 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n9 min\n\n\nSep 19, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "7 min\n\n\nOct 17, 2026\n\n\n\n\n\n\n\n\n\n\n\n8 min\n\n\nSep 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n2 min\n\n\nSep 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n9 min\n\n\nSep 19, 2026\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex05/In-class_Ex05.html#lisa-map",
@@ -1188,5 +1188,89 @@
     "title": "ISSS626-GAA",
     "section": "",
     "text": "&lt;!DOCTYPE qgis PUBLIC ‘http://mrcc.com/qgis.dtd’ ‘SYSTEM’&gt;  ELDERCARE  ENG dataset\n\nELDERCARE\n\n                 0 0     false"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html",
+    "title": "In-class_Ex07 - Emerging Hot Spot Analysis",
+    "section": "",
+    "text": "Installing catchment R packages from github.\n\n\nCode\nremotes::install_github('uva-bi-sdad/catchment')\n\n\nLoad sf, tidyverse, tmap acc and catchment packages.\n\n\nCode\npacman::p_load(sf, tidyverse, tmap, accessibility, catchment)\n\n\nLoading data:\n\n\nCode\nmpsz &lt;- st_read(dsn = \"data/geospatial\", layer = \"MP14_SUBZONE_NO_SEA_PL\") %&gt;%\n  st_transform(crs = 3414)\n\n\nReading layer `MP14_SUBZONE_NO_SEA_PL' from data source \n  `C:\\hungthq\\ISSS626-GAA\\In-class_Ex\\In-class_Ex07\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 323 features and 15 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\n\n\nCode\nhexagons &lt;- st_read(dsn = \"data/geospatial\", layer = \"hexagons\") %&gt;%\n  st_transform(crs = 3414)\n\n\nReading layer `hexagons' from data source \n  `C:\\hungthq\\ISSS626-GAA\\In-class_Ex\\In-class_Ex07\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 3125 features and 6 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 21506.33 xmax: 50010.26 ymax: 50256.33\nProjected CRS: SVY21 / Singapore TM\n\n\nCode\neldercare &lt;- st_read(dsn = \"data/geospatial\", layer = \"ELDERCARE\") %&gt;%\n  st_transform(crs = 3414)\n\n\nReading layer `ELDERCARE' from data source \n  `C:\\hungthq\\ISSS626-GAA\\In-class_Ex\\In-class_Ex07\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 120 features and 19 fields\nGeometry type: POINT\nDimension:     XY\nBounding box:  xmin: 14481.92 ymin: 28218.43 xmax: 41665.14 ymax: 46804.9\nProjected CRS: SVY21 / Singapore TM\n\n\nImport OD matrix\n\n\nCode\nODMatrix &lt;- read_csv(\"data/aspatial/OD_Matrix.csv\", skip = 0)\n\n\nTidy up the data\n\n\nCode\ndistmat &lt;- ODMatrix %&gt;%\n  select(origin_id, destination_id, total_cost) %&gt;%\n  spread(destination_id, total_cost)%&gt;%\n  select(c(-c('origin_id')))\n\n\ndistmat_km &lt;- as.matrix(distmat/1000)\n\n\nUse the code chunk below to create a new field called capacity in eldercare sf data frame and populate 100 in it.\n\n\nCode\neldercare &lt;- eldercare %&gt;%\n  select(fid) %&gt;%\n  mutate(capacity = 100)\n\nhexagons &lt;- hexagons %&gt;%\n  select(fid) %&gt;%\n  mutate(demand = 100) %&gt;%\n  rename(id = fid)\n\n\nRename the column id\n\n\nCode\nODMatrix_tidied &lt;- ODMatrix %&gt;%\n  select(origin_id, destination_id, total_cost) %&gt;%\n  rename(from_id = origin_id,\n         to_id = destination_id,\n         dist = total_cost)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#overview",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#overview",
+    "title": "In-class_Ex07 - Emerging Hot Spot Analysis",
+    "section": "",
+    "text": "Installing catchment R packages from github.\n\n\nCode\nremotes::install_github('uva-bi-sdad/catchment')\n\n\nLoad sf, tidyverse, tmap acc and catchment packages.\n\n\nCode\npacman::p_load(sf, tidyverse, tmap, accessibility, catchment)\n\n\nLoading data:\n\n\nCode\nmpsz &lt;- st_read(dsn = \"data/geospatial\", layer = \"MP14_SUBZONE_NO_SEA_PL\") %&gt;%\n  st_transform(crs = 3414)\n\n\nReading layer `MP14_SUBZONE_NO_SEA_PL' from data source \n  `C:\\hungthq\\ISSS626-GAA\\In-class_Ex\\In-class_Ex07\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 323 features and 15 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\n\n\nCode\nhexagons &lt;- st_read(dsn = \"data/geospatial\", layer = \"hexagons\") %&gt;%\n  st_transform(crs = 3414)\n\n\nReading layer `hexagons' from data source \n  `C:\\hungthq\\ISSS626-GAA\\In-class_Ex\\In-class_Ex07\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 3125 features and 6 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 21506.33 xmax: 50010.26 ymax: 50256.33\nProjected CRS: SVY21 / Singapore TM\n\n\nCode\neldercare &lt;- st_read(dsn = \"data/geospatial\", layer = \"ELDERCARE\") %&gt;%\n  st_transform(crs = 3414)\n\n\nReading layer `ELDERCARE' from data source \n  `C:\\hungthq\\ISSS626-GAA\\In-class_Ex\\In-class_Ex07\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 120 features and 19 fields\nGeometry type: POINT\nDimension:     XY\nBounding box:  xmin: 14481.92 ymin: 28218.43 xmax: 41665.14 ymax: 46804.9\nProjected CRS: SVY21 / Singapore TM\n\n\nImport OD matrix\n\n\nCode\nODMatrix &lt;- read_csv(\"data/aspatial/OD_Matrix.csv\", skip = 0)\n\n\nTidy up the data\n\n\nCode\ndistmat &lt;- ODMatrix %&gt;%\n  select(origin_id, destination_id, total_cost) %&gt;%\n  spread(destination_id, total_cost)%&gt;%\n  select(c(-c('origin_id')))\n\n\ndistmat_km &lt;- as.matrix(distmat/1000)\n\n\nUse the code chunk below to create a new field called capacity in eldercare sf data frame and populate 100 in it.\n\n\nCode\neldercare &lt;- eldercare %&gt;%\n  select(fid) %&gt;%\n  mutate(capacity = 100)\n\nhexagons &lt;- hexagons %&gt;%\n  select(fid) %&gt;%\n  mutate(demand = 100) %&gt;%\n  rename(id = fid)\n\n\nRename the column id\n\n\nCode\nODMatrix_tidied &lt;- ODMatrix %&gt;%\n  select(origin_id, destination_id, total_cost) %&gt;%\n  rename(from_id = origin_id,\n         to_id = destination_id,\n         dist = total_cost)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#computing-minimum-travel-distace-to-nearest-oldercare",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#computing-minimum-travel-distace-to-nearest-oldercare",
+    "title": "In-class_Ex07 - Emerging Hot Spot Analysis",
+    "section": "Computing Minimum Travel Distace to nearest oldercare",
+    "text": "Computing Minimum Travel Distace to nearest oldercare\n\n\nCode\ndist2closest &lt;- cost_to_closest(\n  travel_matrix = ODMatrix_tidied,\n  land_use_data = hexagons,\n  opportunity = \"demand\",\n  travel_cost = \"dist\",\n  n = 1,\n  group_by = character(0),\n  active = TRUE,\n  fill_missing_ids = TRUE\n)\n\n\nAppend the computed closest distance values to hexagons sf data frame.\n\n\nCode\nhex_acc &lt;- hexagons %&gt;%\n  left_join(dist2closest) %&gt;%\n  rename(dist2closest = dist)\n\n\nChotolepth map showing the distribution of closest values in dist field.\n\n\nCode\nmapex &lt;- st_bbox(hex_acc)\ntm_shape(hex_acc,\n         bbox = mapex) + \n  tm_polygons(fill = \"dist2closest\", \n              fill.scale = tm_scale_intervals(\n                style = \"quantile\",\n                n = 10,\n                values = \"-brewer.blues\")) +\n  tm_shape(eldercare) +\n  tm_dots(size = 0.3,\n          fill = \"red\",\n          col = \"black\") +\n  tm_title(\"Accessibility to the closest eldercare\") +\n  tm_layout(frame = TRUE) +\n  tm_compass(type=\"8star\", size = 2) +\n  tm_scalebar() +\n  tm_grid(alpha = 0.2)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#converting-odmatrix-data-frame-in-a-matrix",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#converting-odmatrix-data-frame-in-a-matrix",
+    "title": "In-class_Ex07 - Emerging Hot Spot Analysis",
+    "section": "Converting ODMatrix data frame in a matrix",
+    "text": "Converting ODMatrix data frame in a matrix\n\n\nCode\ndistmat &lt;- ODMatrix %&gt;%\n  select(origin_id, destination_id, total_cost) %&gt;%\n  spread(destination_id, total_cost)%&gt;%\n  select(c(-c('origin_id')))\n\ndistmat_km &lt;- as.matrix(distmat/1000)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#two-step-floating-catchment-area",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#two-step-floating-catchment-area",
+    "title": "In-class_Ex07 - Emerging Hot Spot Analysis",
+    "section": "Two-Step Floating Catchment Area",
+    "text": "Two-Step Floating Catchment Area\n\n\nCode\ndf_2sfca &lt;- catchment_ratio(\n  consumers = hexagons$demand,\n  providers = eldercare$capacity,\n  cost = distmat_km,\n  max_cost = 5) %&gt;%\n  as.data.frame() %&gt;%\n  rename(\"2SFCA\" = \".\")\n\n\nMapping 2SFCA\n\n\nCode\nhex_2SFCA &lt;- bind_cols(hexagons, df_2sfca) \ntm_shape(hex_2SFCA,\n         bbox = mapex) + \n  tm_polygons(fill = \"2SFCA\", \n              fill.scale = tm_scale_intervals(\n                style = \"quantile\",\n                n = 10,\n                values = \"-brewer.blues\")) +\n  tm_shape(eldercare) +\n  tm_dots(size = 0.3,\n          fill = \"red\",\n          col = \"black\") +\n  tm_title(\"2SFCA Accessibility measures\") +\n  tm_layout(frame = TRUE) +\n  tm_compass(type=\"8star\", size = 2) +\n  tm_scalebar() +\n  tm_grid(alpha = 0.2)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#enhanced-2-step-floating-catchment-area-e2sfca",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#enhanced-2-step-floating-catchment-area-e2sfca",
+    "title": "In-class_Ex07 - Emerging Hot Spot Analysis",
+    "section": "Enhanced 2-Step Floating Catchment Area (E2SFCA)",
+    "text": "Enhanced 2-Step Floating Catchment Area (E2SFCA)\n\n\nCode\nstep_weights &lt;- list(c(5, .01), c(4, .05), c(3, .1), c(2, .4), c(1, 1))\ndf_e2sfca &lt;- catchment_ratio(\n  consumers = hexagons$demand, \n  providers = eldercare$capacity,\n  cost = distmat_km,\n  weight = step_weights) %&gt;%\n  as.data.frame() %&gt;%\n  rename(\"E2SFCA\" = \".\")\n\n\nMapping E2SFCA\n\n\nCode\nhex_E2SFCA &lt;- bind_cols(hexagons, df_e2sfca) \ntm_shape(hex_E2SFCA,\n         bbox = mapex) + \n  tm_polygons(fill = \"E2SFCA\", \n              fill.scale = tm_scale_intervals(\n                style = \"quantile\",\n                n = 10,\n                values = \"-brewer.blues\")) +\n  tm_shape(eldercare) +\n  tm_dots(size = 0.3,\n          fill = \"red\",\n          col = \"black\") +\n  tm_title(\"E2SFCA Accessibility measures\") +\n  tm_layout(frame = TRUE) +\n  tm_compass(type=\"8star\", size = 2) +\n  tm_scalebar() +\n  tm_grid(alpha = 0.2)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#kernel-density-gaussian-2-step-floating-catchment-area",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#kernel-density-gaussian-2-step-floating-catchment-area",
+    "title": "In-class_Ex07 - Emerging Hot Spot Analysis",
+    "section": "Kernel Density (Gaussian) 2-Step Floating Catchment Area",
+    "text": "Kernel Density (Gaussian) 2-Step Floating Catchment Area\n\n\nCode\ndf_kd2sfca &lt;- catchment_ratio(\n  consumers = hexagons$demand, \n  providers = eldercare$capacity,\n  cost = distmat_km,\n  weight = \"gaussian\") %&gt;%\n  as.data.frame() %&gt;%\n  rename(\"KD2SFCA\" = \".\")\n\n\nMapping KD2SFCA\n\n\nCode\nhex_KD2SFCA &lt;- bind_cols(hexagons, df_kd2sfca) \ntm_shape(hex_KD2SFCA,\n         bbox = mapex) + \n  tm_polygons(fill = \"KD2SFCA\", \n              fill.scale = tm_scale_intervals(\n                style = \"quantile\",\n                n = 10,\n                values = \"-brewer.blues\")) +\n  tm_shape(eldercare) +\n  tm_dots(size = 0.3,\n          fill = \"red\",\n          col = \"black\") +\n  tm_title(\"KDSFCA Accessibility measures\") +\n  tm_layout(frame = TRUE) +\n  tm_compass(type=\"8star\", size = 2) +\n  tm_scalebar() +\n  tm_grid(alpha = 0.2)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#step-floating-catchment-area",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#step-floating-catchment-area",
+    "title": "In-class_Ex07 - Emerging Hot Spot Analysis",
+    "section": "3-Step Floating Catchment Area",
+    "text": "3-Step Floating Catchment Area\n\n\nCode\ndf_3sfca &lt;- catchment_ratio(\n  consumers = hexagons$demand, \n  providers = eldercare$capacity,\n  cost = distmat_km,\n  step_weights, \n  normalize_weight = TRUE) %&gt;%\n  as.data.frame() %&gt;%\n  rename(\"3SFCA\" = \".\")\n\n\nMapping 3SFCA\n\n\nCode\nhex_3SFCA &lt;- bind_cols(hexagons, df_3sfca) \ntm_shape(hex_3SFCA,\n         bbox = mapex) + \n  tm_polygons(fill = \"3SFCA\", \n              fill.scale = tm_scale_intervals(\n                style = \"quantile\",\n                n = 10,\n                values = \"-brewer.blues\")) +\n  tm_shape(eldercare) +\n  tm_dots(size = 0.3,\n          fill = \"red\",\n          col = \"black\") +\n  tm_title(\"3SFCA Accessibility measures\") +\n  tm_layout(frame = TRUE) +\n  tm_compass(type=\"8star\", size = 2) +\n  tm_scalebar() +\n  tm_grid(alpha = 0.2)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#modified-2-step-floating-catchment-area",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#modified-2-step-floating-catchment-area",
+    "title": "In-class_Ex07 - Emerging Hot Spot Analysis",
+    "section": "Modified 2-Step Floating Catchment Area",
+    "text": "Modified 2-Step Floating Catchment Area\n\n\nCode\ndf_m2sfca &lt;- catchment_ratio(\n  consumers = hexagons$demand, \n  providers = eldercare$capacity,\n  cost = distmat_km,\n  step_weights, \n  adjust_providers = function(w) w^2) %&gt;%\n  as.data.frame() %&gt;%\n  rename(\"M2SFCA\" = \".\")\n\n\n\n\nCode\nhex_M2SFCA &lt;- bind_cols(hexagons, df_m2sfca) \ntm_shape(hex_M2SFCA,\n         bbox = mapex) + \n  tm_polygons(fill = \"M2SFCA\", \n              fill.scale = tm_scale_intervals(\n                style = \"quantile\",\n                n = 10,\n                values = \"-brewer.blues\")) +\n  tm_shape(eldercare) +\n  tm_dots(size = 0.3,\n          fill = \"red\",\n          col = \"black\") +\n  tm_title(\"M2SFCA Accessibility measures\") +\n  tm_layout(frame = TRUE) +\n  tm_compass(type=\"8star\", size = 2) +\n  tm_scalebar() +\n  tm_grid(alpha = 0.2)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/data/geospatial/hexagons.html",
+    "href": "In-class_Ex/In-class_Ex07/data/geospatial/hexagons.html",
+    "title": "ISSS626-GAA",
+    "section": "",
+    "text": "&lt;!DOCTYPE qgis PUBLIC ‘http://mrcc.com/qgis.dtd’ ‘SYSTEM’&gt;     dataset\n\n\n                 0 0     false"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/data/geospatial/ELDERCARE.html",
+    "href": "In-class_Ex/In-class_Ex07/data/geospatial/ELDERCARE.html",
+    "title": "ISSS626-GAA",
+    "section": "",
+    "text": "&lt;!DOCTYPE qgis PUBLIC ‘http://mrcc.com/qgis.dtd’ ‘SYSTEM’&gt;  ELDERCARE  ENG dataset\n\nELDERCARE\n\n                 0 0     false"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#inclass-exercise-07",
+    "href": "In-class_Ex/In-class_Ex07/In-class_Ex07.html#inclass-exercise-07",
+    "title": "In-class_Ex07 - Emerging Hot Spot Analysis",
+    "section": "",
+    "text": "Installing catchment R packages from github.\n\n\nCode\nremotes::install_github('uva-bi-sdad/catchment')\n\n\nLoad sf, tidyverse, tmap acc and catchment packages.\n\n\nCode\npacman::p_load(sf, tidyverse, tmap, accessibility, catchment)\n\n\nLoading data:\n\n\nCode\nmpsz &lt;- st_read(dsn = \"data/geospatial\", layer = \"MP14_SUBZONE_NO_SEA_PL\") %&gt;%\n  st_transform(crs = 3414)\n\n\nReading layer `MP14_SUBZONE_NO_SEA_PL' from data source \n  `C:\\hungthq\\ISSS626-GAA\\In-class_Ex\\In-class_Ex07\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 323 features and 15 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\n\n\nCode\nhexagons &lt;- st_read(dsn = \"data/geospatial\", layer = \"hexagons\") %&gt;%\n  st_transform(crs = 3414)\n\n\nReading layer `hexagons' from data source \n  `C:\\hungthq\\ISSS626-GAA\\In-class_Ex\\In-class_Ex07\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 3125 features and 6 fields\nGeometry type: POLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 21506.33 xmax: 50010.26 ymax: 50256.33\nProjected CRS: SVY21 / Singapore TM\n\n\nCode\neldercare &lt;- st_read(dsn = \"data/geospatial\", layer = \"ELDERCARE\") %&gt;%\n  st_transform(crs = 3414)\n\n\nReading layer `ELDERCARE' from data source \n  `C:\\hungthq\\ISSS626-GAA\\In-class_Ex\\In-class_Ex07\\data\\geospatial' \n  using driver `ESRI Shapefile'\nSimple feature collection with 120 features and 19 fields\nGeometry type: POINT\nDimension:     XY\nBounding box:  xmin: 14481.92 ymin: 28218.43 xmax: 41665.14 ymax: 46804.9\nProjected CRS: SVY21 / Singapore TM\n\n\nImport OD matrix\n\n\nCode\nODMatrix &lt;- read_csv(\"data/aspatial/OD_Matrix.csv\", skip = 0)\n\n\nTidy up the data\n\n\nCode\ndistmat &lt;- ODMatrix %&gt;%\n  select(origin_id, destination_id, total_cost) %&gt;%\n  spread(destination_id, total_cost)%&gt;%\n  select(c(-c('origin_id')))\n\n\ndistmat_km &lt;- as.matrix(distmat/1000)\n\n\nUse the code chunk below to create a new field called capacity in eldercare sf data frame and populate 100 in it.\n\n\nCode\neldercare &lt;- eldercare %&gt;%\n  select(fid) %&gt;%\n  mutate(capacity = 100)\n\nhexagons &lt;- hexagons %&gt;%\n  select(fid) %&gt;%\n  mutate(demand = 100) %&gt;%\n  rename(id = fid)\n\n\nRename the column id\n\n\nCode\nODMatrix_tidied &lt;- ODMatrix %&gt;%\n  select(origin_id, destination_id, total_cost) %&gt;%\n  rename(from_id = origin_id,\n         to_id = destination_id,\n         dist = total_cost)"
   }
 ]

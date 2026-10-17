@@ -145,7 +145,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-image','listing-date','listing-title','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 3,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
     };
 
@@ -582,7 +583,24 @@ Sep 17, 2026
 <h2 class="anchored" data-anchor-id="in-class-exercises">🏫 <a href="./in-class_ex/">In-class Exercises</a></h2>
 <div id="listing-in-class" class="quarto-listing quarto-listing-container-grid">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1790352000000" data-listing-file-modified-sort="1791774738205" data-listing-date-modified-sort="1791774738000" data-listing-reading-time-sort="8" data-listing-word-count-sort="1539">
+<div class="g-col-1" data-index="0" data-listing-date-sort="1792166400000" data-listing-file-modified-sort="1792231915650" data-listing-date-modified-sort="1792231915000" data-listing-reading-time-sort="7" data-listing-word-count-sort="1345">
+<a href="./In-class_Ex/In-class_Ex07/In-class_Ex07.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top"><img loading='lazy' src="In-class_Ex\In-class_Ex07\In-class_Ex07_files\figure-html\unnamed-chunk-10-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+In-class_Ex07 - Emerging Hot Spot Analysis
+</h5>
+<div class="listing-reading-time card-text text-muted">7 min</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Oct 17, 2026
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="1" data-listing-date-sort="1790352000000" data-listing-file-modified-sort="1791774738205" data-listing-date-modified-sort="1791774738000" data-listing-reading-time-sort="8" data-listing-word-count-sort="1539">
 <a href="./In-class_Ex/In-class_Ex05/In-class_Ex05.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' src="In-class_Ex\In-class_Ex05\In-class_Ex05_files\figure-html\unnamed-chunk-6-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -599,7 +617,7 @@ Sep 26, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1790352000000" data-listing-file-modified-sort="1791008533584" data-listing-date-modified-sort="1791008533000" data-listing-reading-time-sort="2" data-listing-word-count-sort="288">
+<div class="g-col-1" data-index="2" data-listing-date-sort="1790352000000" data-listing-file-modified-sort="1791008533584" data-listing-date-modified-sort="1791008533000" data-listing-reading-time-sort="2" data-listing-word-count-sort="288">
 <a href="./In-class_Ex/In-class_Ex06/In-class_Ex06.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' src="In-class_Ex\In-class_Ex06\In-class_Ex06_files\figure-html\unnamed-chunk-10-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -616,10 +634,10 @@ Sep 26, 2026
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1789747200000" data-listing-file-modified-sort="1790344577257" data-listing-date-modified-sort="1790344577000" data-listing-reading-time-sort="9" data-listing-word-count-sort="1736">
+<div class="g-col-1" data-index="3" data-listing-date-sort="1789747200000" data-listing-file-modified-sort="1790344577257" data-listing-date-modified-sort="1790344577000" data-listing-reading-time-sort="9" data-listing-word-count-sort="1736">
 <a href="./In-class_Ex/In-class_Ex04/In-class_Ex04.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img loading='lazy' src="In-class_Ex\In-class_Ex04\In-class_Ex04_files\figure-html\unnamed-chunk-5-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="In-class_Ex\In-class_Ex04\In-class_Ex04_files\figure-html\unnamed-chunk-5-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 In-class_Ex04
@@ -635,6 +653,9 @@ Sep 19, 2026
 </div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
+<nav id="in-class-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div>
 </section>
 
