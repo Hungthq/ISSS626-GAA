@@ -312,9 +312,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#conflict-by-type" id="toc-conflict-by-type" class="nav-link" data-scroll-target="#conflict-by-type">2.3 Conflict by type</a></li>
   <li><a href="#how-the-geography-changes-year-by-year" id="toc-how-the-geography-changes-year-by-year" class="nav-link" data-scroll-target="#how-the-geography-changes-year-by-year">2.4 How the geography changes year by year</a></li>
   </ul></li>
-  <li><a href="#spatial-weights" id="toc-spatial-weights" class="nav-link" data-scroll-target="#spatial-weights">3.0 Spatial weights</a></li>
-  <li><a href="#local-measures-of-spatial-association" id="toc-local-measures-of-spatial-association" class="nav-link" data-scroll-target="#local-measures-of-spatial-association">4.0 Local Measures of Spatial Association</a></li>
-  <li><a href="#emerging-hot-spot-analysis" id="toc-emerging-hot-spot-analysis" class="nav-link" data-scroll-target="#emerging-hot-spot-analysis">5.0 Emerging Hot Spot Analysis</a></li>
+  <li><a href="#spatial-weights" id="toc-spatial-weights" class="nav-link" data-scroll-target="#spatial-weights">3.0 Spatial weights</a>
+  <ul>
+  <li><a href="#queen-contiguity-and-the-island-problem" id="toc-queen-contiguity-and-the-island-problem" class="nav-link" data-scroll-target="#queen-contiguity-and-the-island-problem">Queen contiguity and the island problem</a></li>
+  <li><a href="#weights-for-each-statistic" id="toc-weights-for-each-statistic" class="nav-link" data-scroll-target="#weights-for-each-statistic">Weights for each statistic</a></li>
+  </ul></li>
+  <li><a href="#local-measures-of-spatial-association" id="toc-local-measures-of-spatial-association" class="nav-link" data-scroll-target="#local-measures-of-spatial-association">4.0 Local Measures of Spatial Association</a>
+  <ul>
+  <li><a href="#global-morans-i-context" id="toc-global-morans-i-context" class="nav-link" data-scroll-target="#global-morans-i-context">Global Moran’s I (context)</a></li>
+  <li><a href="#local-morans-i-clusters-and-outliers" id="toc-local-morans-i-clusters-and-outliers" class="nav-link" data-scroll-target="#local-morans-i-clusters-and-outliers">Local Moran’s I (clusters and outliers)</a></li>
+  <li><a href="#getis-ord-gi-hot-and-cold-spots" id="toc-getis-ord-gi-hot-and-cold-spots" class="nav-link" data-scroll-target="#getis-ord-gi-hot-and-cold-spots">Getis-Ord Gi* (hot and cold spots)</a></li>
+  <li><a href="#multiple-testing-check" id="toc-multiple-testing-check" class="nav-link" data-scroll-target="#multiple-testing-check">Multiple testing check</a></li>
+  </ul></li>
+  <li><a href="#emerging-hot-spot-analysis" id="toc-emerging-hot-spot-analysis" class="nav-link" data-scroll-target="#emerging-hot-spot-analysis">5.0 Emerging Hot Spot Analysis</a>
+  <ul>
+  <li><a href="#gi-for-every-township-in-every-quarter" id="toc-gi-for-every-township-in-every-quarter" class="nav-link" data-scroll-target="#gi-for-every-township-in-every-quarter">Gi* for every township in every quarter</a></li>
+  <li><a href="#mann-kendall-trend-test" id="toc-mann-kendall-trend-test" class="nav-link" data-scroll-target="#mann-kendall-trend-test">Mann-Kendall trend test</a></li>
+  <li><a href="#ehsa-classification" id="toc-ehsa-classification" class="nav-link" data-scroll-target="#ehsa-classification">EHSA classification</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -348,7 +363,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">October 16, 2026</p>
+      <p class="date-modified">October 24, 2026</p>
     </div>
   </div>
     
@@ -1432,7 +1447,7 @@ $ geometry &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((95.21313 17..., MULTIPOLYGO
 </details>
 <div class="cell-output-display">
 <div class="plotly html-widget html-fill-item" id="htmlwidget-1b4ff99564eb6e8884a5" style="width:100%;height:371px;"></div>
-<script type="application/json" data-for="htmlwidget-1b4ff99564eb6e8884a5">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[156,676,645,945,1073,1170,1270,1139,1187,1109,1441,1649,1418,1316,1339,1205,1068,1108,1155],"text":["qtr_label: 2021-Q1<br />n:  156<br />event_type: Battles<br />event_type: Battles","qtr_label: 2021-Q2<br />n:  676<br />event_type: Battles<br />event_type: Battles","qtr_label: 2021-Q3<br />n:  645<br />event_type: Battles<br />event_type: Battles","qtr_label: 2021-Q4<br />n:  945<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q1<br />n: 1073<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q2<br />n: 1170<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q3<br />n: 1270<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q4<br />n: 1139<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q1<br />n: 1187<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q2<br />n: 1109<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q3<br />n: 1441<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q4<br />n: 1649<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q1<br />n: 1418<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q2<br />n: 1316<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q3<br />n: 1339<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q4<br />n: 1205<br />event_type: Battles<br />event_type: Battles","qtr_label: 2025-Q1<br />n: 1068<br />event_type: Battles<br />event_type: Battles","qtr_label: 2025-Q2<br />n: 1108<br />event_type: Battles<br />event_type: Battles","qtr_label: 2025-Q3<br />n: 1155<br />event_type: Battles<br />event_type: Battles"],"type":"scatter","mode":"lines+markers","line":{"width":3.4015748031496069,"color":"rgba(178,24,43,1)","dash":"solid"},"hoveron":"points","name":"Battles","legendgroup":"Battles","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(178,24,43,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(178,24,43,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[75,783,730,1280,1176,1010,1116,1242,1124,1116,1271,1923,1779,1466,1373,1407,1425,1428,1175],"text":["qtr_label: 2021-Q1<br />n:   75<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2021-Q2<br />n:  783<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2021-Q3<br />n:  730<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2021-Q4<br />n: 1280<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q1<br />n: 1176<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q2<br />n: 1010<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q3<br />n: 1116<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q4<br />n: 1242<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q1<br />n: 1124<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q2<br />n: 1116<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q3<br />n: 1271<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q4<br />n: 1923<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q1<br />n: 1779<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q2<br />n: 1466<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q3<br />n: 1373<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q4<br />n: 1407<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2025-Q1<br />n: 1425<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2025-Q2<br />n: 1428<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2025-Q3<br />n: 1175<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence"],"type":"scatter","mode":"lines+markers","line":{"width":3.4015748031496069,"color":"rgba(239,138,98,1)","dash":"solid"},"hoveron":"points","name":"Explosions/Remote violence","legendgroup":"Explosions/Remote violence","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(239,138,98,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(239,138,98,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[170,499,630,779,576,729,655,609,577,515,573,454,463,424,391,517,492,390,496],"text":["qtr_label: 2021-Q1<br />n:  170<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2021-Q2<br />n:  499<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2021-Q3<br />n:  630<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2021-Q4<br />n:  779<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q1<br />n:  576<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q2<br />n:  729<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q3<br />n:  655<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q4<br />n:  609<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q1<br />n:  577<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q2<br />n:  515<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q3<br />n:  573<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q4<br />n:  454<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q1<br />n:  463<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q2<br />n:  424<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q3<br />n:  391<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q4<br />n:  517<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2025-Q1<br />n:  492<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2025-Q2<br />n:  390<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2025-Q3<br />n:  496<br />event_type: Violence against civilians<br />event_type: Violence against civilians"],"type":"scatter","mode":"lines+markers","line":{"width":3.4015748031496069,"color":"rgba(33,102,172,1)","dash":"solid"},"hoveron":"points","name":"Violence against civilians","legendgroup":"Violence against civilians","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(33,102,172,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(33,102,172,1)"}},"frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":33.311572198566381,"l":48.949771689497723},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Armed conflict events in Myanmar by type, 2021-Q1 to 2025-Q3","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,19.600000000000001],"tickmode":"array","ticktext":["2021-Q1","2021-Q2","2021-Q3","2021-Q4","2022-Q1","2022-Q2","2022-Q3","2022-Q4","2023-Q1","2023-Q2","2023-Q3","2023-Q4","2024-Q1","2024-Q2","2024-Q3","2024-Q4","2025-Q1","2025-Q2","2025-Q3"],"tickvals":[1,2,3,4,5,6.0000000000000009,7,8,9,10,11,12,13,14.000000000000002,15,16,17,18,19],"categoryorder":"array","categoryarray":["2021-Q1","2021-Q2","2021-Q3","2021-Q4","2022-Q1","2022-Q2","2022-Q3","2022-Q4","2023-Q1","2023-Q2","2023-Q3","2023-Q4","2024-Q1","2024-Q2","2024-Q3","2024-Q4","2025-Q1","2025-Q2","2025-Q3"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716894984},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-17.400000000000006,2015.4000000000001],"tickmode":"array","ticktext":["0","500","1000","1500","2000"],"tickvals":[0,500,999.99999999999989,1500,2000],"categoryorder":"array","categoryarray":["0","500","1000","1500","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Events per quarter","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716894984},"orientation":"h","x":0.5,"y":1.02,"xanchor":"center","yanchor":"bottom","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"fdb875184ddf":{"x":{},"y":{},"colour":{},"type":"scatter"},"fdb85fd477cb":{"x":{},"y":{},"colour":{}}},"cur_data":"fdb875184ddf","visdat":{"fdb875184ddf":["function (y) ","x"],"fdb85fd477cb":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-1b4ff99564eb6e8884a5">{"x":{"data":[{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[156,676,645,945,1073,1170,1270,1139,1187,1109,1441,1649,1418,1316,1339,1205,1068,1108,1155],"text":["qtr_label: 2021-Q1<br />n:  156<br />event_type: Battles<br />event_type: Battles","qtr_label: 2021-Q2<br />n:  676<br />event_type: Battles<br />event_type: Battles","qtr_label: 2021-Q3<br />n:  645<br />event_type: Battles<br />event_type: Battles","qtr_label: 2021-Q4<br />n:  945<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q1<br />n: 1073<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q2<br />n: 1170<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q3<br />n: 1270<br />event_type: Battles<br />event_type: Battles","qtr_label: 2022-Q4<br />n: 1139<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q1<br />n: 1187<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q2<br />n: 1109<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q3<br />n: 1441<br />event_type: Battles<br />event_type: Battles","qtr_label: 2023-Q4<br />n: 1649<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q1<br />n: 1418<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q2<br />n: 1316<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q3<br />n: 1339<br />event_type: Battles<br />event_type: Battles","qtr_label: 2024-Q4<br />n: 1205<br />event_type: Battles<br />event_type: Battles","qtr_label: 2025-Q1<br />n: 1068<br />event_type: Battles<br />event_type: Battles","qtr_label: 2025-Q2<br />n: 1108<br />event_type: Battles<br />event_type: Battles","qtr_label: 2025-Q3<br />n: 1155<br />event_type: Battles<br />event_type: Battles"],"type":"scatter","mode":"lines+markers","line":{"width":3.4015748031496069,"color":"rgba(178,24,43,1)","dash":"solid"},"hoveron":"points","name":"Battles","legendgroup":"Battles","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(178,24,43,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(178,24,43,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[75,783,730,1280,1176,1010,1116,1242,1124,1116,1271,1923,1779,1466,1373,1407,1425,1428,1175],"text":["qtr_label: 2021-Q1<br />n:   75<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2021-Q2<br />n:  783<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2021-Q3<br />n:  730<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2021-Q4<br />n: 1280<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q1<br />n: 1176<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q2<br />n: 1010<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q3<br />n: 1116<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2022-Q4<br />n: 1242<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q1<br />n: 1124<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q2<br />n: 1116<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q3<br />n: 1271<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2023-Q4<br />n: 1923<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q1<br />n: 1779<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q2<br />n: 1466<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q3<br />n: 1373<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2024-Q4<br />n: 1407<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2025-Q1<br />n: 1425<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2025-Q2<br />n: 1428<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence","qtr_label: 2025-Q3<br />n: 1175<br />event_type: Explosions/Remote violence<br />event_type: Explosions/Remote violence"],"type":"scatter","mode":"lines+markers","line":{"width":3.4015748031496069,"color":"rgba(239,138,98,1)","dash":"solid"},"hoveron":"points","name":"Explosions/Remote violence","legendgroup":"Explosions/Remote violence","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(239,138,98,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(239,138,98,1)"}},"frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[170,499,630,779,576,729,655,609,577,515,573,454,463,424,391,517,492,390,496],"text":["qtr_label: 2021-Q1<br />n:  170<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2021-Q2<br />n:  499<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2021-Q3<br />n:  630<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2021-Q4<br />n:  779<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q1<br />n:  576<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q2<br />n:  729<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q3<br />n:  655<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2022-Q4<br />n:  609<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q1<br />n:  577<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q2<br />n:  515<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q3<br />n:  573<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2023-Q4<br />n:  454<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q1<br />n:  463<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q2<br />n:  424<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q3<br />n:  391<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2024-Q4<br />n:  517<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2025-Q1<br />n:  492<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2025-Q2<br />n:  390<br />event_type: Violence against civilians<br />event_type: Violence against civilians","qtr_label: 2025-Q3<br />n:  496<br />event_type: Violence against civilians<br />event_type: Violence against civilians"],"type":"scatter","mode":"lines+markers","line":{"width":3.4015748031496069,"color":"rgba(33,102,172,1)","dash":"solid"},"hoveron":"points","name":"Violence against civilians","legendgroup":"Violence against civilians","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","marker":{"autocolorscale":false,"color":"rgba(33,102,172,1)","opacity":1,"size":5.6692913385826778,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(33,102,172,1)"}},"frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":33.311572198566381,"l":48.949771689497723},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Armed conflict events in Myanmar by type, 2021-Q1 to 2025-Q3","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.40000000000000002,19.600000000000001],"tickmode":"array","ticktext":["2021-Q1","2021-Q2","2021-Q3","2021-Q4","2022-Q1","2022-Q2","2022-Q3","2022-Q4","2023-Q1","2023-Q2","2023-Q3","2023-Q4","2024-Q1","2024-Q2","2024-Q3","2024-Q4","2025-Q1","2025-Q2","2025-Q3"],"tickvals":[1,2,3,4,5,6.0000000000000009,7,8,9,10,11,12,13,14.000000000000002,15,16,17,18,19],"categoryorder":"array","categoryarray":["2021-Q1","2021-Q2","2021-Q3","2021-Q4","2022-Q1","2022-Q2","2022-Q3","2022-Q4","2023-Q1","2023-Q2","2023-Q3","2023-Q4","2024-Q1","2024-Q2","2024-Q3","2024-Q4","2025-Q1","2025-Q2","2025-Q3"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716894984},"tickangle":-45,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-17.400000000000006,2015.4000000000001],"tickmode":"array","ticktext":["0","500","1000","1500","2000"],"tickvals":[0,500,999.99999999999989,1500,2000],"categoryorder":"array","categoryarray":["0","500","1000","1500","2000"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Events per quarter","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716894984},"orientation":"h","x":0.5,"y":1.02,"xanchor":"center","yanchor":"bottom","title":{"text":"","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"1e488935be":{"x":{},"y":{},"colour":{},"type":"scatter"},"1e4c25678c":{"x":{},"y":{},"colour":{}}},"cur_data":"1e488935be","visdat":{"1e488935be":["function (y) ","x"],"1e4c25678c":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -1533,17 +1548,710 @@ $ geometry &lt;MULTIPOLYGON [°]&gt; MULTIPOLYGON (((95.21313 17..., MULTIPOLYGO
 </section>
 <section id="spatial-weights" class="level1">
 <h1>3.0 Spatial weights</h1>
+<section id="queen-contiguity-and-the-island-problem" class="level2">
+<h2 class="anchored" data-anchor-id="queen-contiguity-and-the-island-problem">Queen contiguity and the island problem</h2>
+<p>Townships are areal units that share borders, so <strong>queen contiguity</strong> is the natural starting point: two townships are neighbours if they share any boundary point.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>nb_queen <span class="ot">&lt;-</span> <span class="fu">st_contiguity</span>(mmr_ts<span class="sc">$</span>geometry, <span class="at">queen =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(nb_queen)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Neighbour list object:
+Number of regions: 330 
+Number of nonzero links: 1716 
+Percentage nonzero weights: 1.575758 
+Average number of links: 5.2 
+3 regions with no links:
+172, 191, 227
+4 disjoint connected subgraphs
+Link number distribution:
+
+ 0  1  2  3  4  5  6  7  8  9 10 11 
+ 3  4 13 39 53 85 56 43 18 10  5  1 
+4 least connected regions:
+87 180 224 300 with 1 link
+1 most connected region:
+200 with 11 links</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>isolated <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">card</span>(nb_queen) <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>mmr_ts <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span> <span class="fu">slice</span>(isolated) <span class="sc">%&gt;%</span> <span class="fu">select</span>(ST, DT, TS) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">ST</th>
+<th style="text-align: left;">DT</th>
+<th style="text-align: left;">TS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mon</td>
+<td style="text-align: left;">Mawlamyine</td>
+<td style="text-align: left;">Chaungzon</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rakhine</td>
+<td style="text-align: left;">Kyaukpyu</td>
+<td style="text-align: left;">Munaung</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Yangon</td>
+<td style="text-align: left;">Yangon (South)</td>
+<td style="text-align: left;">Cocokyun</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Some townships are islands with no land border, for example in the Andaman Sea and off the Rakhine and Mon coasts. With pure contiguity they have zero neighbours:</p>
+<ul>
+<li>Their spatial lag is undefined, or zero under <code>allow_zero</code>.</li>
+<li>Local Moran’s I and Gi* cannot be evaluated meaningfully for them.</li>
+</ul>
+<p>Rather than drop them, we give each isolated township its <strong>single nearest township</strong>, measured between points on each polygon’s surface. We then symmetrise the list so that the link runs both ways. This keeps contiguity’s meaning for every mainland township and adds the smallest possible change for the islands.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>nb_knn1 <span class="ot">&lt;-</span> <span class="fu">st_knn</span>(<span class="fu">st_point_on_surface</span>(mmr_ts<span class="sc">$</span>geometry), <span class="at">k =</span> <span class="dv">1</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>nb_hybrid <span class="ot">&lt;-</span> nb_queen</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> isolated) nb_hybrid[[i]] <span class="ot">&lt;-</span> nb_knn1[[i]]</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>nb_hybrid <span class="ot">&lt;-</span> <span class="fu">make.sym.nb</span>(nb_hybrid)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(nb_hybrid) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"nb"</span>, <span class="st">"list"</span>)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">card</span>(nb_hybrid) <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">card</span>(nb_hybrid))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  1.000   4.000   5.000   5.218   6.000  11.000 </code></pre>
+</div>
+</div>
+<p>Why not k-nearest neighbours for everyone? Myanmar’s townships range from under 1 km² (urban Yangon) to over 12,000 km² (northern Kachin). A fixed <em>k</em> would force small urban townships to “borrow” neighbours several townships away and would cut true neighbours of large rural ones. A fixed distance band has the opposite problem. Contiguity respects the actual administrative geography in which armed actors operate.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>coords <span class="ot">&lt;-</span> <span class="fu">st_coordinates</span>(<span class="fu">st_point_on_surface</span>(mmr_ts<span class="sc">$</span>geometry))</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">st_geometry</span>(mmr_ts), <span class="at">border =</span> <span class="st">"grey70"</span>, <span class="at">lwd =</span> <span class="fl">0.4</span>,</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Neighbour network: queen contiguity + nearest-neighbour links for islands"</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nb_hybrid, coords, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>, <span class="at">cex =</span> <span class="fl">0.3</span>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nb_queen, coords, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"grey30"</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>, <span class="at">cex =</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex02_files/figure-html/plot-nb-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="weights-for-each-statistic" class="level2">
+<h2 class="anchored" data-anchor-id="weights-for-each-statistic">Weights for each statistic</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Statistic</th>
+<th>Neighbours</th>
+<th>Weights</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Local Moran’s I</td>
+<td><code>nb_hybrid</code> (excludes self)</td>
+<td>Row-standardised (<code>style = "W"</code>)</td>
+<td>The spatial lag is the <em>average</em> of neighbours, so it is comparable across townships with different numbers of neighbours</td>
+</tr>
+<tr class="even">
+<td>Gi* (whole period and EHSA)</td>
+<td><code>include_self(nb_hybrid)</code></td>
+<td>Row-standardised</td>
+<td>Gi* must include the focal township itself</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Land mine 4: <code>include_self()</code> + <code>st_inverse_distance()</code> drops the self weight
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>sfdep::st_inverse_distance()</code> computes 1/d for each neighbour pair. A township’s distance to itself is 0, which gives an infinite weight, and <code>sfdep</code> <strong>silently replaces infinite weights with 0</strong>.</p>
+<p>The self-link added by <code>include_self()</code> therefore ends up with weight 0, so the resulting “Gi*” is really Gi. We use row-standardised binary weights on the self-inclusive neighbour list instead. This is also what <code>emerging_hotspot_analysis()</code> uses by default.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>conflict_wm <span class="ot">&lt;-</span> conflict_ts <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb     =</span> nb_hybrid,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">wt     =</span> <span class="fu">st_weights</span>(nb, <span class="at">style =</span> <span class="st">"W"</span>),</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">nb_s   =</span> <span class="fu">include_self</span>(nb_hybrid),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">wt_s   =</span> <span class="fu">st_weights</span>(nb_s, <span class="at">style =</span> <span class="st">"W"</span>),</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
 </section>
 <section id="local-measures-of-spatial-association" class="level1">
 <h1>4.0 Local Measures of Spatial Association</h1>
+<section id="global-morans-i-context" class="level2">
+<h2 class="anchored" data-anchor-id="global-morans-i-context">Global Moran’s I (context)</h2>
+<p>Before looking for <em>local</em> clusters, we test whether conflict is spatially autocorrelated <em>overall</em>.</p>
+<ul>
+<li><strong>H₀:</strong> conflict counts are randomly distributed across townships (spatial independence).</li>
+<li><strong>H₁:</strong> neighbouring townships have more similar conflict levels than chance would produce.</li>
+</ul>
+<p>We use a permutation test with 999 simulations and α = 0.05.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>gm <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="fu">c</span>(<span class="at">events =</span> <span class="st">"events"</span>, <span class="at">fatalities =</span> <span class="st">"fatalities"</span>),</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>          <span class="sc">~</span> <span class="fu">global_moran_perm</span>(conflict_wm[[.x]], conflict_wm<span class="sc">$</span>nb,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>                              conflict_wm<span class="sc">$</span>wt, <span class="at">nsim =</span> <span class="dv">999</span>))</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="fu">map_dfr</span>(gm, <span class="sc">~</span> <span class="fu">tibble</span>(<span class="at">moran_I =</span> .x<span class="sc">$</span>statistic, <span class="at">p_value =</span> .x<span class="sc">$</span>p.value),</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">.id =</span> <span class="st">"variable"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">moran_I</th>
+<th style="text-align: right;">p_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">events</td>
+<td style="text-align: right;">0.491</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fatalities</td>
+<td style="text-align: right;">0.559</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="local-morans-i-clusters-and-outliers" class="level2">
+<h2 class="anchored" data-anchor-id="local-morans-i-clusters-and-outliers">Local Moran’s I (clusters and outliers)</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>run_lisa <span class="ot">&lt;-</span> <span class="cf">function</span>(data, var, <span class="at">nsim =</span> <span class="dv">999</span>) {</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">%&gt;%</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">local_moran =</span> <span class="fu">local_moran</span>(.data[[var]], nb, wt, <span class="at">nsim =</span> nsim),</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(local_moran) <span class="sc">%&gt;%</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">lisa_class =</span> <span class="fu">if_else</span>(p_ii_sim <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="fu">as.character</span>(mean),</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"Insignificant"</span>),</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">lisa_class =</span> <span class="fu">factor</span>(lisa_class,</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>                               <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"High-High"</span>, <span class="st">"Low-Low"</span>, <span class="st">"High-Low"</span>,</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"Low-High"</span>, <span class="st">"Insignificant"</span>)))</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>lisa_events     <span class="ot">&lt;-</span> <span class="fu">run_lisa</span>(conflict_wm, <span class="st">"events"</span>)</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>lisa_fatalities <span class="ot">&lt;-</span> <span class="fu">run_lisa</span>(conflict_wm, <span class="st">"fatalities"</span>)</span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(<span class="fu">st_drop_geometry</span>(lisa_events), lisa_class)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  lisa_class        n
+  &lt;fct&gt;         &lt;int&gt;
+1 High-High        33
+2 Low-Low          49
+3 Low-High          1
+4 Insignificant   247</code></pre>
+</div>
+</div>
+<p>Two choices here need explaining.</p>
+<ul>
+<li><strong>Significance uses the permutation p-value <code>p_ii_sim</code>, not the analytical <code>p_ii</code>.</strong> The analytical p-value assumes approximate normality, which conflict counts clearly violate: they are highly skewed with many zeros. Conditional permutation makes no distributional assumption.</li>
+<li><strong>Quadrant labels use the <code>mean</code> column</strong>, matching the Moran scatterplot centred on the mean. With highly skewed counts, “Low” therefore means <em>below the national mean</em>. That includes many townships with moderate violence, so Low-Low areas should be read as “relatively calm”, not “peaceful”.</li>
+</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>lisa_palette <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"High-High"</span> <span class="ot">=</span> <span class="st">"#d7191c"</span>, <span class="st">"Low-Low"</span> <span class="ot">=</span> <span class="st">"#2c7bb6"</span>,</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"High-Low"</span> <span class="ot">=</span> <span class="st">"#fdae61"</span>, <span class="st">"Low-High"</span> <span class="ot">=</span> <span class="st">"#abd9e9"</span>,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Insignificant"</span> <span class="ot">=</span> <span class="st">"grey92"</span>)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>map_lisa <span class="ot">&lt;-</span> <span class="cf">function</span>(lisa, title) {</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(lisa) <span class="sc">+</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"lisa_class"</span>,</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> lisa_palette),</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(<span class="at">title =</span> <span class="st">"LISA (p &lt; 0.05)"</span>,</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">position =</span> <span class="fu">tm_pos_in</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>)),</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">lwd =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_title</span>(title)</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(<span class="fu">map_lisa</span>(lisa_events, <span class="st">"LISA: armed conflict events"</span>),</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>             <span class="fu">map_lisa</span>(lisa_fatalities, <span class="st">"LISA: conflict fatalities"</span>),</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex02_files/figure-html/lisa-maps-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="getis-ord-gi-hot-and-cold-spots" class="level2">
+<h2 class="anchored" data-anchor-id="getis-ord-gi-hot-and-cold-spots">Getis-Ord Gi* (hot and cold spots)</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>run_gistar <span class="ot">&lt;-</span> <span class="cf">function</span>(data, var, <span class="at">nsim =</span> <span class="dv">999</span>) {</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">%&gt;%</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">gi =</span> <span class="fu">local_gstar_perm</span>(.data[[var]], nb_s, wt_s, <span class="at">nsim =</span> nsim),</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unnest</span>(gi) <span class="sc">%&gt;%</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">hcsa =</span> <span class="fu">case_when</span>(p_sim <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> gi_star <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Hot spot"</span>,</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>                            p_sim <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> gi_star <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Cold spot"</span>,</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>                            <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Insignificant"</span>),</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">hcsa =</span> <span class="fu">factor</span>(hcsa, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Hot spot"</span>, <span class="st">"Cold spot"</span>, <span class="st">"Insignificant"</span>)))</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a>gi_events     <span class="ot">&lt;-</span> <span class="fu">run_gistar</span>(conflict_wm, <span class="st">"events"</span>)</span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a>gi_fatalities <span class="ot">&lt;-</span> <span class="fu">run_gistar</span>(conflict_wm, <span class="st">"fatalities"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>map_hcsa <span class="ot">&lt;-</span> <span class="cf">function</span>(gi, title) {</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>(gi) <span class="sc">+</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"hcsa"</span>,</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Hot spot"</span> <span class="ot">=</span> <span class="st">"#d7191c"</span>, <span class="st">"Cold spot"</span> <span class="ot">=</span> <span class="st">"#2c7bb6"</span>,</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"Insignificant"</span> <span class="ot">=</span> <span class="st">"grey92"</span>)),</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(<span class="at">title =</span> <span class="st">"Gi* (p &lt; 0.05)"</span>,</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">position =</span> <span class="fu">tm_pos_in</span>(<span class="st">"left"</span>, <span class="st">"bottom"</span>)),</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">lwd =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tm_title</span>(title)</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tmap_arrange</span>(<span class="fu">map_hcsa</span>(gi_events, <span class="st">"Hot/cold spots: events"</span>),</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>             <span class="fu">map_hcsa</span>(gi_fatalities, <span class="st">"Hot/cold spots: fatalities"</span>),</span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex02_files/figure-html/gistar-maps-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="multiple-testing-check" class="level2">
+<h2 class="anchored" data-anchor-id="multiple-testing-check">Multiple testing check</h2>
+<p>330 local tests at α = 0.05 would produce about 16 “significant” townships by chance alone. As a robustness check, we report how many significant townships survive a Benjamini-Hochberg false-discovery-rate correction.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">statistic =</span> <span class="fu">c</span>(<span class="st">"Local Moran's I (events)"</span>, <span class="st">"Local Moran's I (fatalities)"</span>,</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Gi* (events)"</span>, <span class="st">"Gi* (fatalities)"</span>),</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_lt_0.05 =</span> <span class="fu">c</span>(<span class="fu">sum</span>(lisa_events<span class="sc">$</span>p_ii_sim <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">sum</span>(lisa_fatalities<span class="sc">$</span>p_ii_sim <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>                <span class="fu">sum</span>(gi_events<span class="sc">$</span>p_sim <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>                <span class="fu">sum</span>(gi_fatalities<span class="sc">$</span>p_sim <span class="sc">&lt;</span> <span class="fl">0.05</span>)),</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">fdr_lt_0.05 =</span> <span class="fu">c</span>(<span class="fu">sum</span>(<span class="fu">p.adjust</span>(lisa_events<span class="sc">$</span>p_ii_sim, <span class="st">"fdr"</span>) <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">sum</span>(<span class="fu">p.adjust</span>(lisa_fatalities<span class="sc">$</span>p_ii_sim, <span class="st">"fdr"</span>) <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">sum</span>(<span class="fu">p.adjust</span>(gi_events<span class="sc">$</span>p_sim, <span class="st">"fdr"</span>) <span class="sc">&lt;</span> <span class="fl">0.05</span>),</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">sum</span>(<span class="fu">p.adjust</span>(gi_fatalities<span class="sc">$</span>p_sim, <span class="st">"fdr"</span>) <span class="sc">&lt;</span> <span class="fl">0.05</span>))</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">statistic</th>
+<th style="text-align: right;">p_lt_0.05</th>
+<th style="text-align: right;">fdr_lt_0.05</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Local Moran’s I (events)</td>
+<td style="text-align: right;">83</td>
+<td style="text-align: right;">43</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Local Moran’s I (fatalities)</td>
+<td style="text-align: right;">101</td>
+<td style="text-align: right;">69</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Gi* (events)</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">43</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gi* (fatalities)</td>
+<td style="text-align: right;">103</td>
+<td style="text-align: right;">68</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
 </section>
 <section id="emerging-hot-spot-analysis" class="level1">
 <h1>5.0 Emerging Hot Spot Analysis</h1>
+<section id="gi-for-every-township-in-every-quarter" class="level2">
+<h2 class="anchored" data-anchor-id="gi-for-every-township-in-every-quarter">Gi* for every township in every quarter</h2>
+<p>The neighbours and weights from the previous section are attached to the geometry context of the cube. <code>set_nbs()</code> and <code>set_wts()</code> then copy them to each of the 19 time slices. Rows must not be re-ordered after this step.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>conflict_nb <span class="ot">&lt;-</span> conflict_st <span class="sc">%&gt;%</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(<span class="st">"geometry"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nb =</span> <span class="fu">include_self</span>(nb_hybrid),</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">wt =</span> <span class="fu">st_weights</span>(nb, <span class="at">style =</span> <span class="st">"W"</span>),</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">.before =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_nbs</span>(<span class="st">"nb"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_wts</span>(<span class="st">"wt"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>gi_stars <span class="ot">&lt;-</span> conflict_nb <span class="sc">%&gt;%</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(t) <span class="sc">%&gt;%</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gi_star =</span> <span class="fu">local_gstar_perm</span>(events, nb, wt, <span class="at">nsim =</span> <span class="dv">199</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">unnest</span>(gi_star)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section>
+<section id="mann-kendall-trend-test" class="level2">
+<h2 class="anchored" data-anchor-id="mann-kendall-trend-test">Mann-Kendall trend test</h2>
+<p>For each township, the 19 quarterly Gi* values are tested for a monotonic trend.</p>
 <ul>
-<li></li>
+<li><strong>H₀:</strong> no monotonic trend.</li>
+<li><strong>H₁:</strong> a monotonic trend is present.</li>
+<li>τ &gt; 0 means the township is becoming <em>more</em> of a hot spot over time; τ &lt; 0 means it is cooling.</li>
 </ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>mk <span class="ot">&lt;-</span> gi_stars <span class="sc">%&gt;%</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(TS_PCODE) <span class="sc">%&gt;%</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mk =</span> <span class="fu">list</span>(<span class="fu">unclass</span>(Kendall<span class="sc">::</span><span class="fu">MannKendall</span>(gi_star)))) <span class="sc">%&gt;%</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">unnest_wider</span>(mk) <span class="sc">%&gt;%</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">st_drop_geometry</span>(<span class="fu">select</span>(mmr_ts, TS_PCODE, ST, TS)), <span class="at">by =</span> <span class="st">"TS_PCODE"</span>)</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>mk <span class="sc">%&gt;%</span></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sl <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sl, <span class="fu">desc</span>(<span class="fu">abs</span>(tau))) <span class="sc">%&gt;%</span></span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ST, TS, tau, sl) <span class="sc">%&gt;%</span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">ST</th>
+<th style="text-align: left;">TS</th>
+<th style="text-align: right;">tau</th>
+<th style="text-align: right;">sl</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Bago (West)</td>
+<td style="text-align: left;">Okpho</td>
+<td style="text-align: right;">0.7544</td>
+<td style="text-align: right;">0e+00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Magway</td>
+<td style="text-align: left;">Chauk</td>
+<td style="text-align: right;">0.7310</td>
+<td style="text-align: right;">0e+00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mandalay</td>
+<td style="text-align: left;">Pyinoolwin</td>
+<td style="text-align: right;">0.7193</td>
+<td style="text-align: right;">0e+00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bago (West)</td>
+<td style="text-align: left;">Minhla</td>
+<td style="text-align: right;">0.7076</td>
+<td style="text-align: right;">0e+00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mandalay</td>
+<td style="text-align: left;">Natogyi</td>
+<td style="text-align: right;">0.7076</td>
+<td style="text-align: right;">0e+00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mandalay</td>
+<td style="text-align: left;">Chanmyathazi</td>
+<td style="text-align: right;">-0.6842</td>
+<td style="text-align: right;">0e+00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bago (West)</td>
+<td style="text-align: left;">Gyobingauk</td>
+<td style="text-align: right;">0.6725</td>
+<td style="text-align: right;">1e-04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mandalay</td>
+<td style="text-align: left;">Mahaaungmyay</td>
+<td style="text-align: right;">-0.6608</td>
+<td style="text-align: right;">1e-04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mandalay</td>
+<td style="text-align: left;">Nyaung-U</td>
+<td style="text-align: right;">0.6608</td>
+<td style="text-align: right;">1e-04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bago (West)</td>
+<td style="text-align: left;">Letpadan</td>
+<td style="text-align: right;">0.6491</td>
+<td style="text-align: right;">1e-04</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>top_up   <span class="ot">&lt;-</span> mk <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sl <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(tau, <span class="at">n =</span> <span class="dv">3</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>top_down <span class="ot">&lt;-</span> mk <span class="sc">%&gt;%</span> <span class="fu">filter</span>(sl <span class="sc">&lt;</span> <span class="fl">0.05</span>) <span class="sc">%&gt;%</span> <span class="fu">slice_min</span>(tau, <span class="at">n =</span> <span class="dv">3</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> gi_stars <span class="sc">%&gt;%</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(TS_PCODE <span class="sc">%in%</span> <span class="fu">c</span>(top_up<span class="sc">$</span>TS_PCODE, top_down<span class="sc">$</span>TS_PCODE)) <span class="sc">%&gt;%</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">st_drop_geometry</span>(<span class="fu">select</span>(mmr_ts, TS_PCODE, TS)), <span class="at">by =</span> <span class="st">"TS_PCODE"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(t, gi_star, <span class="at">colour =</span> TS)) <span class="sc">+</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Quarter (1 = 2021-Q1)"</span>, <span class="at">y =</span> <span class="st">"Gi*"</span>,</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Gi* trajectories: strongest significant upward and downward trends"</span>) <span class="sc">+</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplotly</span>(p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-8f836166d559454ecd73" style="width:100%;height:371px;"></div>
+<script type="application/json" data-for="htmlwidget-8f836166d559454ecd73">{"x":{"data":[{"x":[0.099999999999999978,19.899999999999999],"y":[0,0],"text":"yintercept: 0","type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)","dash":"dash"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[1.2289630985005071,0.95945868482990382,1.8217751802091593,2.0215797590020945,1.6613833530138611,0.40966314441834789,0.43033164179497774,-0.12074692231237029,0.041828932433036745,-0.22767873734861935,-0.8479699894599575,-0.86079732034853484,-1.3281577442845898,-1.0572311560230809,-0.65629931782242545,-0.93834196405894343,-1.1006051466601314,-1.0112863113320456,-0.80596797297365563],"text":["t:  1<br />gi_star:  1.22896310<br />TS: Chanmyathazi","t:  2<br />gi_star:  0.95945868<br />TS: Chanmyathazi","t:  3<br />gi_star:  1.82177518<br />TS: Chanmyathazi","t:  4<br />gi_star:  2.02157976<br />TS: Chanmyathazi","t:  5<br />gi_star:  1.66138335<br />TS: Chanmyathazi","t:  6<br />gi_star:  0.40966314<br />TS: Chanmyathazi","t:  7<br />gi_star:  0.43033164<br />TS: Chanmyathazi","t:  8<br />gi_star: -0.12074692<br />TS: Chanmyathazi","t:  9<br />gi_star:  0.04182893<br />TS: Chanmyathazi","t: 10<br />gi_star: -0.22767874<br />TS: Chanmyathazi","t: 11<br />gi_star: -0.84796999<br />TS: Chanmyathazi","t: 12<br />gi_star: -0.86079732<br />TS: Chanmyathazi","t: 13<br />gi_star: -1.32815774<br />TS: Chanmyathazi","t: 14<br />gi_star: -1.05723116<br />TS: Chanmyathazi","t: 15<br />gi_star: -0.65629932<br />TS: Chanmyathazi","t: 16<br />gi_star: -0.93834196<br />TS: Chanmyathazi","t: 17<br />gi_star: -1.10060515<br />TS: Chanmyathazi","t: 18<br />gi_star: -1.01128631<br />TS: Chanmyathazi","t: 19<br />gi_star: -0.80596797<br />TS: Chanmyathazi"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"Chanmyathazi","legendgroup":"Chanmyathazi","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[-0.40918518674712051,-0.80610032497706052,-1.0873616727538657,-0.46455210929860841,-0.63516087657296805,0.28953368233165183,-0.39955693849977691,-0.22799909142621619,0.6577631958686917,0.24225070625438358,0.067464614376308227,-0.027695699801485691,0.40033126654402895,0.32414352417220799,0.63749499398593212,0.88165252367338298,2.0361549330193132,2.3888811626829232,1.0170523888535055],"text":["t:  1<br />gi_star: -0.40918519<br />TS: Chauk","t:  2<br />gi_star: -0.80610032<br />TS: Chauk","t:  3<br />gi_star: -1.08736167<br />TS: Chauk","t:  4<br />gi_star: -0.46455211<br />TS: Chauk","t:  5<br />gi_star: -0.63516088<br />TS: Chauk","t:  6<br />gi_star:  0.28953368<br />TS: Chauk","t:  7<br />gi_star: -0.39955694<br />TS: Chauk","t:  8<br />gi_star: -0.22799909<br />TS: Chauk","t:  9<br />gi_star:  0.65776320<br />TS: Chauk","t: 10<br />gi_star:  0.24225071<br />TS: Chauk","t: 11<br />gi_star:  0.06746461<br />TS: Chauk","t: 12<br />gi_star: -0.02769570<br />TS: Chauk","t: 13<br />gi_star:  0.40033127<br />TS: Chauk","t: 14<br />gi_star:  0.32414352<br />TS: Chauk","t: 15<br />gi_star:  0.63749499<br />TS: Chauk","t: 16<br />gi_star:  0.88165252<br />TS: Chauk","t: 17<br />gi_star:  2.03615493<br />TS: Chauk","t: 18<br />gi_star:  2.38888116<br />TS: Chauk","t: 19<br />gi_star:  1.01705239<br />TS: Chauk"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(183,159,0,1)","dash":"solid"},"hoveron":"points","name":"Chauk","legendgroup":"Chauk","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[0.72264871335048542,1.5337825454675222,1.8626721740505892,2.1415871920783118,1.2731843015743467,1.2516898394534839,0.020745283102600803,-0.20376043140212488,0.069884923699097656,-0.4897740280173779,-0.8248816976677309,-0.82094559255462118,-1.2325129967420005,-1.0328096047499735,-0.58701628043234222,-1.0089100698336588,-1.1566544828326382,-1.0322673551356152,-0.73353621069661146],"text":["t:  1<br />gi_star:  0.72264871<br />TS: Mahaaungmyay","t:  2<br />gi_star:  1.53378255<br />TS: Mahaaungmyay","t:  3<br />gi_star:  1.86267217<br />TS: Mahaaungmyay","t:  4<br />gi_star:  2.14158719<br />TS: Mahaaungmyay","t:  5<br />gi_star:  1.27318430<br />TS: Mahaaungmyay","t:  6<br />gi_star:  1.25168984<br />TS: Mahaaungmyay","t:  7<br />gi_star:  0.02074528<br />TS: Mahaaungmyay","t:  8<br />gi_star: -0.20376043<br />TS: Mahaaungmyay","t:  9<br />gi_star:  0.06988492<br />TS: Mahaaungmyay","t: 10<br />gi_star: -0.48977403<br />TS: Mahaaungmyay","t: 11<br />gi_star: -0.82488170<br />TS: Mahaaungmyay","t: 12<br />gi_star: -0.82094559<br />TS: Mahaaungmyay","t: 13<br />gi_star: -1.23251300<br />TS: Mahaaungmyay","t: 14<br />gi_star: -1.03280960<br />TS: Mahaaungmyay","t: 15<br />gi_star: -0.58701628<br />TS: Mahaaungmyay","t: 16<br />gi_star: -1.00891007<br />TS: Mahaaungmyay","t: 17<br />gi_star: -1.15665448<br />TS: Mahaaungmyay","t: 18<br />gi_star: -1.03226736<br />TS: Mahaaungmyay","t: 19<br />gi_star: -0.73353621<br />TS: Mahaaungmyay"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,186,56,1)","dash":"solid"},"hoveron":"points","name":"Mahaaungmyay","legendgroup":"Mahaaungmyay","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[6.911832519513049,2.8945162595424616,7.2295487949310049,6.2835347065410403,1.7701398117670628,1.2043874574396003,1.4375390738566878,0.56587458567387827,0.25293098159519672,0.079147657965723997,4.4502700987025561,8.8483978339804761,0.82501030093006,-0.3893371372981036,-0.70765256889429706,-0.42217564351200282,-0.68131524007848743,-0.39776871929898294,-0.8666500401085161],"text":["t:  1<br />gi_star:  6.91183252<br />TS: Muse","t:  2<br />gi_star:  2.89451626<br />TS: Muse","t:  3<br />gi_star:  7.22954879<br />TS: Muse","t:  4<br />gi_star:  6.28353471<br />TS: Muse","t:  5<br />gi_star:  1.77013981<br />TS: Muse","t:  6<br />gi_star:  1.20438746<br />TS: Muse","t:  7<br />gi_star:  1.43753907<br />TS: Muse","t:  8<br />gi_star:  0.56587459<br />TS: Muse","t:  9<br />gi_star:  0.25293098<br />TS: Muse","t: 10<br />gi_star:  0.07914766<br />TS: Muse","t: 11<br />gi_star:  4.45027010<br />TS: Muse","t: 12<br />gi_star:  8.84839783<br />TS: Muse","t: 13<br />gi_star:  0.82501030<br />TS: Muse","t: 14<br />gi_star: -0.38933714<br />TS: Muse","t: 15<br />gi_star: -0.70765257<br />TS: Muse","t: 16<br />gi_star: -0.42217564<br />TS: Muse","t: 17<br />gi_star: -0.68131524<br />TS: Muse","t: 18<br />gi_star: -0.39776872<br />TS: Muse","t: 19<br />gi_star: -0.86665004<br />TS: Muse"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"Muse","legendgroup":"Muse","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[-0.88098840190623173,-1.1444454236623383,-1.5369830781446647,-1.3553894118492875,-1.354668636758805,-1.3920895149009436,-1.3429927451278383,-1.1911602501256466,-0.084824595682276085,-0.67835205964439971,0.15667252645056309,0.21432508167783948,0.49583982418585792,0.29424692506918915,0.75332847699404248,1.5622965357577516,2.538353255252884,1.438352149467738,1.4787962975359483],"text":["t:  1<br />gi_star: -0.88098840<br />TS: Okpho","t:  2<br />gi_star: -1.14444542<br />TS: Okpho","t:  3<br />gi_star: -1.53698308<br />TS: Okpho","t:  4<br />gi_star: -1.35538941<br />TS: Okpho","t:  5<br />gi_star: -1.35466864<br />TS: Okpho","t:  6<br />gi_star: -1.39208951<br />TS: Okpho","t:  7<br />gi_star: -1.34299275<br />TS: Okpho","t:  8<br />gi_star: -1.19116025<br />TS: Okpho","t:  9<br />gi_star: -0.08482460<br />TS: Okpho","t: 10<br />gi_star: -0.67835206<br />TS: Okpho","t: 11<br />gi_star:  0.15667253<br />TS: Okpho","t: 12<br />gi_star:  0.21432508<br />TS: Okpho","t: 13<br />gi_star:  0.49583982<br />TS: Okpho","t: 14<br />gi_star:  0.29424693<br />TS: Okpho","t: 15<br />gi_star:  0.75332848<br />TS: Okpho","t: 16<br />gi_star:  1.56229654<br />TS: Okpho","t: 17<br />gi_star:  2.53835326<br />TS: Okpho","t: 18<br />gi_star:  1.43835215<br />TS: Okpho","t: 19<br />gi_star:  1.47879630<br />TS: Okpho"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(97,156,255,1)","dash":"solid"},"hoveron":"points","name":"Okpho","legendgroup":"Okpho","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19],"y":[-0.29413702397111591,-0.79985875412897001,-0.20971918636366452,0.063394255362026336,0.029786767794944061,-0.099778789000987578,-0.36639032044039771,0.27135439118397547,0.8256996423570242,0.72581215549406808,0.19948986287183487,1.0272822880420598,0.29629452908667137,1.698232952801374,3.4515279837054109,2.9800424718750156,1.4209581042667381,3.3060050757378399,2.0384838585356531],"text":["t:  1<br />gi_star: -0.29413702<br />TS: Pyinoolwin","t:  2<br />gi_star: -0.79985875<br />TS: Pyinoolwin","t:  3<br />gi_star: -0.20971919<br />TS: Pyinoolwin","t:  4<br />gi_star:  0.06339426<br />TS: Pyinoolwin","t:  5<br />gi_star:  0.02978677<br />TS: Pyinoolwin","t:  6<br />gi_star: -0.09977879<br />TS: Pyinoolwin","t:  7<br />gi_star: -0.36639032<br />TS: Pyinoolwin","t:  8<br />gi_star:  0.27135439<br />TS: Pyinoolwin","t:  9<br />gi_star:  0.82569964<br />TS: Pyinoolwin","t: 10<br />gi_star:  0.72581216<br />TS: Pyinoolwin","t: 11<br />gi_star:  0.19948986<br />TS: Pyinoolwin","t: 12<br />gi_star:  1.02728229<br />TS: Pyinoolwin","t: 13<br />gi_star:  0.29629453<br />TS: Pyinoolwin","t: 14<br />gi_star:  1.69823295<br />TS: Pyinoolwin","t: 15<br />gi_star:  3.45152798<br />TS: Pyinoolwin","t: 16<br />gi_star:  2.98004247<br />TS: Pyinoolwin","t: 17<br />gi_star:  1.42095810<br />TS: Pyinoolwin","t: 18<br />gi_star:  3.30600508<br />TS: Pyinoolwin","t: 19<br />gi_star:  2.03848386<br />TS: Pyinoolwin"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(245,100,227,1)","dash":"solid"},"hoveron":"points","name":"Pyinoolwin","legendgroup":"Pyinoolwin","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":40.840182648401829,"r":7.3059360730593621,"b":37.260273972602747,"l":43.105022831050235},"paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Gi* trajectories: strongest significant upward and downward trends","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.099999999999999978,19.899999999999999],"tickmode":"array","ticktext":["5","10","15"],"tickvals":[5,10,14.999999999999998],"categoryorder":"array","categoryarray":["5","10","15"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716894984},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Quarter (1 = 2021-Q1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.0562521237509217,9.3676668795867339],"tickmode":"array","ticktext":["0.0","2.5","5.0","7.5"],"tickvals":[0,2.4999999999999996,5,7.5],"categoryorder":"array","categoryarray":["0.0","2.5","5.0","7.5"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Gi*","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716894984},"title":{"text":"TS","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"1e427e16501":{"yintercept":{},"type":"scatter"},"1e4521c2784":{"x":{},"y":{},"colour":{}}},"cur_data":"1e427e16501","visdat":{"1e427e16501":["function (y) ","x"],"1e4521c2784":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="ehsa-classification" class="level2">
+<h2 class="anchored" data-anchor-id="ehsa-classification">EHSA classification</h2>
+<p><code>emerging_hotspot_analysis()</code> combines each township’s quarterly Gi* significance with its Mann-Kendall trend to assign one of ESRI’s 17 categories. We pass our own neighbours and weights (<code>nb_col</code>, <code>wt_col</code>). We also set <code>threshold = 0.05</code>, because the function’s <strong>default is 0.01</strong>, not the 0.05 required by this study.</p>
+<p><code>k = 1</code> adds a one-quarter time lag to the Gi* neighbourhood: each township–quarter is compared with its neighbours in the same quarter <em>and</em> the previous quarter.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>ehsa <span class="ot">&lt;-</span> <span class="fu">emerging_hotspot_analysis</span>(<span class="at">x =</span> conflict_nb,</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">.var =</span> <span class="st">"events"</span>,</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">k =</span> <span class="dv">1</span>,</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">nsim =</span> <span class="dv">199</span>,</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">nb_col =</span> <span class="st">"nb"</span>,</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">wt_col =</span> <span class="st">"wt"</span>,</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">threshold =</span> <span class="fl">0.05</span>)</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>ehsa_ts <span class="ot">&lt;-</span> mmr_ts <span class="sc">%&gt;%</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(ehsa, <span class="at">by =</span> <span class="fu">join_by</span>(TS_PCODE <span class="sc">==</span> location))</span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(ehsa, classification, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">classification</th>
+<th style="text-align: right;">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sporadic coldspot</td>
+<td style="text-align: right;">118</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">no pattern detected</td>
+<td style="text-align: right;">69</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sporadic hotspot</td>
+<td style="text-align: right;">45</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">oscilating hotspot</td>
+<td style="text-align: right;">34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">persistent coldspot</td>
+<td style="text-align: right;">31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">oscilating coldspot</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">consecutive coldspot</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">consecutive hotspot</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">intensifying coldspot</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">intensifying hotspot</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">new hotspot</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">persistent hotspot</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>What “significant” means in an EHSA map
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>p_value</code> column returned by <code>emerging_hotspot_analysis()</code> is the <strong>Mann-Kendall trend</strong> p-value. It is <em>not</em> the Gi* p-value.</p>
+<p>Filtering the map on <code>p_value &lt; 0.05</code>, as in the course examples, would therefore remove <strong>persistent</strong> hot and cold spots. These are, by definition, areas that are significant almost every quarter <strong>without</strong> a significant trend, which makes them among the most important areas for peace-building.</p>
+<p>Every class other than <em>no pattern detected</em> already requires significant Gi* values at α = 0.05. This report therefore maps all classes except <em>no pattern detected</em>.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>ehsa <span class="sc">%&gt;%</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(classification <span class="sc">!=</span> <span class="st">"no pattern detected"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(classification) <span class="sc">%&gt;%</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(n, <span class="fu">fct_reorder</span>(classification, n))) <span class="sc">+</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"#b2182b"</span>) <span class="sc">+</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Townships"</span>, <span class="at">y =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"EHSA classes (excluding 'no pattern detected')"</span>) <span class="sc">+</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex02_files/figure-html/ehsa-bar-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>ehsa_ts <span class="sc">%&gt;%</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">classification =</span> <span class="fu">if_else</span>(classification <span class="sc">==</span> <span class="st">"no pattern detected"</span>,</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="cn">NA_character_</span>, classification)) <span class="sc">%&gt;%</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_shape</span>() <span class="sc">+</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_polygons</span>(<span class="at">fill =</span> <span class="st">"classification"</span>,</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.scale =</span> <span class="fu">tm_scale_categorical</span>(<span class="at">values =</span> <span class="st">"brewer.set3"</span>,</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">value.na =</span> <span class="st">"grey92"</span>,</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>                                                <span class="at">label.na =</span> <span class="st">"No pattern detected"</span>),</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">fill.legend =</span> <span class="fu">tm_legend</span>(<span class="at">title =</span> <span class="st">"EHSA class (α = 0.05)"</span>),</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">col =</span> <span class="st">"grey60"</span>, <span class="at">lwd =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tm_title</span>(<span class="st">"Emerging hot spot analysis of armed conflict events, 2021-Q1 to 2025-Q3"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex02_files/figure-html/ehsa-map-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compact result tables for writing the commentary</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">"outputs"</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>lisa_events <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ST, TS, TS_PCODE, events, ii, p_ii_sim, lisa_class) <span class="sc">%&gt;%</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"outputs/lisa_events.csv"</span>)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>lisa_fatalities <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ST, TS, TS_PCODE, fatalities, ii, p_ii_sim, lisa_class) <span class="sc">%&gt;%</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"outputs/lisa_fatalities.csv"</span>)</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>gi_events <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ST, TS, TS_PCODE, events, gi_star, p_sim, hcsa) <span class="sc">%&gt;%</span></span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"outputs/gi_events.csv"</span>)</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>gi_fatalities <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ST, TS, TS_PCODE, fatalities, gi_star, p_sim, hcsa) <span class="sc">%&gt;%</span></span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"outputs/gi_fatalities.csv"</span>)</span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>ehsa_ts <span class="sc">%&gt;%</span> <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ST, DT, TS, TS_PCODE, tau, p_value, classification) <span class="sc">%&gt;%</span></span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"outputs/ehsa_events.csv"</span>)</span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(<span class="fu">select</span>(mk, ST, TS, TS_PCODE, tau, sl), <span class="st">"outputs/mk_events.csv"</span>)</span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>conflict_qtr <span class="sc">%&gt;%</span></span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(<span class="fu">st_drop_geometry</span>(<span class="fu">select</span>(mmr_ts, TS_PCODE, ST, TS)), <span class="at">by =</span> <span class="st">"TS_PCODE"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_csv</span>(<span class="st">"outputs/conflict_qtr.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

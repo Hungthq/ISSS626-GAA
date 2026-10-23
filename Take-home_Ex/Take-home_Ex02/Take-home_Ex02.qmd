@@ -531,8 +531,363 @@ mmr_ts %>%
 
 # 3.0 Spatial weights
 
+## Queen contiguity and the island problem
+
+Townships are areal units that share borders, so **queen contiguity** is the natural starting point: two townships are neighbours if they share any boundary point.
+
+```{r}
+#| label: nb-queen
+nb_queen <- st_contiguity(mmr_ts$geometry, queen = TRUE)
+summary(nb_queen)
+
+isolated <- which(card(nb_queen) == 0)
+mmr_ts %>% st_drop_geometry() %>% slice(isolated) %>% select(ST, DT, TS) %>% kable()
+```
+
+Some townships are islands with no land border, for example in the Andaman Sea and off the Rakhine and Mon coasts. With pure contiguity they have zero neighbours:
+
+- Their spatial lag is undefined, or zero under `allow_zero`.
+- Local Moran's I and Gi\* cannot be evaluated meaningfully for them.
+
+Rather than drop them, we give each isolated township its **single nearest township**, measured between points on each polygon's surface. We then symmetrise the list so that the link runs both ways. This keeps contiguity's meaning for every mainland township and adds the smallest possible change for the islands.
+
+```{r}
+#| label: nb-hybrid
+nb_knn1 <- st_knn(st_point_on_surface(mmr_ts$geometry), k = 1)
+
+nb_hybrid <- nb_queen
+for (i in isolated) nb_hybrid[[i]] <- nb_knn1[[i]]
+nb_hybrid <- make.sym.nb(nb_hybrid)
+class(nb_hybrid) <- c("nb", "list")
+
+stopifnot(all(card(nb_hybrid) > 0))
+summary(card(nb_hybrid))
+```
+
+Why not k-nearest neighbours for everyone? Myanmar's townships range from under 1 km² (urban Yangon) to over 12,000 km² (northern Kachin). A fixed *k* would force small urban townships to "borrow" neighbours several townships away and would cut true neighbours of large rural ones. A fixed distance band has the opposite problem. Contiguity respects the actual administrative geography in which armed actors operate.
+
+```{r}
+#| label: plot-nb
+#| fig-height: 8
+coords <- st_coordinates(st_point_on_surface(mmr_ts$geometry))
+plot(st_geometry(mmr_ts), border = "grey70", lwd = 0.4,
+     main = "Neighbour network: queen contiguity + nearest-neighbour links for islands")
+plot(nb_hybrid, coords, add = TRUE, col = "red", lwd = 0.5, cex = 0.3)
+plot(nb_queen, coords, add = TRUE, col = "grey30", lwd = 0.5, cex = 0.3)
+```
+
+## Weights for each statistic
+
+| Statistic | Neighbours | Weights | Reason |
+|------------------|------------------|------------------|------------------|
+| Local Moran's I | `nb_hybrid` (excludes self) | Row-standardised (`style = "W"`) | The spatial lag is the *average* of neighbours, so it is comparable across townships with different numbers of neighbours |
+| Gi\* (whole period and EHSA) | `include_self(nb_hybrid)` | Row-standardised | Gi\* must include the focal township itself |
+
+::: callout-warning
+## Land mine 4: `include_self()` + `st_inverse_distance()` drops the self weight
+
+`sfdep::st_inverse_distance()` computes 1/d for each neighbour pair. A township's distance to itself is 0, which gives an infinite weight, and `sfdep` **silently replaces infinite weights with 0**.
+
+The self-link added by `include_self()` therefore ends up with weight 0, so the resulting "Gi\*" is really Gi. We use row-standardised binary weights on the self-inclusive neighbour list instead. This is also what `emerging_hotspot_analysis()` uses by default.
+:::
+
+```{r}
+#| label: weights
+conflict_wm <- conflict_ts %>%
+  mutate(nb     = nb_hybrid,
+         wt     = st_weights(nb, style = "W"),
+         nb_s   = include_self(nb_hybrid),
+         wt_s   = st_weights(nb_s, style = "W"),
+         .before = 1)
+```
+
 # 4.0 Local Measures of Spatial Association
+
+## Global Moran's I (context)
+
+Before looking for *local* clusters, we test whether conflict is spatially autocorrelated *overall*.
+
+- **H₀:** conflict counts are randomly distributed across townships (spatial independence).
+- **H₁:** neighbouring townships have more similar conflict levels than chance would produce.
+
+We use a permutation test with 999 simulations and α = 0.05.
+
+```{r}
+#| label: global-moran
+set.seed(1234)
+gm <- map(c(events = "events", fatalities = "fatalities"),
+          ~ global_moran_perm(conflict_wm[[.x]], conflict_wm$nb,
+                              conflict_wm$wt, nsim = 999))
+map_dfr(gm, ~ tibble(moran_I = .x$statistic, p_value = .x$p.value),
+        .id = "variable") %>%
+  kable(digits = 3)
+```
+
+## Local Moran's I (clusters and outliers)
+
+```{r}
+#| label: lisa
+run_lisa <- function(data, var, nsim = 999) {
+  set.seed(1234)
+  data %>%
+    mutate(local_moran = local_moran(.data[[var]], nb, wt, nsim = nsim),
+           .before = 1) %>%
+    unnest(local_moran) %>%
+    mutate(lisa_class = if_else(p_ii_sim < 0.05, as.character(mean),
+                                "Insignificant"),
+           lisa_class = factor(lisa_class,
+                               levels = c("High-High", "Low-Low", "High-Low",
+                                          "Low-High", "Insignificant")))
+}
+
+lisa_events     <- run_lisa(conflict_wm, "events")
+lisa_fatalities <- run_lisa(conflict_wm, "fatalities")
+
+count(st_drop_geometry(lisa_events), lisa_class)
+```
+
+Two choices here need explaining.
+
+- **Significance uses the permutation p-value `p_ii_sim`, not the analytical `p_ii`.** The analytical p-value assumes approximate normality, which conflict counts clearly violate: they are highly skewed with many zeros. Conditional permutation makes no distributional assumption.
+- **Quadrant labels use the `mean` column**, matching the Moran scatterplot centred on the mean. With highly skewed counts, "Low" therefore means *below the national mean*. That includes many townships with moderate violence, so Low-Low areas should be read as "relatively calm", not "peaceful".
+
+```{r}
+#| label: lisa-map-fn
+lisa_palette <- c("High-High" = "#d7191c", "Low-Low" = "#2c7bb6",
+                  "High-Low" = "#fdae61", "Low-High" = "#abd9e9",
+                  "Insignificant" = "grey92")
+
+map_lisa <- function(lisa, title) {
+  tm_shape(lisa) +
+    tm_polygons(fill = "lisa_class",
+                fill.scale = tm_scale_categorical(values = lisa_palette),
+                fill.legend = tm_legend(title = "LISA (p < 0.05)",
+                                        position = tm_pos_in("left", "bottom")),
+                col = "grey60", lwd = 0.3) +
+    tm_title(title)
+}
+```
+
+```{r}
+#| label: lisa-maps
+#| fig-height: 8
+tmap_arrange(map_lisa(lisa_events, "LISA: armed conflict events"),
+             map_lisa(lisa_fatalities, "LISA: conflict fatalities"),
+             ncol = 2)
+```
+
+## Getis-Ord Gi\* (hot and cold spots)
+
+```{r}
+#| label: gistar
+run_gistar <- function(data, var, nsim = 999) {
+  set.seed(1234)
+  data %>%
+    mutate(gi = local_gstar_perm(.data[[var]], nb_s, wt_s, nsim = nsim),
+           .before = 1) %>%
+    unnest(gi) %>%
+    mutate(hcsa = case_when(p_sim < 0.05 & gi_star > 0 ~ "Hot spot",
+                            p_sim < 0.05 & gi_star < 0 ~ "Cold spot",
+                            TRUE ~ "Insignificant"),
+           hcsa = factor(hcsa, levels = c("Hot spot", "Cold spot", "Insignificant")))
+}
+
+gi_events     <- run_gistar(conflict_wm, "events")
+gi_fatalities <- run_gistar(conflict_wm, "fatalities")
+```
+
+```{r}
+#| label: gistar-maps
+#| fig-height: 8
+map_hcsa <- function(gi, title) {
+  tm_shape(gi) +
+    tm_polygons(fill = "hcsa",
+                fill.scale = tm_scale_categorical(
+                  values = c("Hot spot" = "#d7191c", "Cold spot" = "#2c7bb6",
+                             "Insignificant" = "grey92")),
+                fill.legend = tm_legend(title = "Gi* (p < 0.05)",
+                                        position = tm_pos_in("left", "bottom")),
+                col = "grey60", lwd = 0.3) +
+    tm_title(title)
+}
+tmap_arrange(map_hcsa(gi_events, "Hot/cold spots: events"),
+             map_hcsa(gi_fatalities, "Hot/cold spots: fatalities"),
+             ncol = 2)
+```
+
+## Multiple testing check
+
+330 local tests at α = 0.05 would produce about 16 "significant" townships by chance alone. As a robustness check, we report how many significant townships survive a Benjamini-Hochberg false-discovery-rate correction.
+
+```{r}
+#| label: fdr
+tibble(
+  statistic = c("Local Moran's I (events)", "Local Moran's I (fatalities)",
+                "Gi* (events)", "Gi* (fatalities)"),
+  p_lt_0.05 = c(sum(lisa_events$p_ii_sim < 0.05),
+                sum(lisa_fatalities$p_ii_sim < 0.05),
+                sum(gi_events$p_sim < 0.05),
+                sum(gi_fatalities$p_sim < 0.05)),
+  fdr_lt_0.05 = c(sum(p.adjust(lisa_events$p_ii_sim, "fdr") < 0.05),
+                  sum(p.adjust(lisa_fatalities$p_ii_sim, "fdr") < 0.05),
+                  sum(p.adjust(gi_events$p_sim, "fdr") < 0.05),
+                  sum(p.adjust(gi_fatalities$p_sim, "fdr") < 0.05))
+) %>% kable()
+```
 
 # 5.0 Emerging Hot Spot Analysis
 
-- 
+## Gi\* for every township in every quarter
+
+The neighbours and weights from the previous section are attached to the geometry context of the cube. `set_nbs()` and `set_wts()` then copy them to each of the 19 time slices. Rows must not be re-ordered after this step.
+
+```{r}
+#| label: cube-weights
+conflict_nb <- conflict_st %>%
+  activate("geometry") %>%
+  mutate(nb = include_self(nb_hybrid),
+         wt = st_weights(nb, style = "W"),
+         .before = 1) %>%
+  set_nbs("nb") %>%
+  set_wts("wt")
+```
+
+```{r}
+#| label: gi-by-quarter
+set.seed(1234)
+gi_stars <- conflict_nb %>%
+  group_by(t) %>%
+  mutate(gi_star = local_gstar_perm(events, nb, wt, nsim = 199)) %>%
+  tidyr::unnest(gi_star)
+```
+
+## Mann-Kendall trend test
+
+For each township, the 19 quarterly Gi\* values are tested for a monotonic trend.
+
+- **H₀:** no monotonic trend.
+- **H₁:** a monotonic trend is present.
+- τ \> 0 means the township is becoming *more* of a hot spot over time; τ \< 0 means it is cooling.
+
+```{r}
+#| label: mann-kendall
+mk <- gi_stars %>%
+  ungroup() %>%
+  group_by(TS_PCODE) %>%
+  summarise(mk = list(unclass(Kendall::MannKendall(gi_star)))) %>%
+  tidyr::unnest_wider(mk) %>%
+  left_join(st_drop_geometry(select(mmr_ts, TS_PCODE, ST, TS)), by = "TS_PCODE")
+
+mk %>%
+  filter(sl < 0.05) %>%
+  arrange(sl, desc(abs(tau))) %>%
+  select(ST, TS, tau, sl) %>%
+  head(10) %>%
+  kable(digits = 4)
+```
+
+```{r}
+#| label: mk-examples
+#| fig-height: 4
+top_up   <- mk %>% filter(sl < 0.05) %>% slice_max(tau, n = 3)
+top_down <- mk %>% filter(sl < 0.05) %>% slice_min(tau, n = 3)
+
+p <- gi_stars %>%
+  ungroup() %>%
+  filter(TS_PCODE %in% c(top_up$TS_PCODE, top_down$TS_PCODE)) %>%
+  left_join(st_drop_geometry(select(mmr_ts, TS_PCODE, TS)), by = "TS_PCODE") %>%
+  ggplot(aes(t, gi_star, colour = TS)) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  geom_line() +
+  labs(x = "Quarter (1 = 2021-Q1)", y = "Gi*",
+       title = "Gi* trajectories: strongest significant upward and downward trends") +
+  theme_minimal()
+ggplotly(p)
+```
+
+## EHSA classification
+
+`emerging_hotspot_analysis()` combines each township's quarterly Gi\* significance with its Mann-Kendall trend to assign one of ESRI's 17 categories. We pass our own neighbours and weights (`nb_col`, `wt_col`). We also set `threshold = 0.05`, because the function's **default is 0.01**, not the 0.05 required by this study.
+
+`k = 1` adds a one-quarter time lag to the Gi\* neighbourhood: each township–quarter is compared with its neighbours in the same quarter *and* the previous quarter.
+
+```{r}
+#| label: ehsa
+set.seed(1234)
+ehsa <- emerging_hotspot_analysis(x = conflict_nb,
+                                  .var = "events",
+                                  k = 1,
+                                  nsim = 199,
+                                  nb_col = "nb",
+                                  wt_col = "wt",
+                                  threshold = 0.05)
+
+ehsa_ts <- mmr_ts %>%
+  left_join(ehsa, by = join_by(TS_PCODE == location))
+
+count(ehsa, classification, sort = TRUE) %>% kable()
+```
+
+::: callout-important
+## What "significant" means in an EHSA map
+
+The `p_value` column returned by `emerging_hotspot_analysis()` is the **Mann-Kendall trend** p-value. It is *not* the Gi\* p-value.
+
+Filtering the map on `p_value < 0.05`, as in the course examples, would therefore remove **persistent** hot and cold spots. These are, by definition, areas that are significant almost every quarter **without** a significant trend, which makes them among the most important areas for peace-building.
+
+Every class other than *no pattern detected* already requires significant Gi\* values at α = 0.05. This report therefore maps all classes except *no pattern detected*.
+:::
+
+```{r}
+#| label: ehsa-bar
+#| fig-height: 4
+ehsa %>%
+  filter(classification != "no pattern detected") %>%
+  count(classification) %>%
+  ggplot(aes(n, fct_reorder(classification, n))) +
+  geom_col(fill = "#b2182b") +
+  labs(x = "Townships", y = NULL, title = "EHSA classes (excluding 'no pattern detected')") +
+  theme_minimal()
+```
+
+```{r}
+#| label: ehsa-map
+#| fig-height: 9
+ehsa_ts %>%
+  mutate(classification = if_else(classification == "no pattern detected",
+                                  NA_character_, classification)) %>%
+  tm_shape() +
+  tm_polygons(fill = "classification",
+              fill.scale = tm_scale_categorical(values = "brewer.set3",
+                                                value.na = "grey92",
+                                                label.na = "No pattern detected"),
+              fill.legend = tm_legend(title = "EHSA class (α = 0.05)"),
+              col = "grey60", lwd = 0.3) +
+  tm_title("Emerging hot spot analysis of armed conflict events, 2021-Q1 to 2025-Q3")
+```
+
+```{r}
+#| label: export-results
+#| code-fold: true
+# Compact result tables for writing the commentary
+dir.create("outputs", showWarnings = FALSE)
+lisa_events %>% st_drop_geometry() %>%
+  select(ST, TS, TS_PCODE, events, ii, p_ii_sim, lisa_class) %>%
+  write_csv("outputs/lisa_events.csv")
+lisa_fatalities %>% st_drop_geometry() %>%
+  select(ST, TS, TS_PCODE, fatalities, ii, p_ii_sim, lisa_class) %>%
+  write_csv("outputs/lisa_fatalities.csv")
+gi_events %>% st_drop_geometry() %>%
+  select(ST, TS, TS_PCODE, events, gi_star, p_sim, hcsa) %>%
+  write_csv("outputs/gi_events.csv")
+gi_fatalities %>% st_drop_geometry() %>%
+  select(ST, TS, TS_PCODE, fatalities, gi_star, p_sim, hcsa) %>%
+  write_csv("outputs/gi_fatalities.csv")
+ehsa_ts %>% st_drop_geometry() %>%
+  select(ST, DT, TS, TS_PCODE, tau, p_value, classification) %>%
+  write_csv("outputs/ehsa_events.csv")
+write_csv(select(mk, ST, TS, TS_PCODE, tau, sl), "outputs/mk_events.csv")
+conflict_qtr %>%
+  left_join(st_drop_geometry(select(mmr_ts, TS_PCODE, ST, TS)), by = "TS_PCODE") %>%
+  write_csv("outputs/conflict_qtr.csv")
+```
