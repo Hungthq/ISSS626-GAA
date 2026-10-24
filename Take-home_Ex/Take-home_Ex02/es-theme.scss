@@ -1,0 +1,48 @@
+/*-- scss:defaults --*/
+$body-bg: #fbfaf7;
+$body-color: #22252b;
+$link-color: #b2182b;
+$font-family-sans-serif: "Source Sans 3", "Helvetica Neue", Arial, "DejaVu Sans", sans-serif;
+$presentation-heading-font: "Source Serif 4", Georgia, serif;
+$presentation-heading-color: #1d2b3a;
+$presentation-font-size-root: 30px;
+$presentation-h2-font-size: 1.55em;
+
+/*-- scss:rules --*/
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@600;700&display=swap');
+
+.reveal h2 { border-bottom: 3px solid #b2182b; padding-bottom: .15em; margin-bottom: .45em; }
+.reveal .slide ul li { margin-bottom: .28em; }
+.reveal .small, .reveal .small li { font-size: .78em; }
+.reveal .tiny { font-size: .6em; color: #6b6f76; }
+
+.kpi-row { display: flex; gap: .6em; margin: .3em 0 .6em; }
+.kpi { flex: 1; background: #fff; border: 1px solid #e4e1da; border-top: 5px solid #b2182b;
+       border-radius: 6px; padding: .35em .5em; }
+.kpi .num { font-family: "Source Serif 4", Georgia, serif; font-size: 1.45em; font-weight: 700; color: #1d2b3a; line-height: 1.1; display: block; }
+.kpi .lab { font-size: .58em; color: #555; line-height: 1.25; display: block; }
+.kpi.blue { border-top-color: #2166ac; }
+
+.finding { background: #fff; border-left: 6px solid #b2182b; padding: .25em .6em; margin: .3em 0; border-radius: 4px; font-size: .78em; }
+.finding.blue { border-left-color: #2166ac; }
+.finding.amber { border-left-color: #e08214; }
+.finding b { color: #1d2b3a; }
+
+.takeaway { background: #1d2b3a; color: #fff; padding: .35em .7em; border-radius: 6px; font-size: .78em; margin-top: .4em; }
+.takeaway b { color: #fdbf6f; }
+
+.reveal table { font-size: .62em; }
+.reveal table th { background: #1d2b3a; color: #fff; }
+.reveal .slide-number { font-size: .5em; }
+.reveal .footer { font-size: .45em !important; color: #888; }
+
+.reveal .title-slide h1.title { font-size: 2.1em; color: #1d2b3a; }
+.reveal .title-slide .subtitle { font-size: 1.05em; color: #b2182b; }
+
+.pipeline { display: flex; gap: .4em; align-items: stretch; margin: .2em 0 .5em; }
+.pipeline .step { flex: 1; background: #fff; border: 1px solid #e4e1da; border-radius: 6px; padding: .35em .45em; font-size: .6em; }
+.pipeline .step .stephead { display:block; font-weight:700; margin: 0 0 .25em; font-size: 1.15em; color: #b2182b; font-family: "Source Sans 3", sans-serif; }
+.pipeline .arrow { align-self: center; color: #b2182b; font-size: 1.2em; }
+.pipeline > p { align-self: center; margin: 0; color: #b2182b; }
+
+.reveal { font-family: "Source Sans 3", "Helvetica Neue", Arial, "DejaVu Sans", sans-serif; }

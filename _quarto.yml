@@ -40,6 +40,8 @@ website:
             text: Take-home Exercise 01
           - href: Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html
             text: Take-home Exercise 02
+          - href: Take-home_Ex/Take-home_Ex02/Take-home_Ex02_ES.html
+            text: Take-home Exercise 02 Executive Summary 
           - href: Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html
             text: Take-home Exercise 03
       - text: "In-class Exercises"
