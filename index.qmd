@@ -48,7 +48,6 @@ format:
     code-copy: true
 ---
 
-
 # Welcome to ISSS626 Geospatial Analytics and Applications (AY2026-27AUG)
 
 This website contains the coursework by Hung Thai. It features a collection of projects, assignments, and notes from the class, complete with geospatial visualizations and analytical insights..

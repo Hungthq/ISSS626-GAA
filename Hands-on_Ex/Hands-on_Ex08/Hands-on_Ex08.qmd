@@ -60,7 +60,7 @@ In this exercise, we use below R package to do analysis.
 pacman::p_load(sf, tidyverse, MCI, tmap, ggstatsplot)
 ```
 
-# 2. Data preparation 
+# 2. Data preparation
 
 # 2.1 Importing geospatial data
 

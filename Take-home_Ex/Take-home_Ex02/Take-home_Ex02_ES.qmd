@@ -99,7 +99,7 @@ Since the February 2021 coup, Myanmar has slid from protest into nationwide civi
 ::::: columns
 ::: {.column width="52%"}
 | Dataset | Use |
-|------------------------------------|------------------------------------|
+|----|----|
 | **ACLED Myanmar**, Jan 2021 – Sep 2025 (CSV) | Geocoded conflict events with type, date, location precision, fatalities |
 | **MIMU township boundaries v9.4** (shapefile) | 330 polygons, re-projected to UTM 47N (EPSG:32647) |
 :::

@@ -34,7 +34,7 @@ This report uses township-level spatial and spatio-temporal statistics to show *
 ## 0.2 Analytical workflow
 
 | Stage | Purpose | Main tools |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | 1\. Data wrangling | Turn \~87k geocoded ACLED events into a clean township × quarter panel | `sf`, `tidyverse` |
 | 2\. Exploratory geovisualisation | Describe the raw distribution and trend of conflict | `tmap`, `ggplot2` |
 | 3\. Spatial weights | Define who is a "neighbour" of whom | `sfdep`, `spdep` |
@@ -44,14 +44,14 @@ This report uses township-level spatial and spatio-temporal statistics to show *
 ## 0.3 The Data
 
 | Dataset | Description | Format | Source |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | ACLED Myanmar, Jan 2021 – Sep 2025 | Geocoded political violence, demonstration and strategic-development events | CSV | [ACLED](https://acleddata.com/) (provided via eLearn) |
 | Myanmar Township Boundaries, MIMU v9.4 | 330 township (admin level 3) polygons | ESRI shapefile | [MIMU GeoNode](https://geonode.themimu.info/) |
 
 ## 0.3 Setting up the R environment
 
 | Package | Purpose in this exercise |
-|------------------------------------|------------------------------------|
+|----|----|
 | **sf** | Import, project, validate and spatially join vector data |
 | **sfdep** | Spatial weights, local Moran's I, Gi\*, space-time cube and EHSA |
 | **spdep** | Lower-level neighbour utilities (`card()`, `make.sym.nb()`) |
@@ -579,7 +579,7 @@ plot(nb_queen, coords, add = TRUE, col = "grey30", lwd = 0.5, cex = 0.3)
 ## Weights for each statistic
 
 | Statistic | Neighbours | Weights | Reason |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Local Moran's I | `nb_hybrid` (excludes self) | Row-standardised (`style = "W"`) | The spatial lag is the *average* of neighbours, so it is comparable across townships with different numbers of neighbours |
 | Gi\* (whole period and EHSA) | `include_self(nb_hybrid)` | Row-standardised | Gi\* must include the focal township itself |
 
