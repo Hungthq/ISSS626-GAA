@@ -1,0 +1,1106 @@
+---
+title: "Who Will Ride the New Lines?"
+subtitle: "Ridership and access for the Jurong Region Line and Cross Island Line"
+author: "Hung · ISSS626 Take-home Exercise 3 · Executive Summary"
+date: "2026-11-13"
+format:
+  revealjs:
+    theme: default
+    width: 1600
+    height: 900
+    margin: 0.06
+    slide-number: c/t
+    show-slide-number: all
+    hash: true
+    transition: none
+    embed-resources: false
+    footer: "[Technical Report](https://hungthai-isss-626-gaa.vercel.app/Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html) · Data: LTA DataMall, data.gov.sg, OpenStreetMap"
+    include-in-header:
+      text: |
+        <style>
+        :root {
+          --r-background-color: #fcfcfb;
+          --r-main-color: #0b0b0b;
+          --r-heading-color: #0d366b;
+          --r-link-color: #1c5cab;
+          --r-main-font: system-ui, -apple-system, "Segoe UI", sans-serif;
+          --r-heading-font: system-ui, -apple-system, "Segoe UI", sans-serif;
+          --r-main-font-size: 28px;
+          --r-heading-font-weight: 600;
+          --r-heading-text-transform: none;
+        }
+        .reveal-viewport { background-color: #fcfcfb; }
+        .reveal h2 { font-size: 1.45em; border-bottom: 3px solid #2a78d6; padding-bottom: 0.2em; margin-bottom: 0.6em; }
+        .reveal .slide-number, .reveal .footer { color: #898781; font-size: 0.5em; }
+        .reveal .kicker { color: #52514e; font-size: 0.72em; margin-bottom: 0.4em; }
+        .reveal .stat { border-left: 5px solid #2a78d6; padding: 0.15em 0 0.15em 0.6em; margin-bottom: 0.7em; }
+        .reveal .stat .value { display: block; font-size: 1.6em; font-weight: 700; color: #0d366b; line-height: 1.1; }
+        .reveal .stat .label { display: block; font-size: 0.62em; color: #52514e; }
+        .reveal .card { background: #f0efec; border-radius: 10px; padding: 0.55em 0.7em; font-size: 0.68em; height: 100%; }
+        .reveal .card .card-title { display: block; font-weight: 700; font-size: 1.15em; color: #0d366b; margin: 0 0 0.35em 0; }
+        .reveal .small { font-size: 0.68em; }
+        .reveal .muted { color: #52514e; }
+        .reveal table { font-size: 0.6em; }
+        .reveal .panel-tabset [role="tab"] { font-size: 0.48em; padding: 0.3em 0.55em; }
+        .reveal .panel-tabset .tab-content { margin-top: 0.2em; }
+        .reveal .tab-hint { font-size: 0.5em; color: #898781; margin-top: 0.8em; }
+        </style>
+execute:
+  echo: false
+  warning: false
+  message: false
+  freeze: auto
+---
+
+```{r}
+#| label: setup
+# Reads the outputs saved by Take-home_Ex03.qmd, so every number and chart here matches the technical report.
+pacman::p_load(sf, tmap, leaflet, scales, tidyverse)
+
+rds <- function(name) read_rds(file.path("data/rds", paste0(name, ".rds")))
+stations <- rds("stations")
+proposed <- rds("proposed")
+planning_areas <- rds("planning_areas")
+subzones <- rds("subzones")
+homes <- rds("homes")
+workplaces <- rds("workplaces")
+origins <- rds("origins")
+code_lookup <- rds("code_lookup")
+scenario_results <- rds("scenario_results")
+model_fits <- rds("model_fits")
+home_access <- rds("home_access")
+station_hourly <- rds("station_hourly")
+dist_mat <- rds("dist_mat")
+
+fmt_num <- function(x, digits = 0) label_comma(accuracy = 10^-digits)(x)
+fmt_pct <- function(x, digits = 1) label_percent(accuracy = 10^-digits)(x)
+
+blue <- "#2a78d6"
+aqua <- "#1baf7a"
+orange <- "#eb6834"
+red <- "#e34948"
+grey <- "#898781"
+ink <- "#0b0b0b"
+ink_secondary <- "#52514e"
+land <- "#f0efec"
+blue_ramp <- c("#cde2fb", "#86b6ef", "#3987e5", "#1c5cab", "#0d366b")
+
+theme_es <- function(base_size = 18) {
+  theme_minimal(base_size = base_size) +
+    theme(
+      text = element_text(color = ink_secondary),
+      axis.text = element_text(color = ink_secondary),
+      panel.grid.major = element_line(color = "#e1e0d9", linewidth = 0.3),
+      panel.grid.minor = element_blank(),
+      strip.text = element_text(color = ink, face = "bold", hjust = 0),
+      legend.position = "bottom",
+      legend.title = element_blank(),
+      plot.background = element_rect(fill = "#fcfcfb", color = NA)
+    )
+}
+
+map_base <- function() {
+  tm_shape(planning_areas) +
+    tm_polygons(fill = land, col = "#d9d8d0", lwd = 0.4)
+}
+map_legend <- function(title) {
+  tm_legend(title = title, position = tm_pos_out("right", "center"), frame = FALSE)
+}
+map_finish <- function() {
+  tm_scalebar(position = c("right", "bottom"), breaks = c(0, 5, 10), text.size = 0.6) +
+    tm_layout(frame = FALSE, inner.margins = c(0.02, 0.02, 0.02, 0.02), bg.color = "#fcfcfb", outer.bg.color = "#fcfcfb")
+}
+
+# Upgraded interchanges are labelled with their proposed-station names, which the station layer lacks
+host_names <- proposed |>
+  st_drop_geometry() |>
+  filter(proposed_type == "upgraded_interchange") |>
+  transmute(station_id = host_station, host_label = str_c(station_name, " (", station_id, ")"))
+label_of <- stations |>
+  st_drop_geometry() |>
+  left_join(host_names, by = "station_id") |>
+  transmute(station_id, label = coalesce(host_label, station_label)) |>
+  deframe()
+
+baseline <- stations |>
+  st_drop_geometry() |>
+  filter(in_baseline)
+observed <- baseline$avg_weekday_entries
+quiet_threshold <- quantile(observed[!baseline$is_lrt], 0.10)
+
+model_labels <- c(
+  M0 = "Distance only",
+  M1 = "+ station features",
+  M2 = "+ workplace floor area",
+  M3 = "+ activity"
+)
+best_model <- model_fits$best_model
+best_fit <- model_fits$fits[[best_model]]
+wape <- function(obs, pred) sum(abs(obs - pred)) / sum(obs)
+model_wape <- tibble(
+  model = names(model_fits$cv_predictions),
+  in_sample = map_dbl(model, \(m) wape(observed, model_fits$fits[[m]]$fitted)),
+  cv_wape = map_dbl(model, \(m) wape(observed, model_fits$cv_predictions[[m]]))
+)
+best_wape <- model_wape$cv_wape[model_wape$model == best_model]
+distance_wape <- model_wape$cv_wape[model_wape$model == "M0"]
+
+both <- scenario_results |>
+  filter(scenario == "both") |>
+  mutate(label = label_of[station_id])
+existing_run <- scenario_results |>
+  filter(scenario == "existing")
+
+new_stations <- both |>
+  filter(station_type == "new_alternative") |>
+  mutate(quiet = predicted < quiet_threshold)
+new_share <- sum(new_stations$predicted) / sum(both$predicted)
+top_new <- new_stations |> slice_max(predicted, n = 3)
+quiet_new <- new_stations |> filter(quiet) |> arrange(predicted)
+
+station_change <- existing_run |>
+  select(station_id, existing = predicted) |>
+  inner_join(both |> select(station_id, label, upgraded_by, both = predicted), by = "station_id") |>
+  mutate(change = both - existing, change_pct = change / existing)
+losers <- station_change |> slice_min(change, n = 3)
+interchange_change <- station_change |> filter(!is.na(upgraded_by))
+hougang <- interchange_change |> filter(station_id == "NE14")
+
+peak_share <- station_hourly |>
+  filter(DAY_TYPE == "WEEKDAY") |>
+  group_by(station_id) |>
+  summarise(
+    peak_share = max(avg_entries) / sum(avg_entries),
+    peak_hour = TIME_PER_HOUR[which.max(avg_entries)],
+    .groups = "drop"
+  )
+hougang_peak <- peak_share |> filter(station_id == "NE14")
+
+coverage_800 <- function(distance) sum(home_access$home_m2[distance <= 800]) / sum(home_access$home_m2)
+cov_before <- coverage_800(home_access$before_m)
+cov_after <- coverage_800(home_access$after_m)
+gainers <- sum(home_access$saving_m > 0)
+far_after <- home_access |>
+  group_by(subzone) |>
+  summarise(beyond_ha = sum(home_m2[after_m > 800]) / 1e4, .groups = "drop") |>
+  slice_max(beyond_ha, n = 3)
+```
+
+```{r}
+#| label: model-rerun
+# Re-applies the report's fitted model, for the two report charts whose inputs were not saved:
+# the interchange sensitivity run and the subzone catchment map.
+scenario_lines <- list(existing = character(0), both = c("JRL", "CRL"))
+
+scenario_destinations <- function(scenario, uplift = TRUE) {
+  added <- scenario_lines[[scenario]]
+  stations |>
+    st_drop_geometry() |>
+    filter(in_baseline | (station_type == "new_alternative" & line %in% added)) |>
+    mutate(n_lines = n_lines_base + as.integer(uplift & !is.na(upgrade_line) & upgrade_line %in% added))
+}
+
+theta <- best_fit$theta
+log_attraction <- function(dest) {
+  if (!"gamma_lines" %in% names(theta)) return(rep(0, nrow(dest)))
+  theta[["gamma_lines"]] * log(dest$n_lines) +
+    theta[["gamma_bus"]] * log1p(dest[[model_fits$bus_col]]) +
+    theta[["delta_lrt"]] * dest$is_lrt
+}
+demand <- origins$home_m2 +
+  (if ("log_w_floor" %in% names(theta)) exp(theta[["log_w_floor"]]) * origins$work_floor_m2 else 0) +
+  (if ("log_w_poi" %in% names(theta)) exp(theta[["log_w_poi"]]) * origins$poi_count else 0)
+
+run_scenario <- function(scenario, uplift = TRUE) {
+  dest <- scenario_destinations(scenario, uplift)
+  log_dist <- log(dist_mat[, dest$station_id])
+  kernel <- exp(-theta[["lambda"]] * log_dist + rep(log_attraction(dest), each = nrow(log_dist)))
+  shares <- kernel / rowSums(kernel)
+  dest$predicted <- best_fit$kappa * drop(crossprod(shares, demand))
+  list(dest = dest, shares = shares)
+}
+
+run_existing <- run_scenario("existing")
+run_both <- run_scenario("both")
+run_no_uplift <- run_scenario("both", uplift = FALSE)
+
+# The re-run must reproduce the report's saved predictions
+check <- run_both$dest |>
+  select(station_id, predicted) |>
+  inner_join(both |> select(station_id, saved = predicted), by = "station_id")
+stopifnot(max(abs(check$predicted - check$saved) / check$saved) < 1e-6)
+```
+
+## Contents
+
+::::: columns
+::: {.column width="55%"}
+1.  Research question
+2.  Study area and data
+3.  Analytical approach
+4.  How well the model works
+5.  Ridership at the new stations
+6.  Effects on existing stations
+:::
+
+::: {.column width="45%"}
+7.  Who gets closer to a station
+8.  Public-safety implications
+9.  Limitations
+10. Recommendations
+:::
+:::::
+
+::: tab-hint
+Slides with charts have tabs above the chart: click a tab to see more evidence from the technical report.
+:::
+
+## Research question
+
+:::::::: columns
+::: {.column width="58%"}
+Singapore is building the Jurong Region Line (24 stations) and Cross Island Line Phase 1 (12 stations). Before they open, planners need to know:
+
+- Which new stations will be busy, and which may be quiet?
+- Which existing stations will lose riders to them?
+- Which neighbourhoods get real walking access to rail?
+:::
+
+:::::: {.column width="42%"}
+::: stat
+[36]{.value}[proposed stations]{.label}
+:::
+
+::: stat
+[29]{.value}[new places to board]{.label}
+:::
+
+::: stat
+[7]{.value}[existing stations that gain a line]{.label}
+:::
+::::::
+::::::::
+
+## Study area and data
+
+:::::::: columns
+:::: {.column width="64%"}
+::: panel-tabset
+### Network
+
+```{r}
+#| label: network-map
+#| fig-width: 7.6
+#| fig-height: 4.3
+network_points <- bind_rows(
+  stations |>
+    filter(in_baseline) |>
+    transmute(group = "Existing station"),
+  proposed |>
+    transmute(
+      group = case_when(
+        proposed_type == "upgraded_interchange" ~ "Gains a new line",
+        line == "JRL" ~ "New: Jurong Region Line",
+        TRUE ~ "New: Cross Island Line Ph 1"
+      )
+    )
+) |>
+  mutate(group = factor(group, levels = c("Existing station", "New: Jurong Region Line", "New: Cross Island Line Ph 1", "Gains a new line"))) |>
+  arrange(group)
+
+ggplot() +
+  geom_sf(data = planning_areas, fill = land, color = "#d9d8d0", linewidth = 0.2) +
+  geom_sf(data = network_points, aes(color = group, shape = group, size = group)) +
+  scale_color_manual(values = c(grey, blue, aqua, orange)) +
+  scale_shape_manual(values = c(16, 16, 16, 18)) +
+  scale_size_manual(values = c(1.1, 2.6, 2.6, 4)) +
+  guides(color = guide_legend(nrow = 2)) +
+  coord_sf(datum = NA) +
+  theme_void(base_size = 15) +
+  theme(legend.position = "bottom", legend.title = element_blank(), plot.background = element_rect(fill = "#fcfcfb", color = NA))
+```
+
+### Where people live
+
+```{r}
+#| label: home-subzones
+#| fig-width: 7.6
+#| fig-height: 4.3
+home_subzones <- homes |>
+  st_drop_geometry() |>
+  group_by(subzone_id) |>
+  summarise(footprint_ha = sum(home_m2) / 1e4, .groups = "drop") |>
+  inner_join(x = subzones, by = "subzone_id")
+
+map_base() +
+  tm_shape(home_subzones) +
+  tm_polygons(
+    fill = "footprint_ha",
+    fill.scale = tm_scale_intervals(
+      breaks = c(0, 4, 7, 11, 16, Inf),
+      values = blue_ramp,
+      labels = c("Under 4", "4 to 7", "7 to 11", "11 to 16", "16 or more")
+    ),
+    fill.legend = map_legend("HDB footprint (ha)"),
+    col = "white",
+    lwd = 0.3
+  ) +
+  map_finish()
+```
+
+### Where people work
+
+```{r}
+#| label: workplaces-map
+#| fig-width: 7.6
+#| fig-height: 4.3
+grid_500 <- st_make_grid(st_union(planning_areas), cellsize = 500, square = TRUE) |>
+  st_sf(geometry = _) |>
+  mutate(cell_id = row_number())
+
+work_cells <- grid_500 |>
+  inner_join(
+    workplaces |>
+      st_drop_geometry() |>
+      transmute(cell_id = as.integer(str_remove(origin_id, "^W")), work_floor_m2) |>
+      filter(work_floor_m2 > 0),
+    by = "cell_id"
+  )
+
+map_base() +
+  tm_shape(work_cells) +
+  tm_polygons(
+    fill = "work_floor_m2",
+    fill.scale = tm_scale_intervals(
+      breaks = c(0, 3000, 8000, 15000, 30000, Inf),
+      values = blue_ramp,
+      labels = c("Under 3,000", "3,000 to 8,000", "8,000 to 15,000", "15,000 to 30,000", "30,000 or more")
+    ),
+    fill.legend = map_legend("Workplace floor (m²)"),
+    col = "white",
+    lwd = 0.2
+  ) +
+  map_finish()
+```
+
+### Homes vs workplaces
+
+```{r}
+#| label: demand-mix
+#| fig-width: 7.6
+#| fig-height: 4.3
+demand_mix <- bind_rows(
+  homes |>
+    st_drop_geometry() |>
+    group_by(planning_area) |>
+    summarise(value = sum(home_m2), .groups = "drop") |>
+    mutate(measure = "Residential footprint"),
+  workplaces |>
+    st_drop_geometry() |>
+    group_by(planning_area) |>
+    summarise(value = sum(work_floor_m2), .groups = "drop") |>
+    mutate(measure = "Workplace floor area")
+) |>
+  filter(!is.na(planning_area)) |>
+  group_by(measure) |>
+  mutate(share = value / sum(value)) |>
+  ungroup() |>
+  complete(planning_area, measure, fill = list(value = 0, share = 0))
+
+top_demand_areas <- demand_mix |>
+  group_by(planning_area) |>
+  summarise(largest_share = max(share), .groups = "drop") |>
+  slice_max(largest_share, n = 12) |>
+  pull(planning_area)
+
+demand_order <- demand_mix |>
+  filter(planning_area %in% top_demand_areas, measure == "Residential footprint") |>
+  arrange(share) |>
+  pull(planning_area)
+
+demand_mix |>
+  filter(planning_area %in% top_demand_areas) |>
+  mutate(planning_area = factor(planning_area, levels = demand_order)) |>
+  ggplot(aes(x = share, y = planning_area)) +
+  geom_line(aes(group = planning_area), color = "#c3c2b7", linewidth = 1.2) +
+  geom_point(aes(color = measure), size = 3.5) +
+  scale_color_manual(values = c("Residential footprint" = blue, "Workplace floor area" = orange)) +
+  scale_x_continuous(labels = label_percent()) +
+  labs(x = "Share of Singapore total", y = NULL) +
+  theme_es(15) +
+  theme(panel.grid.major.y = element_blank())
+```
+
+### Today's entries
+
+```{r}
+#| label: entries-map
+#| fig-width: 7.6
+#| fig-height: 4.3
+baseline_stations <- stations |>
+  filter(in_baseline) |>
+  mutate(label = label_of[station_id])
+
+map_base() +
+  tm_shape(baseline_stations) +
+  tm_symbols(
+    size = "avg_weekday_entries",
+    size.scale = tm_scale_continuous(values.scale = 1.4),
+    size.legend = map_legend("Weekday entries"),
+    fill = blue,
+    fill_alpha = 0.6,
+    col = "white",
+    lwd = 0.5
+  ) +
+  tm_shape(baseline_stations |> slice_max(avg_weekday_entries, n = 8)) +
+  tm_labels("label", size = 0.5, col = ink, bgcol = "white", bgcol_alpha = 0.75) +
+  map_finish()
+```
+:::
+::::
+
+::::: {.column width="36%"}
+::: small
+- Passenger volumes from LTA DataMall, Aug–Sep 2026: `r fmt_num(sum(observed))` entries on an average weekday at `r nrow(baseline)` open stations
+- Station and bus stop locations from LTA, Sep 2026
+- Future station coordinates from an open-source dataset
+- `r fmt_num(nrow(home_access))` HDB buildings from data.gov.sg
+- Subzones, workplaces, shops and schools from OpenStreetMap
+:::
+
+::: {.small .muted}
+Homes and workplaces sit in different places, so both are modelled as places where trips start.
+:::
+:::::
+::::::::
+
+## Analytical approach
+
+::: kicker
+A Huff model: riders at each place choose among stations by distance and attractiveness.
+:::
+
+::::::::: columns
+:::: {.column width="33%"}
+::: card
+[1. Where trips start]{.card-title}
+
+- `r fmt_num(nrow(home_access))` HDB buildings, weighted by footprint
+- Workplace and activity locations in 500 m cells
+:::
+::::
+
+:::: {.column width="33%"}
+::: card
+[2. What makes a station attractive]{.card-title}
+
+- Number of lines
+- MRT versus LRT-only
+- Bus stops within 400, 500 or 800 m, roughly 5- and 10-minute walks. The best-fitting radius is kept.
+:::
+::::
+
+:::: {.column width="33%"}
+::: card
+[3. Calibrate, test, apply]{.card-title}
+
+- Fit distance decay and attraction to observed entries
+- Test on five geographic groups of stations the model has not seen
+- Apply to four networks: today, +JRL, +CRL, both
+:::
+::::
+:::::::::
+
+::: {.small .muted}
+The model shares today's trips out among stations. It does not add riders from future housing or from people switching from buses and cars.
+:::
+
+## How well the model works
+
+:::::::: columns
+:::: {.column width="64%"}
+::: panel-tabset
+### Error by model
+
+```{r}
+#| label: model-ladder
+#| fig-width: 7.6
+#| fig-height: 4.1
+model_wape |>
+  mutate(label = factor(model_labels[model], levels = rev(model_labels))) |>
+  pivot_longer(c(in_sample, cv_wape), names_to = "measure", values_to = "wape") |>
+  mutate(measure = if_else(measure == "cv_wape", "Unseen stations", "Fitted stations")) |>
+  ggplot(aes(x = wape, y = label)) +
+  geom_line(aes(group = label), color = "#c3c2b7", linewidth = 1.2) +
+  geom_point(aes(color = measure), size = 4) +
+  scale_color_manual(values = c("Fitted stations" = "#86b6ef", "Unseen stations" = "#1c5cab")) +
+  scale_x_continuous(labels = label_percent(), limits = c(0, 1)) +
+  labs(x = "Weighted absolute percentage error (lower is better)", y = NULL) +
+  theme_es(16) +
+  theme(panel.grid.major.y = element_blank())
+```
+
+### Observed vs predicted
+
+```{r}
+#| label: observed-predicted
+#| fig-width: 7.6
+#| fig-height: 4.1
+map(names(model_labels), \(m) {
+  tibble(model = str_c(m, ": ", model_labels[[m]]), observed = observed, predicted = model_fits$cv_predictions[[m]])
+}) |>
+  list_rbind() |>
+  ggplot(aes(x = predicted, y = observed)) +
+  geom_abline(slope = 1, intercept = 0, color = "#c3c2b7", linewidth = 0.4) +
+  geom_point(color = blue, alpha = 0.6, size = 1.2) +
+  facet_wrap(~model, nrow = 2) +
+  scale_x_log10(labels = label_number(scale_cut = cut_short_scale()), breaks = c(1e3, 1e4, 1e5)) +
+  scale_y_log10(labels = label_number(scale_cut = cut_short_scale()), breaks = c(1e3, 1e4, 1e5)) +
+  labs(x = "Predicted entries (unseen stations)", y = "Observed entries") +
+  theme_es(12) +
+  theme(panel.spacing.x = unit(1.5, "lines"))
+```
+
+### Bias by type
+
+```{r}
+#| label: error-by-type
+#| fig-width: 7.6
+#| fig-height: 4.1
+error_by_type <- baseline |>
+  transmute(
+    station_type = case_when(is_lrt ~ "LRT only", n_lines_base >= 2 ~ "Interchange", TRUE ~ "Single-line MRT"),
+    station_type = factor(station_type, levels = c("Interchange", "Single-line MRT", "LRT only")),
+    percent_error = (model_fits$cv_predictions[[best_model]] - observed) / observed
+  )
+
+ggplot(error_by_type, aes(x = percent_error, y = station_type)) +
+  geom_vline(xintercept = 0, color = ink_secondary, linewidth = 0.4) +
+  geom_point(position = position_jitter(width = 0, height = 0.2, seed = 626), color = blue, alpha = 0.6, size = 2) +
+  geom_point(
+    data = error_by_type |> group_by(station_type) |> summarise(percent_error = median(percent_error), .groups = "drop"),
+    shape = "|", size = 10, color = ink
+  ) +
+  scale_x_continuous(labels = label_percent()) +
+  labs(x = "Error on unseen stations (right: over-predicted; bar: median)", y = NULL) +
+  theme_es(15) +
+  theme(panel.grid.major.y = element_blank())
+```
+
+### Stability
+
+```{r}
+#| label: fold-stability
+#| fig-width: 7.6
+#| fig-height: 4.1
+parameter_labels <- c(
+  lambda = "Distance decay",
+  gamma_lines = "Rail lines",
+  gamma_bus = "Bus stops",
+  delta_lrt = "LRT-only",
+  log_w_floor = "Workplace weight",
+  log_w_poi = "Activity weight"
+)
+
+model_fits$fold_parameters |>
+  filter(model == best_model) |>
+  mutate(parameter = factor(parameter_labels[parameter], levels = parameter_labels)) |>
+  ggplot(aes(x = value, y = 0)) +
+  geom_point(color = "#86b6ef", size = 3) +
+  geom_point(
+    data = tibble(parameter = factor(parameter_labels[names(theta)], levels = parameter_labels), value = unname(theta)),
+    shape = "|", size = 9, color = "#0d366b"
+  ) +
+  facet_wrap(~parameter, scales = "free_x", ncol = 3) +
+  scale_x_continuous(breaks = breaks_pretty(n = 3)) +
+  labs(x = "Estimate (bar: all stations; points: each test fold)", y = NULL) +
+  theme_es(13) +
+  theme(
+    axis.text.y = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.border = element_rect(fill = NA, color = "#e1e0d9"),
+    panel.spacing.x = unit(1.2, "lines")
+  )
+```
+
+### Distance decay
+
+```{r}
+#| label: decay
+#| fig-width: 7.6
+#| fig-height: 4.1
+tibble(distance_m = seq(100, 3000, by = 10)) |>
+  mutate(relative_pull = (distance_m / 100)^(-theta[["lambda"]])) |>
+  ggplot(aes(x = distance_m, y = relative_pull)) +
+  geom_line(color = blue, linewidth = 1) +
+  scale_x_continuous(labels = label_comma()) +
+  scale_y_continuous(labels = label_percent()) +
+  labs(x = "Straight-line distance to station (m)", y = "Pull relative to 100 m") +
+  theme_es(16)
+```
+
+### CBD vs neighbourhood
+
+```{r}
+#| label: profiles
+#| fig-width: 7.6
+#| fig-height: 4.1
+code_lookup |>
+  filter(code %in% c("EW14", "TE26")) |>
+  mutate(profile = if_else(code == "EW14", "Raffles Place (CBD)", "Marine Parade (neighbourhood)")) |>
+  inner_join(station_hourly, by = "station_id") |>
+  mutate(day_type = if_else(DAY_TYPE == "WEEKDAY", "Weekday", "Weekend or holiday")) |>
+  ggplot(aes(x = TIME_PER_HOUR, y = avg_entries, color = day_type)) +
+  geom_line(linewidth = 1) +
+  facet_wrap(~profile, scales = "free_y") +
+  scale_color_manual(values = c("Weekday" = blue, "Weekend or holiday" = orange)) +
+  scale_x_continuous(breaks = seq(0, 24, 6)) +
+  scale_y_continuous(labels = label_comma()) +
+  labs(x = "Hour of entry", y = "Entries per day") +
+  theme_es(14)
+```
+:::
+::::
+
+::::: {.column width="36%"}
+::: stat
+[`r fmt_pct(best_wape)`]{.value}[error on stations the model has not seen, against `r fmt_pct(distance_wape)` using distance alone]{.label}
+:::
+
+::: small
+- Knowing where people work matters as much as knowing where they live.
+- The model is weakest in the city centre. Raffles Place peaks at the evening commute, and many of its riders come from outside the modelled demand.
+- Distance decay barely moves across the test folds. Bus stops add little.
+:::
+:::::
+::::::::
+
+## Ridership at the new stations
+
+:::::::: columns
+:::: {.column width="64%"}
+::: panel-tabset
+### Predicted entries
+
+```{r}
+#| label: new-stations-chart
+#| fig-width: 7.6
+#| fig-height: 4.6
+new_stations |>
+  mutate(
+    station_label = fct_reorder(station_label, predicted),
+    line = if_else(line == "JRL", "Jurong Region Line", "Cross Island Line Ph 1")
+  ) |>
+  ggplot(aes(x = predicted, y = station_label, fill = line)) +
+  geom_col(width = 0.72) +
+  geom_vline(xintercept = quiet_threshold, color = ink_secondary, linewidth = 0.5) +
+  annotate("text", x = quiet_threshold, y = 1, label = " Quiet threshold", hjust = 0, size = 3.4, color = ink_secondary) +
+  scale_fill_manual(values = c("Jurong Region Line" = blue, "Cross Island Line Ph 1" = aqua)) +
+  scale_x_continuous(labels = label_comma(), expand = expansion(mult = c(0, 0.06))) +
+  labs(x = "Predicted weekday entries (both lines open)", y = NULL) +
+  theme_es(14) +
+  theme(axis.text.y = element_text(size = 8), panel.grid.major.y = element_blank())
+```
+
+### Distance to existing
+
+```{r}
+#| label: gap
+#| fig-width: 7.6
+#| fig-height: 4.6
+# 36 names do not fit on a slide: the co-located stations are listed in one note,
+# and only the two most isolated stations are labelled
+gap_data <- proposed |>
+  st_drop_geometry() |>
+  mutate(
+    type = if_else(proposed_type == "new_alternative", "New station", "Gains a new line"),
+    rank = rank(gap_m, ties.method = "first")
+  )
+
+co_located <- gap_data |>
+  filter(proposed_type == "upgraded_interchange") |>
+  arrange(gap_m)
+co_located_note <- str_c(
+  nrow(co_located), " stations within ", round(max(co_located$gap_m)), " m:\n",
+  str_c(str_wrap(str_c(co_located$station_name, collapse = ", "), 34), collapse = "\n")
+)
+
+ggplot(gap_data, aes(x = gap_m, y = rank, color = type)) +
+  geom_vline(xintercept = 100, color = ink_secondary, linewidth = 0.4) +
+  geom_point(size = 2.6) +
+  geom_text(
+    data = slice_max(gap_data, gap_m, n = 2),
+    aes(label = station_name),
+    hjust = 1.15, size = 3.3, color = ink_secondary, show.legend = FALSE
+  ) +
+  annotate("text", x = 1550, y = 1, label = co_located_note, hjust = 0, vjust = 0, size = 3.3, color = orange, lineheight = 0.95) +
+  annotate("text", x = 130, y = 20, label = "100 m threshold", hjust = 0, size = 3.4, color = ink_secondary) +
+  scale_color_manual(values = c("New station" = blue, "Gains a new line" = orange)) +
+  scale_x_continuous(labels = label_comma(), expand = expansion(mult = c(0.02, 0.18))) +
+  labs(x = "Distance to nearest existing station (m)", y = "Proposed stations, ranked") +
+  theme_es(15) +
+  theme(axis.text.y = element_blank(), panel.grid.major.y = element_blank())
+```
+
+### Bus stops nearby
+
+```{r}
+#| label: bus
+#| fig-width: 7.6
+#| fig-height: 4.6
+bus_data <- stations |>
+  st_drop_geometry() |>
+  filter(in_baseline | station_type == "new_alternative") |>
+  mutate(
+    group = case_when(
+      station_type == "new_alternative" ~ "New station",
+      !is.na(upgraded_by) ~ "Gains a new line",
+      TRUE ~ "Other existing"
+    ),
+    group = factor(group, levels = c("New station", "Gains a new line", "Other existing"))
+  ) |>
+  select(group, `400 m` = bus_400, `500 m` = bus_500, `800 m` = bus_800) |>
+  pivot_longer(-group, names_to = "radius", values_to = "bus_stops")
+
+ggplot(bus_data, aes(x = bus_stops, y = group, color = group)) +
+  geom_point(position = position_jitter(width = 0, height = 0.2, seed = 626), size = 1.8, alpha = 0.6) +
+  geom_point(
+    data = bus_data |> group_by(group, radius) |> summarise(bus_stops = median(bus_stops), .groups = "drop"),
+    shape = "|", size = 9, color = ink
+  ) +
+  facet_wrap(~radius, scales = "free_x") +
+  scale_color_manual(values = c("New station" = blue, "Gains a new line" = orange, "Other existing" = grey)) +
+  labs(x = "Bus stops within each radius (bar: median)", y = NULL) +
+  theme_es(14) +
+  theme(legend.position = "none", panel.grid.major.y = element_blank())
+```
+:::
+::::
+
+::::: {.column width="36%"}
+::: stat
+[`r fmt_pct(new_share)`]{.value}[of weekday entries move to the 29 new stations]{.label}
+:::
+
+::: small
+- The busiest are `r str_c(top_new$station_label, collapse = ", ")`, all on the CRL and next to large HDB estates.
+- `r str_c(quiet_new$station_label, collapse = " and ")` may be quiet, with under `r fmt_num(quiet_threshold, -2)` entries a day. That is the level of the quietest tenth of today's MRT stations.
+- New stations have fewer bus stops nearby today. Feeder routes usually follow a new line.
+:::
+:::::
+::::::::
+
+## Effects on existing stations
+
+::::::: columns
+:::: {.column width="64%"}
+::: panel-tabset
+### Biggest changes
+
+```{r}
+#| label: change-chart
+#| fig-width: 7.6
+#| fig-height: 4.3
+bind_rows(
+  station_change |> slice_min(change, n = 8),
+  station_change |> slice_max(change, n = 4)
+) |>
+  distinct(station_id, .keep_all = TRUE) |>
+  mutate(label = fct_reorder(label, change)) |>
+  ggplot(aes(x = change, y = label, fill = change > 0)) +
+  geom_col(width = 0.7) +
+  geom_vline(xintercept = 0, color = ink_secondary, linewidth = 0.4) +
+  scale_fill_manual(values = c(`TRUE` = blue, `FALSE` = red), guide = "none") +
+  scale_x_continuous(labels = label_comma()) +
+  labs(x = "Change in predicted weekday entries", y = NULL) +
+  theme_es() +
+  theme(axis.text.y = element_text(size = 12), panel.grid.major.y = element_blank())
+```
+
+### Biggest losses
+
+```{r}
+#| label: losses
+#| fig-width: 7.6
+#| fig-height: 4.3
+station_change |>
+  slice_min(change, n = 10) |>
+  mutate(label = fct_reorder(label, change, .desc = TRUE)) |>
+  ggplot(aes(x = -change, y = label)) +
+  geom_col(fill = red, width = 0.7) +
+  geom_text(aes(label = fmt_pct(change_pct)), hjust = -0.15, size = 4, color = ink_secondary) +
+  scale_x_continuous(labels = label_comma(), expand = expansion(mult = c(0, 0.18))) +
+  labs(x = "Weekday entries lost (label: % change)", y = NULL) +
+  theme_es() +
+  theme(axis.text.y = element_text(size = 12), panel.grid.major.y = element_blank())
+```
+
+### By line
+
+```{r}
+#| label: line-impact
+#| fig-width: 7.6
+#| fig-height: 4.3
+line_of <- function(code) {
+  prefix <- str_extract(code, "^[A-Z]+")
+  merged <- c(CG = "EW", CE = "CC", BP = "BPLRT", SE = "SLRT", SW = "SLRT", STC = "SLRT", PE = "PLRT", PW = "PLRT", PTC = "PLRT")
+  coalesce(unname(merged[prefix]), prefix)
+}
+line_names <- c(
+  NS = "North-South", EW = "East-West", NE = "North East", CC = "Circle", DT = "Downtown",
+  TE = "Thomson-East Coast", BPLRT = "Bukit Panjang LRT", SLRT = "Sengkang LRT", PLRT = "Punggol LRT"
+)
+
+line_impact <- station_change |>
+  inner_join(
+    code_lookup |>
+      mutate(line = line_of(code)) |>
+      distinct(station_id, line) |>
+      group_by(station_id) |>
+      mutate(weight = 1 / n()) |>
+      ungroup(),
+    by = "station_id",
+    relationship = "many-to-many"
+  ) |>
+  group_by(line) |>
+  summarise(net_change = sum(change * weight), .groups = "drop") |>
+  mutate(line_name = fct_reorder(line_names[line], net_change, .desc = TRUE))
+
+ggplot(line_impact, aes(x = net_change, y = line_name)) +
+  geom_col(fill = if_else(line_impact$net_change < 0, red, blue), width = 0.7) +
+  geom_vline(xintercept = 0, color = ink_secondary, linewidth = 0.4) +
+  scale_x_continuous(labels = label_comma()) +
+  labs(x = "Net change in predicted weekday entries", y = NULL) +
+  theme_es() +
+  theme(panel.grid.major.y = element_blank())
+```
+
+### Interchange uplift
+
+```{r}
+#| label: uplift
+#| fig-width: 7.6
+#| fig-height: 4.3
+run_both$dest |>
+  filter(!is.na(upgraded_by)) |>
+  select(station_id, with_uplift = predicted) |>
+  inner_join(run_no_uplift$dest |> select(station_id, without_uplift = predicted), by = "station_id") |>
+  mutate(label = fct_reorder(label_of[station_id], with_uplift)) |>
+  ggplot(aes(y = label)) +
+  geom_segment(aes(x = without_uplift, xend = with_uplift, yend = label), color = "#c3c2b7", linewidth = 1.4) +
+  geom_point(aes(x = without_uplift, color = "Without extra line"), size = 4) +
+  geom_point(aes(x = with_uplift, color = "With extra line"), size = 4) +
+  scale_color_manual(values = c("Without extra line" = "#86b6ef", "With extra line" = "#1c5cab")) +
+  scale_x_continuous(labels = label_comma()) +
+  labs(x = "Predicted weekday entries, both lines open", y = NULL) +
+  theme_es() +
+  theme(axis.text.y = element_text(size = 13), panel.grid.major.y = element_blank())
+```
+
+### Catchment map
+
+```{r}
+#| label: catchment-map
+home_rows <- origins$origin_type == "home"
+preferred_station <- function(run) {
+  by_subzone <- rowsum(run$shares[home_rows, ] * origins$home_m2[home_rows], origins$subzone_id[home_rows])
+  tibble(subzone_id = rownames(by_subzone), station_id = colnames(run$shares)[max.col(by_subzone, ties.method = "first")])
+}
+
+catchment_map <- preferred_station(run_existing) |>
+  rename(before = station_id) |>
+  inner_join(preferred_station(run_both) |> rename(after = station_id), by = "subzone_id") |>
+  mutate(changed = before != after) |>
+  inner_join(x = subzones, by = "subzone_id") |>
+  st_transform(4326)
+
+leaflet(catchment_map, width = "100%", height = 400) |>
+  addProviderTiles(providers$Esri.WorldGrayCanvas) |>
+  addPolygons(
+    fillColor = if_else(catchment_map$changed, blue, "#d9d8d0"),
+    fillOpacity = 0.7,
+    color = "white",
+    weight = 0.6,
+    label = str_c(catchment_map$subzone, ": ", label_of[catchment_map$before], " → ", label_of[catchment_map$after])
+  ) |>
+  addLegend(colors = c(blue, "#d9d8d0"), labels = c("Preferred station changes", "No change"), position = "bottomright")
+```
+:::
+::::
+
+:::: {.column width="36%"}
+::: small
+- The biggest losses are at `r str_c(losers$label, collapse = ", ")`. Most losing stations sit on the western East–West Line, next to the JRL.
+- Stations that gain a CRL platform gain the most, led by Hougang (+`r fmt_pct(hougang$change_pct, 0)`).
+- The Interchange uplift tab shows how much of that gain rests on one assumption: that an extra line attracts riders.
+- The Catchment map shows which subzones switch their preferred station. Hover over a subzone for details.
+:::
+::::
+:::::::
+
+## Who gets closer to a station
+
+:::::::: columns
+:::: {.column width="64%"}
+::: panel-tabset
+### By planning area
+
+```{r}
+#| label: coverage-chart
+#| fig-width: 7.6
+#| fig-height: 4.3
+home_access |>
+  group_by(planning_area) |>
+  summarise(
+    before = sum(home_m2[before_m <= 800]) / sum(home_m2),
+    after = sum(home_m2[after_m <= 800]) / sum(home_m2),
+    .groups = "drop"
+  ) |>
+  filter(after - before > 0.005) |>
+  mutate(planning_area = fct_reorder(planning_area, after - before)) |>
+  ggplot(aes(y = planning_area)) +
+  geom_segment(aes(x = before, xend = after, yend = planning_area), color = "#c3c2b7", linewidth = 1.4) +
+  geom_point(aes(x = before, color = "Today"), size = 4) +
+  geom_point(aes(x = after, color = "Both lines open"), size = 4) +
+  scale_color_manual(values = c("Today" = grey, "Both lines open" = blue), breaks = c("Today", "Both lines open")) +
+  scale_x_continuous(labels = label_percent(), limits = c(0, 1)) +
+  labs(x = "HDB footprint within 800 m of a station", y = NULL) +
+  theme_es() +
+  theme(panel.grid.major.y = element_blank())
+```
+
+### Distance curves
+
+```{r}
+#| label: nearest-ecdf
+#| fig-width: 7.6
+#| fig-height: 4.3
+home_access |>
+  select(before_m, after_m) |>
+  pivot_longer(everything(), names_to = "scenario", values_to = "nearest_m") |>
+  mutate(scenario = if_else(scenario == "before_m", "Today", "Both lines open")) |>
+  ggplot(aes(x = nearest_m, color = scenario)) +
+  geom_vline(xintercept = c(400, 800, 1200), color = "#c3c2b7", linewidth = 0.4) +
+  stat_ecdf(linewidth = 1, pad = FALSE) +
+  scale_color_manual(values = c("Today" = grey, "Both lines open" = blue), breaks = c("Today", "Both lines open")) +
+  scale_x_continuous(labels = label_comma(), breaks = seq(0, 2000, 400)) +
+  scale_y_continuous(labels = label_percent()) +
+  coord_cartesian(xlim = c(0, 2000)) +
+  labs(x = "Straight-line distance to nearest station (m)", y = "Share of HDB blocks") +
+  theme_es(16)
+```
+
+### Saving by line
+
+```{r}
+#| label: saving-by-line
+#| fig-width: 7.6
+#| fig-height: 4.3
+both_ids <- run_both$dest$station_id
+home_dist <- dist_mat[home_access$origin_id, both_ids]
+new_nearest <- both_ids[max.col(-home_dist, ties.method = "first")]
+
+home_access |>
+  mutate(new_nearest = new_nearest) |>
+  filter(saving_m > 0) |>
+  left_join(st_drop_geometry(stations) |> select(station_id, line), by = c(new_nearest = "station_id")) |>
+  mutate(line = if_else(line == "JRL", "Jurong Region Line", "Cross Island Line Phase 1")) |>
+  ggplot(aes(x = saving_m, fill = line)) +
+  geom_histogram(binwidth = 100, boundary = 0, color = "white", linewidth = 0.3) +
+  facet_wrap(~line, ncol = 1) +
+  scale_fill_manual(values = c("Jurong Region Line" = blue, "Cross Island Line Phase 1" = aqua)) +
+  scale_x_continuous(labels = label_comma(), breaks = seq(0, 3000, 500)) +
+  labs(x = "Distance saved to the nearest station (m)", y = "HDB blocks") +
+  theme_es(14) +
+  theme(legend.position = "none")
+```
+
+### Saving map
+
+```{r}
+#| label: saving-map
+#| fig-width: 7.6
+#| fig-height: 4.3
+subzone_saving <- home_access |>
+  group_by(subzone_id) |>
+  summarise(mean_saving_m = weighted.mean(saving_m, home_m2), .groups = "drop") |>
+  inner_join(x = subzones, by = "subzone_id")
+
+map_base() +
+  tm_shape(subzone_saving) +
+  tm_polygons(
+    fill = "mean_saving_m",
+    fill.scale = tm_scale_intervals(
+      breaks = c(0, 1, 50, 200, 500, Inf),
+      values = c("#ffffff", blue_ramp[2:5]),
+      labels = c("No change", "1 to 50", "50 to 200", "200 to 500", "Over 500")
+    ),
+    fill.legend = map_legend("Average saving (m)"),
+    col = "#d9d8d0",
+    lwd = 0.3
+  ) +
+  map_finish()
+```
+:::
+::::
+
+::::: {.column width="36%"}
+::: stat
+[`r fmt_pct(cov_before, 0)` → `r fmt_pct(cov_after, 0)`]{.value}[of HDB footprint within 800 m of a station]{.label}
+:::
+
+::: small
+- `r fmt_num(gainers)` HDB blocks get closer to a station, mostly along the two new lines.
+- Tengah gains most, going from almost no housing within 800 m of a station to most of it.
+- Still far from rail: `r str_c(far_after$subzone, collapse = ", ")`.
+:::
+:::::
+::::::::
+
+## Public-safety implications
+
+::::::::: columns
+:::: {.column width="33%"}
+::: card
+[Crowding at new interchanges]{.card-title}
+
+Hougang's predicted weekday entries rise from `r fmt_num(hougang$existing, -2)` to `r fmt_num(hougang$both, -2)`. At today's peak share, its busiest hour (`r sprintf("%02d:00", hougang_peak$peak_hour)`) would see about `r fmt_num(hougang$both * hougang_peak$peak_share, -2)` entries, before counting riders changing lines. Platform and concourse capacity should be checked against this.
+:::
+::::
+
+:::: {.column width="33%"}
+::: card
+[Quiet stations]{.card-title}
+
+`r str_c(quiet_new$station_label, collapse = " and ")` are predicted to see few riders. Low footfall means fewer people around at off-peak hours, so lighting, CCTV coverage and staffing need attention from the start.
+:::
+::::
+
+:::: {.column width="33%"}
+::: card
+[Walking access and disruption]{.card-title}
+
+Estates that remain beyond 800 m, such as `r str_c(far_after$subzone[1:2], collapse = " and ")`, rely on long walks or feeder buses. Safe crossings on walking routes, and bus bridging plans for rail disruptions, matter most there.
+:::
+::::
+:::::::::
+
+## Limitations
+
+- The total number of trips is fixed. The model moves today's trips between stations, so it cannot add riders from new housing such as Tengah, or from people leaving buses and cars.
+- Distances are straight lines. Real walks are longer, and expressways, rivers and fences can make a nearby station hard to reach.
+- Homes are weighted by HDB building footprint, not by residents, and workplaces come from OpenStreetMap, whose coverage varies.
+- Only entries are modelled. Transfers inside the network are not, so crowding at interchanges is understated.
+- With no age data, effects on older residents could not be tested.
+- City-centre stations are under-predicted, because many of their riders come from outside the modelled demand.
+
+## Recommendations
+
+1.  Gather local evidence on future housing and jobs for the quiet stations (`r str_c(quiet_new$station_label, collapse = ", ")`) before fixing service levels and opening dates.
+2.  Review feeder buses around the stations that lose riders (`r str_c(losers$label, collapse = ", ")`), so routes follow riders to the new lines.
+3.  Check capacity and safety at the new interchanges, starting with Hougang, using transfer counts as well as entries.
+4.  Improve walking routes and feeder links for estates that stay beyond 800 m of a station, such as `r str_c(far_after$subzone, collapse = ", ")`.
+
+::: {.small .muted}
+Full method, data checks and code: [technical report](Take-home_Ex03.html).
+:::

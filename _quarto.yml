@@ -44,6 +44,8 @@ website:
             text: Take-home Exercise 02 Executive Summary 
           - href: Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html
             text: Take-home Exercise 03
+          - href: Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html
+            text: Take-home Exercise 03 Executive Summary
       - text: "In-class Exercises"
         menu:
           - href: In-class_Ex/In-class_Ex04/In-class_Ex04.html
