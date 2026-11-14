@@ -1,7 +1,7 @@
 ---
-title: "Who Will Ride the New Lines?"
+title: "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary"
 subtitle: "Ridership and access for the Jurong Region Line and Cross Island Line"
-author: "Hung · ISSS626 Take-home Exercise 3 · Executive Summary"
+author: "Hung Thai"
 date: "2026-11-13"
 format:
   revealjs:

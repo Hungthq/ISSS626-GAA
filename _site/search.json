@@ -1787,77 +1787,77 @@
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#contents",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#contents",
-    "title": "Who Will Ride the New Lines?",
-    "section": "",
-    "text": "Research question\nStudy area and data\nAnalytical approach\nHow well the model works\nRidership at the new stations\nEffects on existing stations\n\n\n\nWho gets closer to a station\nPublic-safety implications\nLimitations\nRecommendations\n\n\n\n\nSlides with charts have tabs above the chart: click a tab to see more evidence from the technical report."
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
+    "section": "Contents",
+    "text": "Contents\n\n\n\nResearch question\nStudy area and data\nAnalytical approach\nHow well the model works\nRidership at the new stations\nEffects on existing stations\n\n\n\nWho gets closer to a station\nPublic-safety implications\nLimitations\nRecommendations\n\n\n\nSlides with charts have tabs above the chart: click a tab to see more evidence from the technical report."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#research-question",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#research-question",
-    "title": "Who Will Ride the New Lines?",
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
     "section": "Research question",
     "text": "Research question\n\n\nSingapore is building the Jurong Region Line (24 stations) and Cross Island Line Phase 1 (12 stations). Before they open, planners need to know:\n\nWhich new stations will be busy, and which may be quiet?\nWhich existing stations will lose riders to them?\nWhich neighbourhoods get real walking access to rail?\n\n\n\n36proposed stations\n\n\n29new places to board\n\n\n7existing stations that gain a line"
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#study-area-and-data",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#study-area-and-data",
-    "title": "Who Will Ride the New Lines?",
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
     "section": "Study area and data",
     "text": "Study area and data\n\n\n\nNetworkWhere people liveWhere people workHomes vs workplacesToday’s entries\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPassenger volumes from LTA DataMall, Aug–Sep 2026: 3,086,450 entries on an average weekday at 184 open stations\nStation and bus stop locations from LTA, Sep 2026\nFuture station coordinates from an open-source dataset\n13,436 HDB buildings from data.gov.sg\nSubzones, workplaces, shops and schools from OpenStreetMap\n\n\n\nHomes and workplaces sit in different places, so both are modelled as places where trips start."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#analytical-approach",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#analytical-approach",
-    "title": "Who Will Ride the New Lines?",
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
     "section": "Analytical approach",
-    "text": "Analytical approach\n\nA Huff model: riders at each place choose among stations by distance and attractiveness.\n\n\n\n\n1. Where trips start\n\n13,436 HDB buildings, weighted by footprint\nWorkplace and activity locations in 500 m cells\n\n\n\n\n2. What makes a station attractive\n\nNumber of lines\nMRT versus LRT-only\nBus stops within 400, 500 or 800 m, roughly 5- and 10-minute walks. The best-fitting radius is kept.\n\n\n\n\n3. Calibrate, test, apply\n\nFit distance decay and attraction to observed entries\nTest on five geographic groups of stations the model has not seen\nApply to four networks: today, +JRL, +CRL, both\n\n\n\n\n\nThe model shares today’s trips out among stations. It does not add riders from future housing or from people switching from buses and cars."
+    "text": "Analytical approach\n\nA Huff model: riders at each place choose among stations by distance and attractiveness.\n\n\n\n\n1. Where trips start\n\n13,436 HDB buildings, weighted by footprint\nWorkplace and activity locations in 500 m cells\n\n\n\n\n2. What makes a station attractive\n\nNumber of lines\nMRT versus LRT-only\nBus stops within 400, 500 or 800 m, roughly 5- and 10-minute walks. The best-fitting radius is kept.\n\n\n\n\n3. Calibrate, test, apply\n\nFit distance decay and attraction to observed entries\nTest on five geographic groups of stations the model has not seen\nApply to four networks: today, +JRL, +CRL, both\n\n\n\n\nThe model shares today’s trips out among stations. It does not add riders from future housing or from people switching from buses and cars."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#how-well-the-model-works",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#how-well-the-model-works",
-    "title": "Who Will Ride the New Lines?",
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
     "section": "How well the model works",
     "text": "How well the model works\n\n\n\nError by modelObserved vs predictedBias by typeStabilityDistance decayCBD vs neighbourhood\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n38.2%error on stations the model has not seen, against 80.7% using distance alone\n\n\n\nKnowing where people work matters as much as knowing where they live.\nThe model is weakest in the city centre. Raffles Place peaks at the evening commute, and many of its riders come from outside the modelled demand.\nDistance decay barely moves across the test folds. Bus stops add little."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#ridership-at-the-new-stations",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#ridership-at-the-new-stations",
-    "title": "Who Will Ride the New Lines?",
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
     "section": "Ridership at the new stations",
     "text": "Ridership at the new stations\n\n\n\nPredicted entriesDistance to existingBus stops nearby\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n9.0%of weekday entries move to the 29 new stations\n\n\n\nThe busiest are Serangoon North (CR9), Tampines North (CR6), Pasir Ris East (CR4), all on the CRL and next to large HDB estates.\nNanyang Gateway (JW3) and Tengah (JS3) may be quiet, with under 4,800 entries a day. That is the level of the quietest tenth of today’s MRT stations.\nNew stations have fewer bus stops nearby today. Feeder routes usually follow a new line."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#effects-on-existing-stations",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#effects-on-existing-stations",
-    "title": "Who Will Ride the New Lines?",
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
     "section": "Effects on existing stations",
     "text": "Effects on existing stations\n\n\n\nBiggest changesBiggest lossesBy lineInterchange upliftCatchment map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe biggest losses are at Pioneer (EW28), Lakeside (EW26), DT32-EW2. Most losing stations sit on the western East–West Line, next to the JRL.\nStations that gain a CRL platform gain the most, led by Hougang (+31%).\nThe Interchange uplift tab shows how much of that gain rests on one assumption: that an extra line attracts riders.\nThe Catchment map shows which subzones switch their preferred station. Hover over a subzone for details."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#who-gets-closer-to-a-station",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#who-gets-closer-to-a-station",
-    "title": "Who Will Ride the New Lines?",
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
     "section": "Who gets closer to a station",
     "text": "Who gets closer to a station\n\n\n\nBy planning areaDistance curvesSaving by lineSaving map\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n73% → 83%of HDB footprint within 800 m of a station\n\n\n\n2,111 HDB blocks get closer to a station, mostly along the two new lines.\nTengah gains most, going from almost no housing within 800 m of a station to most of it.\nStill far from rail: Yishun East, Tampines West, Tampines North."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#public-safety-implications",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#public-safety-implications",
-    "title": "Who Will Ride the New Lines?",
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
     "section": "Public-safety implications",
     "text": "Public-safety implications\n\n\n\nCrowding at new interchanges\nHougang’s predicted weekday entries rise from 36,700 to 47,900. At today’s peak share, its busiest hour (08:00) would see about 7,400 entries, before counting riders changing lines. Platform and concourse capacity should be checked against this.\n\n\n\nQuiet stations\nNanyang Gateway (JW3) and Tengah (JS3) are predicted to see few riders. Low footfall means fewer people around at off-peak hours, so lighting, CCTV coverage and staffing need attention from the start.\n\n\n\nWalking access and disruption\nEstates that remain beyond 800 m, such as Yishun East and Tampines West, rely on long walks or feeder buses. Safe crossings on walking routes, and bus bridging plans for rail disruptions, matter most there."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#limitations",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#limitations",
-    "title": "Who Will Ride the New Lines?",
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
     "section": "Limitations",
     "text": "Limitations\n\nThe total number of trips is fixed. The model moves today’s trips between stations, so it cannot add riders from new housing such as Tengah, or from people leaving buses and cars.\nDistances are straight lines. Real walks are longer, and expressways, rivers and fences can make a nearby station hard to reach.\nHomes are weighted by HDB building footprint, not by residents, and workplaces come from OpenStreetMap, whose coverage varies.\nOnly entries are modelled. Transfers inside the network are not, so crowding at interchanges is understated.\nWith no age data, effects on older residents could not be tested.\nCity-centre stations are under-predicted, because many of their riders come from outside the modelled demand."
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#recommendations",
     "href": "Take-home_Ex/Take-home_Ex03/Take-home_Ex03_ES.html#recommendations",
-    "title": "Who Will Ride the New Lines?",
+    "title": "Take-home Exercise 3: Geospatial Analytics for Urban Sustainability Executive Summary",
     "section": "Recommendations",
     "text": "Recommendations\n\nGather local evidence on future housing and jobs for the quiet stations (Nanyang Gateway (JW3), Tengah (JS3)) before fixing service levels and opening dates.\nReview feeder buses around the stations that lose riders (Pioneer (EW28), Lakeside (EW26), DT32-EW2), so routes follow riders to the new lines.\nCheck capacity and safety at the new interchanges, starting with Hougang, using transfer counts as well as entries.\nImprove walking routes and feeder links for estates that stay beyond 800 m of a station, such as Yishun East, Tampines West, Tampines North.\n\n\nFull method, data checks and code: technical report."
   }
